@@ -1,0 +1,33 @@
+{
+  "parent": "anim_guns:item/assault_rifle_standby",
+  "overrides": [
+
+    {"predicate":  {"anim_guns:loading": 1},"model": "anim_guns:item/gun_rld/assault_rifle/01"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/assault_rifle/02"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/assault_rifle/03"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/assault_rifle/04"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.025},"model": "anim_guns:item/gun_rld/assault_rifle/05"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/assault_rifle/06"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/assault_rifle/07"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.04},"model": "anim_guns:item/gun_rld/assault_rifle/08"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.09},"model": "anim_guns:item/gun_rld/assault_rifle/09"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.095},"model": "anim_guns:item/gun_rld/assault_rifle/10"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/assault_rifle/11"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.14},"model": "anim_guns:item/gun_rld/assault_rifle/12"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.145},"model": "anim_guns:item/gun_rld/assault_rifle/13"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.15},"model": "anim_guns:item/gun_rld/assault_rifle/14"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.165},"model": "anim_guns:item/gun_rld/assault_rifle/15"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.195},"model": "anim_guns:item/gun_rld/assault_rifle/05"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.2},"model": "anim_guns:item/gun_rld/assault_rifle/04"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.205},"model": "anim_guns:item/gun_rld/assault_rifle/03"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.21},"model": "anim_guns:item/gun_rld/assault_rifle/02"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.215},"model": "anim_guns:item/gun_rld/assault_rifle/01"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.22},"model": "anim_guns:item/assault_rifle_standby"},
+
+    {"predicate":  {"minecraft:cooldown": 0.5},"model": "anim_guns:item/assault_rifle_standby"},
+    {"predicate":  {"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/assault_rifle/01"}
+
+  ]
+}
