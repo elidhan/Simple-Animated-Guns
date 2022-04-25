@@ -2,8 +2,10 @@ package net.elidhan.anim_guns.item.gun;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.elidhan.anim_guns.entity.projectile.BulletEntity;
+import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.util.InventoryUtil;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -14,6 +16,7 @@ import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -27,6 +30,7 @@ public abstract class GunTemplateItem extends Item {
     public abstract int useCD();
 
     public abstract float spread();
+
     public abstract float recoil();
 
     public abstract int clipSize();
@@ -50,18 +54,26 @@ public abstract class GunTemplateItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+
         ItemStack itemStack = user.getStackInHand(hand);
 
-        if (hand == Hand.MAIN_HAND) {
+        if (hand == Hand.MAIN_HAND && !user.isSprinting()) {
             if (isLoaded(itemStack)) {
-                if (!world.isClient) {
+                if(!world.isClient())
+                {
                     SnowballEntity snowball = new SnowballEntity(world, user);
                     snowball.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, spread());
                     world.spawnEntity(snowball);
                 }
-                user.setPitch(user.getPitch() - recoil());
+
+                user.setPitch(user.getPitch()-recoil());
                 user.getItemCooldownManager().set(this, useCD());
                 useAmmo(itemStack);
+
+                float kick = user.getPitch() - recoil();
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeFloat(kick);
+                ClientPlayNetworking.send(AnimatedGuns.RECOIL_PACKET_ID, buf);
 
             } else if (hasReserveAmmo(user, reqAmmo())) {
                 user.setCurrentHand(hand);

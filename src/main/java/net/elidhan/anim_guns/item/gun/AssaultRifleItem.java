@@ -17,7 +17,7 @@ public class AssaultRifleItem extends GunTemplateItem {
 
     @Override
     public int useCD() {
-        return 3;
+        return 2;
     }
 
     @Override

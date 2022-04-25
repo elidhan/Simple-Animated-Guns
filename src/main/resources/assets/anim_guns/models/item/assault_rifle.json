@@ -26,8 +26,14 @@
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.215},"model": "anim_guns:item/gun_rld/assault_rifle/01"},
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.22},"model": "anim_guns:item/assault_rifle_standby"},
 
-    {"predicate":  {"minecraft:cooldown": 0.5},"model": "anim_guns:item/assault_rifle_standby"},
-    {"predicate":  {"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/assault_rifle/01"}
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5},"model": "anim_guns:item/assault_rifle_standby"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/assault_rifle/01"},
 
+    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/assault_rifle"},
+
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_aim/assault_rifle"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_aim/assault_rifle_01"},
+
+    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/assault_rifle"}
   ]
 }

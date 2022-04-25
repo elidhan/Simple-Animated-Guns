@@ -1,6 +1,5 @@
 package net.elidhan.anim_guns.mixin.client;
 
-import net.elidhan.anim_guns.item.gun.AssaultRifleItem;
 import net.elidhan.anim_guns.item.gun.GunTemplateItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -33,11 +32,9 @@ public class MinecraftClientMixin {
             return;
 
         ItemStack itemStack = this.player.getStackInHand(Hand.MAIN_HAND);
-        if (!itemStack.isEmpty())
-        {
-            if (itemStack.getItem() instanceof GunTemplateItem)
-                itemUseCooldown = 0;
 
-        }
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof GunTemplateItem)
+            itemUseCooldown = 0;
+
     }
 }

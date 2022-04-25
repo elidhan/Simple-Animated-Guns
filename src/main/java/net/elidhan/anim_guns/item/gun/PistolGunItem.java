@@ -12,7 +12,7 @@ public class PistolGunItem extends GunTemplateItem{
 
     @Override
     public float reloadCD() {
-        return 36.0F;
+        return 34.0F;
     }
 
     @Override
