@@ -3,20 +3,22 @@ package net.elidhan.anim_guns.item.gun;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.elidhan.anim_guns.AnimatedGuns;
+import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.util.InventoryUtil;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -24,15 +26,12 @@ import net.minecraft.world.World;
 public abstract class GunTemplateItem extends Item {
 
     public abstract Item reqAmmo();
-
     public abstract float reloadCD();
-
     public abstract int useCD();
-
+    public abstract float dmg();
     public abstract float spread();
-
     public abstract float recoil();
-
+    public abstract float recoilMult();
     public abstract int clipSize();
 
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
@@ -59,27 +58,32 @@ public abstract class GunTemplateItem extends Item {
 
         if (hand == Hand.MAIN_HAND && !user.isSprinting()) {
             if (isLoaded(itemStack)) {
-                if(!world.isClient())
-                {
-                    SnowballEntity snowball = new SnowballEntity(world, user);
-                    snowball.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, spread());
-                    world.spawnEntity(snowball);
-                }
 
-                user.setPitch(user.getPitch()-recoil());
+                float kick = user.getPitch() - getRecoil(user);
                 user.getItemCooldownManager().set(this, useCD());
                 useAmmo(itemStack);
 
-                float kick = user.getPitch() - recoil();
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeFloat(kick);
-                ClientPlayNetworking.send(AnimatedGuns.RECOIL_PACKET_ID, buf);
+                if(!world.isClient())
+                {
+                    BulletEntity bullet = new BulletEntity(world, user, dmg());
+                    bullet.setItem(Items.BLACKSTONE.getDefaultStack());
+                    bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 5.0f, spread());
+                    world.spawnEntity(bullet);
+
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    buf.writeFloat(kick);
+                    ServerPlayNetworking.send(((ServerPlayerEntity)user),AnimatedGuns.RECOIL_PACKET_ID, buf);
+                }
 
             } else if (hasReserveAmmo(user, reqAmmo())) {
                 user.setCurrentHand(hand);
             }
         }
         return TypedActionResult.fail(itemStack);
+    }
+
+    private float getRecoil(PlayerEntity user) {
+        return user.isSneaking() ? recoil() * recoilMult() : recoil();
     }
 
     @Override

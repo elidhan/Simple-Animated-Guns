@@ -9,7 +9,9 @@ public class RevolverItem extends GunTemplateItem{
     public Item reqAmmo() {
         return ModItems.HEAVY_HANDGUN_BULLET;
     }
-
+    public float dmg(){
+        return 10.0f;
+    }
     @Override
     public float reloadCD() {
         return 44.0F;
@@ -29,6 +31,8 @@ public class RevolverItem extends GunTemplateItem{
     public float recoil() {
         return 5.25f;
     }
+    @Override
+    public float recoilMult(){ return 0.75f;}
     @Override
     public float spread() {
         return 0.5f;
