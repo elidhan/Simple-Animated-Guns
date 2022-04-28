@@ -66,7 +66,6 @@ public abstract class GunTemplateItem extends Item {
                 if(!world.isClient())
                 {
                     BulletEntity bullet = new BulletEntity(world, user, dmg());
-                    bullet.setItem(Items.BLACKSTONE.getDefaultStack());
                     bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 5.0f, spread());
                     world.spawnEntity(bullet);
 

@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
@@ -15,6 +14,7 @@ import net.minecraft.world.World;
 public class BulletEntity extends ThrownItemEntity
 {
     private float damage;
+    private int lifeTicks;
 
     public BulletEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
@@ -31,7 +31,17 @@ public class BulletEntity extends ThrownItemEntity
 
     @Override
     protected Item getDefaultItem() {
-        return Items.BLACKSTONE;
+        return null;
+    }
+
+    @Override
+    public void tick() {
+        lifeTicks++;
+
+        if(lifeTicks >= 100)
+            this.discard();
+
+        super.tick();
     }
 
     @Override
