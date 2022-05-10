@@ -14,27 +14,19 @@ public class ModelPredicateProvider {
         registerGun(ModItems.PISTOL);
         registerGun(ModItems.REVOLVER);
         registerGun(ModItems.ASSAULT_RIFLE);
+        registerGun(ModItems.PUMP_SHOTGUN);
     }
 
     public static void registerGun(Item gun) {
         FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "load_tick"), ((stack, world, entity, seed) ->
                 entity != null
-                        && entity.isUsingItem()
-                        && entity.getActiveItem() == stack
-                        && !GunTemplateItem.isLoaded(stack)
-                        ? (float) entity.getItemUseTime() / 200.0f : 0.0f));
+                        && stack.getOrCreateNbt().getBoolean("isReloading")
+                        ? (float) stack.getOrCreateNbt().getInt("reloadTick") / 200.0f : 0.0f));
 
         FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "loading"), ((stack, world, entity, seed) ->
                 entity != null
-                        && entity.isUsingItem()
-                        && entity.getActiveItem() == stack
-                        && !GunTemplateItem.isLoaded(stack)
+                        && stack.getOrCreateNbt().getBoolean("isReloading")
                         ? 1.0f : 0.0f));
-
-        FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "loaded"), (stack, world, entity, seed) ->
-                entity != null
-                        && GunTemplateItem.isLoaded(stack)
-                        ? 1.0f : 0.0f);
 
         FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "aiming"), (stack, world, entity, seed) ->
                 entity != null

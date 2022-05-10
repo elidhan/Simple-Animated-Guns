@@ -1,9 +1,9 @@
 package net.elidhan.anim_guns.item;
 
-
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.item.gun.AssaultRifleItem;
 import net.elidhan.anim_guns.item.gun.PistolGunItem;
+import net.elidhan.anim_guns.item.gun.PumpShotgunItem;
 import net.elidhan.anim_guns.item.gun.RevolverItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -18,8 +18,9 @@ public class ModItems {
 	public static final Item HEAVY_RIFLE_BULLET = registerItem("heavy_rifle_cartridge", new Item(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(5)));
 	public static final Item PISTOL = registerItem("pistol", new PistolGunItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1)));
 	public static final Item REVOLVER = registerItem("revolver", new RevolverItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1)));
+	public static final Item PUMP_SHOTGUN = registerItem("pump_shotgun", new PumpShotgunItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1)));
 	public static final Item ASSAULT_RIFLE = registerItem("assault_rifle", new AssaultRifleItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1)));
-	
+
 	private static Item registerItem(String name, Item item)
 	{
 		return Registry.register(Registry.ITEM, new Identifier(AnimatedGuns.MOD_ID, name), item);

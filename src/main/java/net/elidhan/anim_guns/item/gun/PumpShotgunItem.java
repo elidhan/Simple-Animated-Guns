@@ -3,24 +3,24 @@ package net.elidhan.anim_guns.item.gun;
 import net.elidhan.anim_guns.item.ModItems;
 import net.minecraft.item.Item;
 
-public class AssaultRifleItem extends GunTemplateItem
+public class PumpShotgunItem extends GunTemplateItem
 {
+
+    public PumpShotgunItem(Settings settings)
+    {
+        super(settings);
+    }
 
     @Override
     public Item reqAmmo()
     {
-        return ModItems.STANDARD_RIFLE_BULLET;
-    }
-
-    public float dmg()
-    {
-        return 7.0f;
+        return ModItems.HEAVY_RIFLE_BULLET;
     }
 
     @Override
     public float reloadCD()
     {
-        return 44.0f;
+        return 21;
     }
 
     @Override
@@ -32,53 +32,54 @@ public class AssaultRifleItem extends GunTemplateItem
     @Override
     public int reloadStageTwo()
     {
-        return 5;
+        return 6;
     }
 
     @Override
     public int reloadStageThree()
     {
-        return 44;
+        return 13;
     }
 
     @Override
     public int reloadCycles()
     {
-        return 1;
+        return clipSize();
     }
 
     @Override
     public int useCD()
     {
-        return 2;
+        return 10;
     }
 
     @Override
-    public int clipSize()
+    public float dmg()
     {
-        return 30;
-    }
-
-    @Override
-    public float recoil()
-    {
-        return 2.75f;
-    }
-
-    @Override
-    public float recoilMult()
-    {
-        return 0.6f;
+        return 5;
     }
 
     @Override
     public float spread()
     {
-        return 1.5f;
+        return 0.5f;
     }
 
-    public AssaultRifleItem(Settings settings)
+    @Override
+    public float recoil()
     {
-        super(settings);
+        return 6.5f;
+    }
+
+    @Override
+    public float recoilMult()
+    {
+        return 0.5f;
+    }
+
+    @Override
+    public int clipSize()
+    {
+        return 5;
     }
 }

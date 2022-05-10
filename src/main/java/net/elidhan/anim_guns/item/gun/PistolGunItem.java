@@ -18,6 +18,26 @@ public class PistolGunItem extends GunTemplateItem{
     }
 
     @Override
+    public int reloadStageOne() {
+        return 32;
+    }
+
+    @Override
+    public int reloadStageTwo() {
+        return 28;
+    }
+
+    @Override
+    public int reloadStageThree() {
+        return 5;
+    }
+
+    @Override
+    public int reloadCycles() {
+        return 1;
+    }
+
+    @Override
     public int useCD() {
         return 4;
     }
