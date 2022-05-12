@@ -72,28 +72,32 @@ public abstract class GunTemplateItem extends Item
         return super.getAttributeModifiers(slot);
     }
 
+    public void setDefaultNBT(NbtCompound nbtCompound)
+    {
+        nbtCompound.putInt("reloadTick", 0);
+        nbtCompound.putInt("currentCycle", 1);
+        nbtCompound.putInt("reloadCycles", reloadCycles());
+
+        nbtCompound.putInt("Clip", 0);
+        nbtCompound.putInt("maxClip", clipSize());
+
+        nbtCompound.putBoolean("isReloading", false);
+    }
+
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
-        if (!nbtCompound.contains("setGun") || !nbtCompound.getBoolean("setGun"))
+        if (!nbtCompound.contains("isReloading"))
         {
-            nbtCompound.putInt("reloadTick", 0);
-            nbtCompound.putInt("currentCycle", 1);
-            nbtCompound.putInt("reloadCycles", reloadCycles());
-
-            nbtCompound.putInt("Clip", 0);
-            nbtCompound.putInt("maxClip", clipSize());
-
-            nbtCompound.putBoolean("isReloading", false);
-            nbtCompound.putBoolean("setGun", true);
+            setDefaultNBT(nbtCompound);
         }
 
-        if (selected && AnimatedGunsClient.reloadToggle.isPressed() && remainingAmmo(stack) < clipSize() && reserveAmmoCount(((PlayerEntity) entity), reqAmmo()) > 0)
+        if (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) == stack && AnimatedGunsClient.reloadToggle.isPressed() && remainingAmmo(stack) < clipSize() && reserveAmmoCount(((PlayerEntity) entity), reqAmmo()) > 0)
         {
             nbtCompound.putBoolean("isReloading", true);
         }
-        else if (!selected
+        else if (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) != stack
                 || (reserveAmmoCount((PlayerEntity) entity, reqAmmo()) <= 0 && nbtCompound.getInt("reloadCycles") <= 1)
                 || (nbtCompound.getInt("reloadTick") >= reloadCD())
                 || (remainingAmmo(stack) >= clipSize() && nbtCompound.getInt("reloadCycles") <= 1)
@@ -104,37 +108,7 @@ public abstract class GunTemplateItem extends Item
 
         if (nbtCompound.getBoolean("isReloading"))
         {
-            nbtCompound.putInt("reloadTick", nbtCompound.getInt("reloadTick") + 1);
-
-            if (nbtCompound.getInt("reloadTick") >= reloadStageThree())
-            {
-                //If cycle is last or not
-                if (nbtCompound.getInt("currentCycle") < nbtCompound.getInt("reloadCycles") && reserveAmmoCount((PlayerEntity)entity, reqAmmo()) > 0)
-                {
-                    nbtCompound.putInt("Clip", nbtCompound.getInt("Clip")+1);
-                    InventoryUtil.removeItemFromInventory((PlayerEntity)entity, reqAmmo(), 1);
-
-                    if (reserveAmmoCount((PlayerEntity)entity, reqAmmo()) > 0)
-                    {
-                        nbtCompound.putInt("reloadTick", reloadStageTwo());
-                        nbtCompound.putInt("currentCycle", nbtCompound.getInt("currentCycle") + 1);
-                    }
-                }
-                else
-                {
-                    //If single loader or not
-                    if(nbtCompound.getInt("reloadCycles") > 1)
-                    {
-                        nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
-                    }
-                    else
-                    {
-                        nbtCompound.putInt("currentCycle", 1);
-                        finishReload((PlayerEntity) entity, stack);
-                        nbtCompound.putInt("reloadTick", 0);
-                    }
-                }
-            }
+            doReloadTick(nbtCompound, (PlayerEntity)entity, stack);
         }
         else
         {
@@ -142,6 +116,42 @@ public abstract class GunTemplateItem extends Item
                 finishReload((PlayerEntity) entity, stack);
 
             nbtCompound.putInt("reloadTick", 0);
+        }
+    }
+
+    private void doReloadTick(NbtCompound nbtCompound, PlayerEntity entity, ItemStack stack)
+    {
+        nbtCompound.putInt("reloadTick", nbtCompound.getInt("reloadTick") + 1);
+
+        if (nbtCompound.getInt("reloadTick") >= reloadStageThree())
+        {
+            //If cycle is last or not
+            if (nbtCompound.getInt("currentCycle") < nbtCompound.getInt("reloadCycles") && reserveAmmoCount(entity, reqAmmo()) > 0)
+            {
+                nbtCompound.putInt("Clip", nbtCompound.getInt("Clip")+1);
+                InventoryUtil.removeItemFromInventory(entity, reqAmmo(), 1);
+
+                if (remainingAmmo(stack) < clipSize() && reserveAmmoCount(entity, reqAmmo()) > 0)
+                {
+                    nbtCompound.putInt("reloadTick", reloadStageTwo());
+                }
+
+                nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
+            }
+            else
+            {
+                //If single loader or not
+                if(nbtCompound.getInt("reloadCycles") > 1)
+                {
+                    nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
+                }
+                else
+                {
+                    nbtCompound.putInt("currentCycle", 1);
+                    finishReload(entity, stack);
+                    nbtCompound.putInt("reloadTick", 0);
+                }
+            }
         }
     }
 
@@ -185,21 +195,6 @@ public abstract class GunTemplateItem extends Item
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
         }
     }
-
-//    @Override
-//    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-//        if(remainingUseTicks <= 4)
-//        {
-//            finishReload((PlayerEntity)user, stack);
-//        }
-//    }
-//
-//    @Override
-//    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-//        finishReload((PlayerEntity)user, stack);
-//
-//        return stack;
-//    }
 
     private float getRecoil(PlayerEntity user)
     {
