@@ -8,16 +8,17 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
-public class ModelPredicateProvider {
-
-    public static void registerModels() {
+public class ModelPredicateProvider
+{
+    public static void registerModels()
+    {
         registerGun(ModItems.PISTOL);
         registerGun(ModItems.REVOLVER);
-        registerGun(ModItems.ASSAULT_RIFLE);
+        registerGun(ModItems.LIGHT_ASSAULT_RIFLE);
         registerGun(ModItems.PUMP_SHOTGUN);
     }
-
-    public static void registerGun(Item gun) {
+    public static void registerGun(Item gun)
+    {
         FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "load_tick"), ((stack, world, entity, seed) ->
                 entity != null
                         && stack.getOrCreateNbt().getBoolean("isReloading")
@@ -39,6 +40,5 @@ public class ModelPredicateProvider {
                         && entity.getStackInHand(Hand.MAIN_HAND) == stack
                         && entity.isSprinting()
                         ? 1.0f : 0.0f);
-
     }
 }

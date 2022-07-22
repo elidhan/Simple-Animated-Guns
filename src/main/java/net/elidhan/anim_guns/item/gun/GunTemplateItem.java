@@ -2,10 +2,12 @@ package net.elidhan.anim_guns.item.gun;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.netty.buffer.Unpooled;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.util.InventoryUtil;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
@@ -19,40 +21,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public abstract class GunTemplateItem extends Item
 {
-
     public abstract Item reqAmmo();
-
     public abstract float reloadCD();
-
-    public abstract int reloadStageOne();
-
     public abstract int reloadStageTwo();
-
     public abstract int reloadStageThree();
-
     public abstract int reloadCycles();
-
     public abstract int useCD();
-
     public abstract float dmg();
-
+    public abstract double range();
+    public abstract int rps();
     public abstract float spread();
-
     public abstract float recoil();
-
-    public abstract float recoilMult();
-
     public abstract int clipSize();
-
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
-
     public GunTemplateItem(Settings settings)
     {
         super(settings);
@@ -61,7 +49,6 @@ public abstract class GunTemplateItem extends Item
         builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f, EntityAttributeModifier.Operation.ADDITION));
         this.attributeModifiers = builder.build();
     }
-
     @Override
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
     {
@@ -71,7 +58,6 @@ public abstract class GunTemplateItem extends Item
         }
         return super.getAttributeModifiers(slot);
     }
-
     public void setDefaultNBT(NbtCompound nbtCompound)
     {
         nbtCompound.putInt("reloadTick", 0);
@@ -83,7 +69,6 @@ public abstract class GunTemplateItem extends Item
 
         nbtCompound.putBoolean("isReloading", false);
     }
-
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
@@ -92,20 +77,32 @@ public abstract class GunTemplateItem extends Item
         {
             setDefaultNBT(nbtCompound);
         }
-
-        if (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) == stack && AnimatedGunsClient.reloadToggle.isPressed() && remainingAmmo(stack) < clipSize() && reserveAmmoCount(((PlayerEntity) entity), reqAmmo()) > 0)
+        if (world.isClient())
         {
-            nbtCompound.putBoolean("isReloading", true);
+            if (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) == stack
+                    && AnimatedGunsClient.reloadToggle.isPressed()
+                    && remainingAmmo(stack) < clipSize()
+                    && reserveAmmoCount(((PlayerEntity) entity), reqAmmo()) > 0
+                    && !nbtCompound.getBoolean("isReloading")
+            )
+            {
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeBoolean(true);
+                ClientPlayNetworking.send(new Identifier("anim_guns:reload"), buf);
+            }
+            if (nbtCompound.getBoolean("isReloading")
+                    && (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) != stack
+                    || (reserveAmmoCount((PlayerEntity) entity, reqAmmo()) <= 0 && nbtCompound.getInt("reloadCycles") <= 1)
+                    || (nbtCompound.getInt("reloadTick") >= reloadCD())
+                    || (remainingAmmo(stack) >= clipSize() && nbtCompound.getInt("reloadCycles") <= 1))
+            )
+            {
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeBoolean(false);
+                System.out.print("Sending Packet");
+                ClientPlayNetworking.send(new Identifier("anim_guns:reload"), buf);
+            }
         }
-        else if (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) != stack
-                || (reserveAmmoCount((PlayerEntity) entity, reqAmmo()) <= 0 && nbtCompound.getInt("reloadCycles") <= 1)
-                || (nbtCompound.getInt("reloadTick") >= reloadCD())
-                || (remainingAmmo(stack) >= clipSize() && nbtCompound.getInt("reloadCycles") <= 1)
-        )
-        {
-            nbtCompound.putBoolean("isReloading", false);
-        }
-
         if (nbtCompound.getBoolean("isReloading"))
         {
             doReloadTick(nbtCompound, (PlayerEntity)entity, stack);
@@ -118,14 +115,13 @@ public abstract class GunTemplateItem extends Item
             nbtCompound.putInt("reloadTick", 0);
         }
     }
-
     private void doReloadTick(NbtCompound nbtCompound, PlayerEntity entity, ItemStack stack)
     {
         nbtCompound.putInt("reloadTick", nbtCompound.getInt("reloadTick") + 1);
-
+        //If cycle is last or not
         if (nbtCompound.getInt("reloadTick") >= reloadStageThree())
         {
-            //If cycle is last or not
+            //If single loader or not
             if (nbtCompound.getInt("currentCycle") < nbtCompound.getInt("reloadCycles") && reserveAmmoCount(entity, reqAmmo()) > 0)
             {
                 nbtCompound.putInt("Clip", nbtCompound.getInt("Clip")+1);
@@ -140,7 +136,6 @@ public abstract class GunTemplateItem extends Item
             }
             else
             {
-                //If single loader or not
                 if(nbtCompound.getInt("reloadCycles") > 1)
                 {
                     nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
@@ -154,7 +149,6 @@ public abstract class GunTemplateItem extends Item
             }
         }
     }
-
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
     {
@@ -177,7 +171,6 @@ public abstract class GunTemplateItem extends Item
         }
         return TypedActionResult.fail(itemStack);
     }
-
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
         float kick = user.getPitch() - getRecoil(user);
@@ -186,32 +179,25 @@ public abstract class GunTemplateItem extends Item
 
         if (!world.isClient())
         {
-            BulletEntity bullet = new BulletEntity(world, user, dmg());
-            bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 5.0f, spread());
-            world.spawnEntity(bullet);
-
+            for(int i = 0; i < rps(); i++)
+            {
+                BulletEntity bullet = new BulletEntity(world, user, dmg(), range(), user.getPos());
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4.0f, spread());
+                world.spawnEntity(bullet);
+            }
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeFloat(kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
         }
     }
-
     private float getRecoil(PlayerEntity user)
     {
-        return user.isSneaking() ? recoil() * recoilMult() : recoil();
+        return user.isSneaking() ? recoil() / 2 : recoil();
     }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack)
-    {
-        return (int) reloadCD();
-    }
-
     public static boolean isLoaded(ItemStack stack)
     {
         return remainingAmmo(stack) > 0;
     }
-
     private void useAmmo(ItemStack stack)
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
@@ -219,7 +205,6 @@ public abstract class GunTemplateItem extends Item
 
         nbtCompound.putInt("Clip", newAmmo);
     }
-
     public void finishReload(PlayerEntity player, ItemStack stack)
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
@@ -235,7 +220,8 @@ public abstract class GunTemplateItem extends Item
                 nbtCompound.putInt("Clip", reserveAmmoCount(player, reqAmmo()));
                 InventoryUtil.removeItemFromInventory(player, reqAmmo(), reserveAmmoCount(player, reqAmmo()));
             }
-        } else
+        }
+        else
         {
             int ammoToLoad = nbtCompound.getInt("maxClip") - nbtCompound.getInt("Clip");
 
@@ -249,20 +235,12 @@ public abstract class GunTemplateItem extends Item
                 InventoryUtil.removeItemFromInventory(player, reqAmmo(), reserveAmmoCount(player, reqAmmo()));
             }
         }
-
-        if ((int) reloadCD() - nbtCompound.getInt("reloadTick") > 0)
-        {
-            player.sendMessage(new LiteralText(Integer.toString((int) reloadCD() - nbtCompound.getInt("reloadTick"))), false);
-            player.getItemCooldownManager().set(this, (int) reloadCD() - nbtCompound.getInt("reloadTick"));
-        }
     }
-
     private static int remainingAmmo(ItemStack stack)
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
         return nbtCompound.getInt("Clip");
     }
-
     public static int reserveAmmoCount(PlayerEntity player, Item item)
     {
         return InventoryUtil.itemCountInInventory(player, item);

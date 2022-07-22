@@ -5,81 +5,69 @@ import net.minecraft.item.Item;
 
 public class PumpShotgunItem extends GunTemplateItem
 {
-
-    public PumpShotgunItem(Settings settings)
-    {
-        super(settings);
-    }
-
     @Override
     public Item reqAmmo()
     {
-        return ModItems.HEAVY_RIFLE_BULLET;
+        return ModItems.SHOTGUN_SHELL;
     }
-
     @Override
     public float reloadCD()
     {
         return 21;
     }
-
     @Override
-    public int reloadStageOne()
+    public int rps()
     {
-        return 1;
+        return 10;
     }
-
+    @Override
+    public double range()
+    {
+        return 8;
+    }
     @Override
     public int reloadStageTwo()
     {
         return 6;
     }
-
     @Override
     public int reloadStageThree()
     {
         return 13;
     }
-
     @Override
     public int reloadCycles()
     {
         return clipSize();
     }
-
     @Override
     public int useCD()
     {
         return 10;
     }
-
     @Override
     public float dmg()
     {
-        return 5;
+        return 2.5f;
     }
-
     @Override
     public float spread()
     {
-        return 0.5f;
+        return 12.5f;
     }
-
     @Override
     public float recoil()
     {
         return 6.5f;
     }
-
-    @Override
-    public float recoilMult()
-    {
-        return 0.5f;
-    }
-
     @Override
     public int clipSize()
     {
-        return 5;
+        return 6;
     }
+    public PumpShotgunItem(Settings settings)
+    {
+        super(settings);
+    }
+
 }

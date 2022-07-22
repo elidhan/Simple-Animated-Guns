@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayerEntity.class)
-public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
-
-    public AbstractClientPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
+public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity
+{
+    public AbstractClientPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile)
+    {
         super(world, pos, yaw, profile);
     }
-
     @Inject(method = "getFovMultiplier", at = @At("Tail"), cancellable = true)
     public void zoomLevel(CallbackInfoReturnable<Float> ci){
         ItemStack gun = this.getStackInHand(Hand.MAIN_HAND);

@@ -10,25 +10,38 @@ import net.minecraft.item.Item;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
+import net.minecraft.util.math.Vec3d;
 
 public class BulletEntity extends ThrownItemEntity
 {
     private float damage;
     private int lifeTicks;
+    private double maxRange;
+    private Vec3d startPos;
 
     public BulletEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
-
-    public BulletEntity(World world, LivingEntity owner, float dmg) {
+    public BulletEntity(World world, LivingEntity owner, float dmg, double range, Vec3d pos) {
         super(AnimatedGuns.BulletEntityType, owner, world);
-        damage = dmg;
+        this.setNoGravity(true);
+        this.damage = dmg;
+        this.maxRange = range;
+        this.startPos = pos;
     }
-
-    public BulletEntity(World world, double x, double y, double z) {
+    /*public BulletEntity(World world, double x, double y, double z) {
         super(AnimatedGuns.BulletEntityType, x, y, z, world);
+    }*/
+    @Override
+    public boolean isFireImmune()
+    {
+        return true;
     }
-
+    @Override
+    public boolean isImmuneToExplosion()
+    {
+        return true;
+    }
     @Override
     protected Item getDefaultItem() {
         return null;
@@ -37,10 +50,14 @@ public class BulletEntity extends ThrownItemEntity
     @Override
     public void tick() {
         lifeTicks++;
+        Vec3d currPos = this.getPos();
+        /*double travelled = currPos.distanceTo(startPos);*/
 
-        if(lifeTicks >= 100)
+        if(lifeTicks >= 100) //|| travelled > maxRange
+        {
             this.discard();
-
+            return;
+        }
         super.tick();
     }
 

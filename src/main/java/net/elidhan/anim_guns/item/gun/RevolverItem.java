@@ -3,7 +3,8 @@ package net.elidhan.anim_guns.item.gun;
 import net.elidhan.anim_guns.item.ModItems;
 import net.minecraft.item.Item;
 
-public class RevolverItem extends GunTemplateItem{
+public class RevolverItem extends GunTemplateItem
+{
     @Override
     public Item reqAmmo() {
         return ModItems.HEAVY_HANDGUN_BULLET;
@@ -12,30 +13,31 @@ public class RevolverItem extends GunTemplateItem{
         return 10.0f;
     }
     @Override
+    public double range()
+    {
+        return 64;
+    }
+    @Override
+    public int rps()
+    {
+        return 1;
+    }
+    @Override
     public float reloadCD() {
         return 44.0F;
     }
-
-    @Override
-    public int reloadStageOne() {
-        return 48;
-    }
-
     @Override
     public int reloadStageTwo() {
-        return 0;
+        return 4;
     }
-
     @Override
     public int reloadStageThree() {
-        return 0;
+        return 44;
     }
-
     @Override
     public int reloadCycles() {
         return 1;
     }
-
     @Override
     public int useCD() {
         return 12;
@@ -48,8 +50,6 @@ public class RevolverItem extends GunTemplateItem{
     public float recoil() {
         return 5.25f;
     }
-    @Override
-    public float recoilMult(){ return 0.75f;}
     @Override
     public float spread() {
         return 0.5f;

@@ -2,6 +2,7 @@ package net.elidhan.anim_guns;
 
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.item.ModItems;
+import net.elidhan.anim_guns.network.PacketHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.client.render.entity.ArrowEntityRenderer;
@@ -32,5 +33,6 @@ public class AnimatedGuns implements ModInitializer
 	public void onInitialize()
 	{
 		ModItems.registerModItems();
+		PacketHandler.init();
 	}
 }

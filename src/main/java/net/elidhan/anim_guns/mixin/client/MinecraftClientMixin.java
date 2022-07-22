@@ -16,25 +16,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
-public class MinecraftClientMixin {
-
+public class MinecraftClientMixin
+{
     @Shadow
     @Nullable
     public ClientPlayerEntity player;
-
     @Shadow
     private int itemUseCooldown;
-
     @Inject(method = "doItemUse", at = @At("RETURN"))
-    public void doItemUse(CallbackInfo ci) {
-
+    public void doItemUse(CallbackInfo ci)
+    {
         if (this.player == null)
             return;
-
         ItemStack itemStack = this.player.getStackInHand(Hand.MAIN_HAND);
-
         if (!itemStack.isEmpty() && itemStack.getItem() instanceof GunTemplateItem)
             itemUseCooldown = 0;
-
     }
 }

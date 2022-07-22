@@ -13,8 +13,8 @@
 
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.065},"model": "anim_guns:item/gun_rld/pump_shotgun/08"},
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.07},"model": "anim_guns:item/gun_rld/pump_shotgun/09"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.075},"model": "anim_guns:item/gun_rld/pump_shotgun/08"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/pump_shotgun/07"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/pump_shotgun/08"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.085},"model": "anim_guns:item/gun_rld/pump_shotgun/07"},
 
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.09},"model": "anim_guns:item/gun_rld/pump_shotgun/03"},
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.095},"model": "anim_guns:item/gun_rld/pump_shotgun/02"},
