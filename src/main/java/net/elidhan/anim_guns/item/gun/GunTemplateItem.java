@@ -21,6 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -28,18 +30,24 @@ import net.minecraft.world.World;
 
 public abstract class GunTemplateItem extends Item
 {
-    public abstract Item reqAmmo();
-    public abstract float reloadCD();
-    public abstract int reloadStageTwo();
-    public abstract int reloadStageThree();
-    public abstract int reloadCycles();
-    public abstract int useCD();
-    public abstract float dmg();
-    public abstract double range();
-    public abstract int rps();
-    public abstract float spread();
-    public abstract float recoil();
-    public abstract int clipSize();
+    protected abstract Item reqAmmo();
+    protected abstract float reloadCD();
+    protected abstract int reloadStageOne();
+    protected abstract int reloadStageTwo();
+    protected abstract int reloadStageThree();
+    protected abstract SoundEvent reload_p1();
+    protected abstract SoundEvent reload_p2();
+    protected abstract SoundEvent reload_p3();
+    protected abstract SoundEvent shootSound();
+    protected abstract int loadingType();
+    protected abstract int reloadCycles();
+    protected abstract boolean hasScope();
+    protected abstract int useCD();
+    protected abstract float dmg();
+    protected abstract int rps();
+    protected abstract float spread();
+    protected abstract float recoil();
+    protected abstract int clipSize();
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
     public GunTemplateItem(Settings settings)
     {
@@ -67,6 +75,7 @@ public abstract class GunTemplateItem extends Item
         nbtCompound.putInt("Clip", 0);
         nbtCompound.putInt("maxClip", clipSize());
 
+        nbtCompound.putBoolean("hasScope", hasScope());
         nbtCompound.putBoolean("isReloading", false);
     }
     @Override
@@ -99,13 +108,12 @@ public abstract class GunTemplateItem extends Item
             {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeBoolean(false);
-                System.out.print("Sending Packet");
                 ClientPlayNetworking.send(new Identifier("anim_guns:reload"), buf);
             }
         }
         if (nbtCompound.getBoolean("isReloading"))
         {
-            doReloadTick(nbtCompound, (PlayerEntity)entity, stack);
+            doReloadTick(world, nbtCompound, (PlayerEntity)entity, stack);
         }
         else
         {
@@ -115,38 +123,53 @@ public abstract class GunTemplateItem extends Item
             nbtCompound.putInt("reloadTick", 0);
         }
     }
-    private void doReloadTick(NbtCompound nbtCompound, PlayerEntity entity, ItemStack stack)
+    private void doReloadTick(World world, NbtCompound nbtCompound, PlayerEntity player, ItemStack stack)
     {
+        int rTick = nbtCompound.getInt("reloadTick");
+
         nbtCompound.putInt("reloadTick", nbtCompound.getInt("reloadTick") + 1);
-        //If cycle is last or not
-        if (nbtCompound.getInt("reloadTick") >= reloadStageThree())
+
+        if(!world.isClient())
         {
-            //If single loader or not
-            if (nbtCompound.getInt("currentCycle") < nbtCompound.getInt("reloadCycles") && reserveAmmoCount(entity, reqAmmo()) > 0)
+            if(rTick == reloadStageOne())
             {
-                nbtCompound.putInt("Clip", nbtCompound.getInt("Clip")+1);
-                InventoryUtil.removeItemFromInventory(entity, reqAmmo(), 1);
-
-                if (remainingAmmo(stack) < clipSize() && reserveAmmoCount(entity, reqAmmo()) > 0)
-                {
-                    nbtCompound.putInt("reloadTick", reloadStageTwo());
-                }
-
-                nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
+                world.playSound(null, player.getX(), player.getY(), player.getZ(),reload_p1(),SoundCategory.PLAYERS,1.0f, 1.0f);
             }
-            else
+            else if (rTick == reloadStageTwo())
             {
-                if(nbtCompound.getInt("reloadCycles") > 1)
-                {
-                    nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
-                }
-                else
+                world.playSound(null, player.getX(), player.getY(), player.getZ(),reload_p2(),SoundCategory.PLAYERS,1.0f, 1.0f);
+            }
+            else if (rTick == reloadStageThree()+1)
+            {
+                world.playSound(null, player.getX(), player.getY(), player.getZ(),reload_p3(),SoundCategory.PLAYERS,1.0f, 1.0f);
+            }
+        }
+
+        switch(loadingType())
+        {
+            case 1:
+                if(rTick >= reloadCD()
+                        && reserveAmmoCount(player, reqAmmo()) > 0)
                 {
                     nbtCompound.putInt("currentCycle", 1);
-                    finishReload(entity, stack);
+                    finishReload(player, stack);
                     nbtCompound.putInt("reloadTick", 0);
                 }
-            }
+                break;
+            case 2:
+                if (rTick >= reloadStageThree()
+                        && nbtCompound.getInt("currentCycle") < nbtCompound.getInt("reloadCycles")
+                        && reserveAmmoCount(player, reqAmmo()) > 0)
+                {
+                    nbtCompound.putInt("Clip", nbtCompound.getInt("Clip")+1);
+                    InventoryUtil.removeItemFromInventory(player, reqAmmo(), 1);
+                    if (remainingAmmo(stack) < clipSize() && reserveAmmoCount(player, reqAmmo()) > 0)
+                    {
+                        nbtCompound.putInt("reloadTick", reloadStageTwo());
+                    }
+                    nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
+                }
+                break;
         }
     }
     @Override
@@ -181,13 +204,15 @@ public abstract class GunTemplateItem extends Item
         {
             for(int i = 0; i < rps(); i++)
             {
-                BulletEntity bullet = new BulletEntity(world, user, dmg(), range(), user.getPos());
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4.0f, spread());
+                BulletEntity bullet = new BulletEntity(world, user, dmg());
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 3.0f, spread());
                 world.spawnEntity(bullet);
             }
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeFloat(kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
+
+            world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound(),SoundCategory.PLAYERS,1.0f, 1.0f);
         }
     }
     private float getRecoil(PlayerEntity user)
@@ -229,7 +254,8 @@ public abstract class GunTemplateItem extends Item
             {
                 nbtCompound.putInt("Clip", nbtCompound.getInt("Clip") + ammoToLoad);
                 InventoryUtil.removeItemFromInventory(player, reqAmmo(), ammoToLoad);
-            } else
+            }
+            else
             {
                 nbtCompound.putInt("Clip", nbtCompound.getInt("Clip") + reserveAmmoCount(player, reqAmmo()));
                 InventoryUtil.removeItemFromInventory(player, reqAmmo(), reserveAmmoCount(player, reqAmmo()));

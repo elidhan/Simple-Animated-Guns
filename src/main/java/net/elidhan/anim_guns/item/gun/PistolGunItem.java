@@ -1,60 +1,90 @@
 package net.elidhan.anim_guns.item.gun;
 
 import net.elidhan.anim_guns.item.ModItems;
+import net.elidhan.anim_guns.sound.ModSounds;
 import net.minecraft.item.Item;
+import net.minecraft.sound.SoundEvent;
 
 public class PistolGunItem extends GunTemplateItem
 {
     @Override
-    public Item reqAmmo() {
+    protected Item reqAmmo() {
         return ModItems.STANDARD_HANDGUN_BULLET;
     }
-    public float dmg()
+    protected float dmg()
     {
         return 5.0f;
     }
-
     @Override
-    public double range()
-    {
-        return 32;
-    }
-
-    @Override
-    public int rps()
+    protected int rps()
     {
         return 1;
     }
     @Override
-    public float reloadCD() {
+    protected float reloadCD() {
         return 30.0F;
     }
     @Override
-    public int reloadStageTwo() {
+    protected int reloadStageOne()
+    {
         return 1;
     }
     @Override
-    public int reloadStageThree() {
-        return 30;
+    protected int reloadStageTwo() {
+        return 11;
     }
     @Override
-    public int reloadCycles() {
+    protected int reloadStageThree() {
+        return 24;
+    }
+    @Override
+    protected SoundEvent reload_p1()
+    {
+        return ModSounds.RELOAD_GENERIC_AR_P1;
+    }
+    @Override
+    protected SoundEvent reload_p2()
+    {
+        return ModSounds.RELOAD_GENERIC_AR_P2;
+    }
+    @Override
+    protected SoundEvent reload_p3()
+    {
+        return ModSounds.RELOAD_GENERIC_AR_P3;
+    }
+    @Override
+    protected SoundEvent shootSound()
+    {
+        return ModSounds.ASSAULTRIFLE_LIGHT;
+    }
+    @Override
+    protected int reloadCycles() {
         return 1;
     }
     @Override
-    public int useCD() {
-        return 4;
+    protected boolean hasScope()
+    {
+        return false;
     }
     @Override
-    public int clipSize() {
+    protected int loadingType()
+    {
+        return 1;
+    }
+    @Override
+    protected int useCD() {
+        return 5;
+    }
+    @Override
+    protected int clipSize() {
         return 12;
     }
     @Override
-    public float recoil() {
+    protected float recoil() {
         return 2.75f;
     }
     @Override
-    public float spread() {
+    protected float spread() {
         return 2.0f;
     }
     public PistolGunItem(Settings settings) {

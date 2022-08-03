@@ -1,0 +1,54 @@
+{
+  "parent": "anim_guns:item/shotgun_combat_standby",
+  "overrides":
+  [
+    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/shotgun_combat"},
+
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.21428572 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/06"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.35714287 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/07"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.42857143 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/08"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5714286 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/07"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.64285713 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/06"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.71428573 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/05"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.78571427 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/04"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.85714287 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/03"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.9285714 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/02"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/shotgun_combat/01"},
+
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.21428572 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/06"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.35714287 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/07"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.42857143 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/08"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5714286 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/07"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.64285713 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/06"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.71428573 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/05"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.78571427 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/04"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.85714287 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/03"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.9285714 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/02"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/shotgun_combat/01"},
+
+    {"predicate":  {"anim_guns:loading": 1},"model": "anim_guns:item/gun_rld/shotgun_combat/01"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.005},"model": "anim_guns:item/gun_rld/shotgun_combat/02"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/shotgun_combat/03"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/shotgun_combat/04"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/shotgun_combat/05"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/shotgun_combat/06"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/shotgun_combat/07"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.04},"model": "anim_guns:item/gun_rld/shotgun_combat/08"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.045},"model": "anim_guns:item/gun_rld/shotgun_combat/09"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.05},"model": "anim_guns:item/gun_rld/shotgun_combat/10"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.055},"model": "anim_guns:item/gun_rld/shotgun_combat/11"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.06},"model": "anim_guns:item/gun_rld/shotgun_combat/12"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.07},"model": "anim_guns:item/gun_rld/shotgun_combat/05"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.075},"model": "anim_guns:item/gun_rld/shotgun_combat/04"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/shotgun_combat/03"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.085},"model": "anim_guns:item/gun_rld/shotgun_combat/02"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.09},"model": "anim_guns:item/gun_rld/shotgun_combat/01"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/shotgun_combat/13"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.105},"model": "anim_guns:item/gun_rld/shotgun_combat/14"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.115},"model": "anim_guns:item/gun_rld/shotgun_combat/13"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.12},"model": "anim_guns:item/shotgun_combat_standby"}
+  ]
+}

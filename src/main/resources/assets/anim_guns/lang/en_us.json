@@ -3,8 +3,6 @@
 	"item.anim_guns.standard_rifle_cartridge" : "Standard Rifle Cartridge",
 	"item.anim_guns.heavy_handgun_cartridge" : "Heavy Handgun Cartridge",
 	"item.anim_guns.heavy_rifle_cartridge" : "Heavy Rifle Cartridge",
-	"item.anim_guns.pistol" : "Pistol",
-	"item.anim_guns.revolver" : "Revolver",
-	"item.anim_guns.assault_rifle" : "Assault Rifle",
-	"item.anim_guns.assaultrifle_light" : "Assault Rifle"
+	"item.anim_guns.assaultrifle_light" : "Assault Rifle",
+	"item.anim_guns.assaultrifle_heavy" : "Heavy Assault Rifle"
 }

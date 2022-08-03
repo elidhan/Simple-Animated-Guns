@@ -5,6 +5,7 @@ import net.elidhan.anim_guns.item.gun.GunTemplateItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -26,7 +27,14 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity
 
         if(gun.getItem() instanceof GunTemplateItem && this.isSneaking() && GunTemplateItem.isLoaded(gun))
         {
-            ci.setReturnValue(0.8f);
+            NbtCompound nbtCompound = gun.getOrCreateNbt();
+            if(nbtCompound.getBoolean("hasScope"))
+            {
+                ci.setReturnValue(0.2f);
+            }
+            else{
+                ci.setReturnValue(0.8f);
+            }
         }
     }
 }

@@ -1,57 +1,89 @@
 package net.elidhan.anim_guns.item.gun;
 
 import net.elidhan.anim_guns.item.ModItems;
+import net.elidhan.anim_guns.sound.ModSounds;
 import net.minecraft.item.Item;
+import net.minecraft.sound.SoundEvent;
 
 public class RevolverItem extends GunTemplateItem
 {
     @Override
-    public Item reqAmmo() {
+    protected Item reqAmmo() {
         return ModItems.HEAVY_HANDGUN_BULLET;
     }
-    public float dmg(){
+    protected float dmg(){
         return 10.0f;
     }
     @Override
-    public double range()
-    {
-        return 64;
-    }
-    @Override
-    public int rps()
+    protected int rps()
     {
         return 1;
     }
     @Override
-    public float reloadCD() {
+    protected float reloadCD() {
         return 44.0F;
     }
     @Override
-    public int reloadStageTwo() {
-        return 4;
-    }
-    @Override
-    public int reloadStageThree() {
-        return 44;
-    }
-    @Override
-    public int reloadCycles() {
+    protected int reloadStageOne()
+    {
         return 1;
     }
     @Override
-    public int useCD() {
+    protected int reloadStageTwo() {
+        return 4;
+    }
+    @Override
+    protected int reloadStageThree() {
+        return 44;
+    }
+    @Override
+    protected int reloadCycles() {
+        return 1;
+    }
+    @Override
+    protected boolean hasScope()
+    {
+        return false;
+    }
+    @Override
+    protected int useCD() {
         return 12;
     }
     @Override
-    public int clipSize() {
+    protected int loadingType()
+    {
+        return 1;
+    }
+    @Override
+    protected SoundEvent reload_p1()
+    {
+        return ModSounds.RELOAD_GENERIC_AR_P1;
+    }
+    @Override
+    protected SoundEvent reload_p2()
+    {
+        return ModSounds.RELOAD_GENERIC_AR_P2;
+    }
+    @Override
+    protected SoundEvent reload_p3()
+    {
+        return ModSounds.RELOAD_GENERIC_AR_P3;
+    }
+    @Override
+    protected SoundEvent shootSound()
+    {
+        return ModSounds.ASSAULTRIFLE_LIGHT;
+    }
+    @Override
+    protected int clipSize() {
         return 6;
     }
     @Override
-    public float recoil() {
+    protected float recoil() {
         return 5.25f;
     }
     @Override
-    public float spread() {
+    protected float spread() {
         return 0.5f;
     }
     public RevolverItem(Settings settings) {
