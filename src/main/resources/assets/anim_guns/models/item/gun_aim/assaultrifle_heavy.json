@@ -1,0 +1,12 @@
+{
+	"parent": "anim_guns:item/assaultrifle_heavy",
+	"gui_light": "front",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [-9, 14.75, 6]
+		},
+		"firstperson_lefthand": {
+			"translation": [-7.75, 6, 6]
+		}
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"parent": "anim_guns:item/assaultrifle_light",
+	"gui_light": "front",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [-9, 15, 8]
+		},
+		"firstperson_lefthand": {
+			"translation": [-9, 6, 8]
+		}
+	}
+}
