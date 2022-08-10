@@ -915,12 +915,12 @@
 			"scale": [1.25, 1.25, 1.25]
 		},
 		"firstperson_righthand": {
-			"translation": [-8.9675, 16.5375, 9],
+			"translation": [-8.9675, 6.9375, 9],
 			"scale": [1, 1, 0.25]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 0, 2],
-			"translation": [-7.75, 6.5, 6.75]
+			"translation": [-8.9675, 6.9375, 9],
+			"scale": [1, 1, 0.25]
 		},
 		"ground": {
 			"translation": [0, 0, 3.25],

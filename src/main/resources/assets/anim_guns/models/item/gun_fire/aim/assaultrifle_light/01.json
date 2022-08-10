@@ -3,7 +3,7 @@
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
-			"translation": [-9, 15, 9]
+			"translation": [-9, 6, 9]
 		},
 		"firstperson_lefthand": {
 			"translation": [-9, 6, 8]

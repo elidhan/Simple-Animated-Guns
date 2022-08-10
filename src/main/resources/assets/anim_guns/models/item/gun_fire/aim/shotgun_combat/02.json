@@ -758,7 +758,11 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [6.25, 0, 0],
-			"translation": [-9, 15.75, 9]
+			"translation": [-9, 6.75, 9]
+		},
+		"firstperson_lefthand": {
+			"rotation": [6.25, 0, 0],
+			"translation": [-9, 6.75, 9]
 		},
 		"gui": {
 			"rotation": [-90, 135, 90],

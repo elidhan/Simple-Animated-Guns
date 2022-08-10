@@ -3,10 +3,10 @@
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
-			"translation": [-9, 15, 8]
+			"translation": [-8.9675, 6, 8]
 		},
 		"firstperson_lefthand": {
-			"translation": [-9, 6, 8]
+			"translation": [-8.9675, 6, 8]
 		}
 	}
 }

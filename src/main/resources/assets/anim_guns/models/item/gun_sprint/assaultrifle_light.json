@@ -708,11 +708,11 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [10, 70, 23],
-			"translation": [-9.75, 13.75, 6]
+			"translation": [-9.75, 4.75, 6]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 0, 5],
-			"translation": [-7.75, 6, 6]
+			"rotation": [10, 70, 23],
+			"translation": [-9.75, 4.75, 6]
 		},
 		"ground": {
 			"scale": [1.25, 1.25, 1.25]

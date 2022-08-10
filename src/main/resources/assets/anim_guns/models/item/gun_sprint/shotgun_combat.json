@@ -750,6 +750,7 @@
 			}
 		}
 	],
+	"gui_light": "front",
 	"display": {
 		"thirdperson_righthand": {
 			"translation": [0, 0.75, -1],
@@ -757,7 +758,12 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [1, 71, 24],
-			"translation": [-7.75, 14.5, 7.75]
+			"translation": [-7.75, 5.5, 7.75]
+		},
+
+		"firstperson_lefthand": {
+			"rotation": [1, 71, 24],
+			"translation": [-7.75, 5.5, 7.75]
 		}
 	}
 }

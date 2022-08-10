@@ -2,13 +2,15 @@ package net.elidhan.anim_guns;
 
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.item.ModItems;
-import net.elidhan.anim_guns.network.PacketHandler;
+import net.elidhan.anim_guns.item.GunItem;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.slf4j.Logger;
@@ -32,6 +34,13 @@ public class AnimatedGuns implements ModInitializer
 	{
 		ModItems.registerModItems();
 		ModSounds.registerSounds();
-		PacketHandler.init();
+
+		ServerPlayNetworking.registerGlobalReceiver(new Identifier("anim_guns:reload"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
+		{
+			if (player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof GunItem)
+			{
+				player.getStackInHand(Hand.MAIN_HAND).getOrCreateNbt().putBoolean("isReloading", buf.readBoolean());
+			}
+		});
 	}
 }

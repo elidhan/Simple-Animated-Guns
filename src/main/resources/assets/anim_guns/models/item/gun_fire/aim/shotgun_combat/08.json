@@ -757,7 +757,10 @@
 			"scale": [1.25, 1.25, 1.25]
 		},
 		"firstperson_righthand": {
-			"translation": [-9, 15.75, 8.25]
+			"translation": [-9, 6.75, 8.25]
+		},
+		"firstperson_lefthand": {
+			"translation": [-9, 6.75, 8.25]
 		},
 		"gui": {
 			"rotation": [-90, 135, 90],

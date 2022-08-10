@@ -1,6 +1,6 @@
 package net.elidhan.anim_guns.mixin.client;
 
-import net.elidhan.anim_guns.item.gun.GunTemplateItem;
+import net.elidhan.anim_guns.item.GunItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -29,7 +29,7 @@ public class MinecraftClientMixin
         if (this.player == null)
             return;
         ItemStack itemStack = this.player.getStackInHand(Hand.MAIN_HAND);
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof GunTemplateItem)
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof GunItem)
             itemUseCooldown = 0;
     }
 }

@@ -682,11 +682,11 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [-3.5, 2.5, -7],
-			"translation": [-6.75, 15, 6]
+			"translation": [-6.75, 6, 6]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 0, 5],
-			"translation": [-7.75, 6, 6]
+			"rotation": [-3.5, 2.5, -7],
+			"translation": [-6.75, 6, 6]
 		},
 		"ground": {
 			"scale": [1.25, 1.25, 1.25]

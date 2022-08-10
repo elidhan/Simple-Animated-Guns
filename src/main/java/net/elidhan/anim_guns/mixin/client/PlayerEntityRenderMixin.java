@@ -1,6 +1,6 @@
 package net.elidhan.anim_guns.mixin.client;
 
-import net.elidhan.anim_guns.item.gun.GunTemplateItem;
+import net.elidhan.anim_guns.item.GunItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -16,11 +16,11 @@ public class PlayerEntityRenderMixin
     @Inject(method = "getArmPose", at = @At("TAIL"))
     private static BipedEntityModel.ArmPose gunPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci)
     {
-        if(player.getStackInHand(hand).getItem() instanceof GunTemplateItem && GunTemplateItem.isLoaded(player.getStackInHand(hand)))
+        if(player.getStackInHand(hand).getItem() instanceof GunItem && GunItem.isLoaded(player.getStackInHand(hand)))
         {
             return (BipedEntityModel.ArmPose.BOW_AND_ARROW);
         }
-        if(player.getActiveItem().getItem() instanceof GunTemplateItem && !GunTemplateItem.isLoaded(player.getStackInHand(hand)))
+        if(player.getActiveItem().getItem() instanceof GunItem && !GunItem.isLoaded(player.getStackInHand(hand)))
         {
             return (BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
         }

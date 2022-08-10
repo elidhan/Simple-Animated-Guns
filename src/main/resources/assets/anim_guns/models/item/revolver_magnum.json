@@ -1,0 +1,16 @@
+{
+  "parent": "anim_guns:item/revolver_magnum_standby",
+  "overrides":
+  [
+    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/revolver_magnum"},
+
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.1},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/06"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.2},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/05"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.3},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/02"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.4},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/03"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/04"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.7},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/03"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.9},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/02"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/revolver_magnum/01"}
+  ]
+}

@@ -1,7 +1,7 @@
 package net.elidhan.anim_guns.mixin.client;
 
 import com.mojang.authlib.GameProfile;
-import net.elidhan.anim_guns.item.gun.GunTemplateItem;
+import net.elidhan.anim_guns.item.GunItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -25,10 +25,10 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity
     public void zoomLevel(CallbackInfoReturnable<Float> ci){
         ItemStack gun = this.getStackInHand(Hand.MAIN_HAND);
 
-        if(gun.getItem() instanceof GunTemplateItem && this.isSneaking() && GunTemplateItem.isLoaded(gun))
+        if(gun.getItem() instanceof GunItem && this.isSneaking() && GunItem.isLoaded(gun))
         {
             NbtCompound nbtCompound = gun.getOrCreateNbt();
-            if(nbtCompound.getBoolean("hasScope"))
+            if(nbtCompound.getBoolean("isScoped"))
             {
                 ci.setReturnValue(0.2f);
             }

@@ -2,7 +2,7 @@ package net.elidhan.anim_guns.util;
 
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.item.ModItems;
-import net.elidhan.anim_guns.item.gun.GunTemplateItem;
+import net.elidhan.anim_guns.item.GunItem;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -12,6 +12,7 @@ public class ModelPredicateProvider
 {
     public static void registerModels()
     {
+        registerGun(ModItems.MAGNUM_REVOLVER);
         registerGun(ModItems.LIGHT_ASSAULT_RIFLE);
         registerGun(ModItems.HEAVY_ASSAULT_RIFLE);
         registerGun(ModItems.COMBAT_SHOTGUN);
@@ -32,7 +33,7 @@ public class ModelPredicateProvider
         FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "aiming"), (stack, world, entity, seed) ->
                 entity != null
                         && entity.isSneaking()
-                        && GunTemplateItem.isLoaded(stack)
+                        && GunItem.isLoaded(stack)
                         ? 1.0f : 0.0f);
 
         FabricModelPredicateProviderRegistry.register(gun, new Identifier(AnimatedGuns.MOD_ID, "sprinting"), (stack, world, entity, seed) ->

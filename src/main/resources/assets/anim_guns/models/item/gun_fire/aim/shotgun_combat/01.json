@@ -799,11 +799,11 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [4, 0, 0],
-			"translation": [-9, 15.75, 8.75]
+			"translation": [-9, 6.75, 8.75]
 		},
 		"firstperson_lefthand": {
-			"rotation": [4, 0, 2.5],
-			"translation": [-7.75, 6.75, 8.75]
+			"rotation": [4, 0, 0],
+			"translation": [-9, 6.75, 8.75]
 		},
 		"gui": {
 			"rotation": [-90, 135, 90],
