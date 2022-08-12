@@ -26,20 +26,20 @@ public class ModItems {
             10,
             6,
             HEAVY_HANDGUN_BULLET,
-            44,
+            40,
             0.15f,
             6.5f,
             1,
             1,
-            ModSounds.RELOAD_GENERIC_AR_P1,
-            ModSounds.RELOAD_GENERIC_AR_P2,
-            ModSounds.RELOAD_GENERIC_AR_P3,
-            ModSounds.ASSAULTRIFLE_LIGHT,
+            ModSounds.RELOAD_GENERIC_REVOLVER_P1,
+            ModSounds.RELOAD_GENERIC_REVOLVER_P2,
+            ModSounds.RELOAD_GENERIC_REVOLVER_P3,
+            ModSounds.REVOLVER_MAGNUM,
             1,
             false,
             1,
-            18,
-            37)
+            25,
+            34)
     {
     });
 public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1),
@@ -105,7 +105,7 @@ public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new Gun
         13)
 {
 });
-	public static final Item CLASS_SNIPER_RIFLE = registerItem("sniper_classic", new GunItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1),
+	public static final Item CLASSIC_SNIPER_RIFLE = registerItem("sniper_classic", new GunItem(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1),
         22,
         20,
         5,

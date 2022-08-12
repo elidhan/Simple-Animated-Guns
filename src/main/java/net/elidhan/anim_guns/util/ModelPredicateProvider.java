@@ -16,7 +16,7 @@ public class ModelPredicateProvider
         registerGun(ModItems.LIGHT_ASSAULT_RIFLE);
         registerGun(ModItems.HEAVY_ASSAULT_RIFLE);
         registerGun(ModItems.COMBAT_SHOTGUN);
-        registerGun(ModItems.CLASS_SNIPER_RIFLE);
+        registerGun(ModItems.CLASSIC_SNIPER_RIFLE);
     }
     public static void registerGun(Item gun)
     {

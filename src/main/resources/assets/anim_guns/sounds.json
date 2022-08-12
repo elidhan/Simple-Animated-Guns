@@ -1,4 +1,9 @@
-{ 
+{
+	"generic_revolver_p1": { "category": "player", "sounds": [ "anim_guns:gun/reload/generic_revolver_p1" ] },
+	"generic_revolver_p2": { "category": "player", "sounds": [ "anim_guns:gun/reload/generic_revolver_p2" ] },
+	"generic_revolver_p3": { "category": "player", "sounds": [ "anim_guns:gun/reload/generic_revolver_p3" ] },
+	"revolver_magnum": { "category": "player", "sounds": [ "anim_guns:gun/fire/revolver_magnum" ] },
+
 	"generic_ar_p1": { "category": "player", "sounds": [ "anim_guns:gun/reload/generic_ar_p1" ] },
 	"generic_ar_p2": { "category": "player", "sounds": [ "anim_guns:gun/reload/generic_ar_p2" ] },
 	"generic_ar_p3": { "category": "player", "sounds": [ "anim_guns:gun/reload/generic_ar_p3" ] },
