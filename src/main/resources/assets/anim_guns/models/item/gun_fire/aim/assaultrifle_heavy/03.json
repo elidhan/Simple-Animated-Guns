@@ -1,14 +1,14 @@
 {
-	"parent": "anim_guns:item/gun_fire/hip/assaultrifle_light/02",
+	"parent": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/03",
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
 			"rotation": [0, 0, 0],
-			"translation": [-8.9675, 6, 8.5]
+			"translation": [-8.9675, 6, 6.5]
 		},
 		"firstperson_lefthand": {
 			"rotation": [0, 0, 0],
-			"translation": [-8.9675, 6, 8.5]
+			"translation": [-8.9675, 6, 6.5]
 		}
 	}
 }

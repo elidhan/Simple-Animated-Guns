@@ -2,14 +2,12 @@
   "parent": "anim_guns:item/assaultrifle_heavy_standby",
   "overrides":
   [
+    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/assaultrifle_heavy"},
     {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/assaultrifle_heavy"},
 
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.3333334},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/03"},
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6666667},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/02"},
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/01"},
-
-    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/assaultrifle_heavy"},
-
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.3333334},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/03"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.6666667},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/02"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/01"},

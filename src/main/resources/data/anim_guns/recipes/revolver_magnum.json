@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "anim_guns:blueprint_revolver_magnum"
+    }
+  ],
+  "result": {
+    "item": "anim_guns:revolver_magnum"
+  }
+}

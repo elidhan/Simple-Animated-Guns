@@ -2,6 +2,7 @@
   "parent": "anim_guns:item/shotgun_combat_standby",
   "overrides":
   [
+    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/shotgun_combat"},
     {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/shotgun_combat"},
 
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.21428572 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/06"},
@@ -14,7 +15,6 @@
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.85714287 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/03"},
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.9285714 },"model": "anim_guns:item/gun_fire/hip/shotgun_combat/02"},
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/shotgun_combat/01"},
-
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.21428572 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/06"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.35714287 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/07"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.42857143 },"model": "anim_guns:item/gun_fire/aim/shotgun_combat/08"},

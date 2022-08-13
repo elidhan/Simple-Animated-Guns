@@ -1,0 +1,12 @@
+{
+	"parent": "anim_guns:item/revolver_magnum_standby",
+	"gui_light": "front",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [-8.9675, 6, 6]
+		},
+		"firstperson_lefthand": {
+			"translation": [-8.9675, 6, 6]
+		}
+	}
+}

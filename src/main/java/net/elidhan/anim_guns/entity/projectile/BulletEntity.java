@@ -21,8 +21,13 @@ public class BulletEntity extends ThrownItemEntity
     public BulletEntity(World world, LivingEntity owner, float dmg) {
         super(AnimatedGuns.BulletEntityType, owner, world);
         this.setOwner(owner);
-        this.setNoGravity(true);
         this.damage = dmg;
+    }
+
+    @Override
+    public boolean hasNoGravity()
+    {
+        return !this.isSubmergedInWater();
     }
     @Override
     public boolean isFireImmune()

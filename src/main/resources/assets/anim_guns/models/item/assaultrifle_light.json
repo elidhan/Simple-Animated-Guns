@@ -2,11 +2,11 @@
   "parent": "anim_guns:item/assaultrifle_light_standby",
   "overrides":
   [
+    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/assaultrifle_light"},
     {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/assaultrifle_light"},
 
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_fire/hip/assaultrifle_light/02"},
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/assaultrifle_light/01"},
-
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_fire/aim/assaultrifle_light/02"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/assaultrifle_light/01"},
 

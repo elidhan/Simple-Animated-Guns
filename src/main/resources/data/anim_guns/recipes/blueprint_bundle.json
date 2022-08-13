@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " p ",
+    "dpd",
+    " p "
+  ],
+  "key": {
+    "d": {
+      "item": "minecraft:blue_dye"
+    },
+    "p": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "anim_guns:blueprint_bundle"
+  }
+}
