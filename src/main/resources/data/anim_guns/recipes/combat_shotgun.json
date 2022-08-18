@@ -2,15 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "bp ",
-    " i ",
+    "fi ",
     " g "
   ],
   "key": {
     "b": {
-      "item": "anim_guns:short_barrel"
+      "item": "anim_guns:long_barrel"
     },
     "p": {
-      "item": "anim_guns:blueprint_revolver_magnum"
+      "item": "anim_guns:blueprint_shotgun_combat"
+    },
+    "f": {
+      "item": "anim_guns:modern_handguard"
     },
     "i": {
       "item": "anim_guns:hardened_iron_ingot"
@@ -20,6 +23,6 @@
     }
   },
   "result": {
-    "item": "anim_guns:revolver_magnum"
+    "item": "anim_guns:shotgun_combat"
   }
 }

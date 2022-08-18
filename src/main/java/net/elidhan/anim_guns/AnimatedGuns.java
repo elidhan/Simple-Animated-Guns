@@ -21,30 +21,25 @@ import org.slf4j.LoggerFactory;
 
 public class AnimatedGuns implements ModInitializer
 {
-	public static final Identifier RECOIL_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "recoil");
 	public static final String MOD_ID = "anim_guns";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final ItemGroup MISC = FabricItemGroupBuilder.build(
-			new Identifier(MOD_ID, "misc"),
-			() -> new ItemStack(ModItems.HARDENED_IRON_INGOT));
-	public static final ItemGroup GUNS = FabricItemGroupBuilder.build(
-			new Identifier(MOD_ID, "guns"),
-			() -> new ItemStack(ModItems.MAGNUM_REVOLVER));
-	public static final EntityType<BulletEntity> BulletEntityType = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(AnimatedGuns.MOD_ID, "bullet"),
-			FabricEntityTypeBuilder
-					.<BulletEntity>create(SpawnGroup.MISC, BulletEntity::new)
-					.dimensions(EntityDimensions.fixed(0.125F, 0.125F))
-					.trackRangeBlocks(4)
-					.trackedUpdateRate(10)
-					.build());
+
+	public static final Identifier RECOIL_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "recoil");
+	public static final ItemGroup MISC = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "misc"), () -> new ItemStack(ModItems.MAGNUM_REVOLVER_BLUEPRINT));
+	public static final ItemGroup GUNS = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "guns"), () -> new ItemStack(ModItems.MAGNUM_REVOLVER));
+
+	public static final EntityType<BulletEntity> BulletEntityType = Registry.register(
+			Registry.ENTITY_TYPE,
+			new Identifier(MOD_ID, "bullet"),
+			FabricEntityTypeBuilder.<BulletEntity>create(SpawnGroup.MISC, BulletEntity::new).dimensions(EntityDimensions.fixed(0.125f,0.125f)).trackRangeBlocks(4).trackedUpdateRate(10).build());
+
 	@Override
 	public void onInitialize()
 	{
 		ModItems.registerModItems();
 		ModSounds.registerSounds();
 
-		ServerPlayNetworking.registerGlobalReceiver(new Identifier("anim_guns:reload"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
+		ServerPlayNetworking.registerGlobalReceiver(new Identifier(MOD_ID,"reload"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
 		{
 			if (player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof GunItem)
 			{

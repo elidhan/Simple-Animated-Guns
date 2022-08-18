@@ -222,16 +222,18 @@ public abstract class GunItem extends Item implements FabricItem
         {
             for(int i = 0; i < this.pelletCount; i++)
             {
-                BulletEntity bullet = new BulletEntity(world, user, this.gunDamage);
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4.0f, this.bulletSpread);
+                BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4, this.bulletSpread);
+                bullet.setAccel(bullet.getVelocity());
+
                 world.spawnEntity(bullet);
             }
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeFloat(kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
-
-            world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.PLAYERS,1.0f, 1.0f);
         }
+
+        world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.PLAYERS,1.0f, 1.0f);
     }
     private float getRecoil(PlayerEntity user)
     {

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bp#",
+    "fi ",
+    "  s"
+  ],
+  "key": {
+    "b": {
+      "item": "anim_guns:long_barrel"
+    },
+    "p": {
+      "item": "anim_guns:blueprint_sniper_classic"
+    },
+    "#": {
+      "item": "anim_guns:gun_scope"
+    },
+    "f": {
+      "item": "anim_guns:wooden_handguard"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "s": {
+      "item": "anim_guns:wooden_stock"
+    }
+  },
+  "result": {
+    "item": "anim_guns:sniper_classic"
+  }
+}

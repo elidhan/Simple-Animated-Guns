@@ -1,6 +1,6 @@
 package net.elidhan.anim_guns;
 
-import net.elidhan.anim_guns.entity.projectile.BulletRenderer;
+import net.elidhan.anim_guns.entity.projectile.BulletEntityRenderer;
 import net.elidhan.anim_guns.util.ModelPredicateProvider;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -21,13 +21,13 @@ public class AnimatedGunsClient implements ClientModInitializer
     {
         KeyBindingHelper.registerKeyBinding(reloadToggle);
 
-        //Model Predicates
+        //Item Models Stuff
         ModelPredicateProvider.registerModels();
 
-        //Entity rendering
-        EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, (ctx) -> new BulletRenderer(ctx));
+        //Projectile render
+        EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletEntityRenderer::new);
 
-        //Packet stuff
+        //Recoil Stuff
         ClientPlayNetworking.registerGlobalReceiver(AnimatedGuns.RECOIL_PACKET_ID, (client, handler, buf, sender) -> {
             float kick = buf.readFloat();
             client.execute(() -> {

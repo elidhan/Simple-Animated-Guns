@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "#pp",
+    " #p"
+  ],
+  "key": {
+    "#": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "p": {
+      "item": "anim_guns:plastic"
+    }
+  },
+  "result": {
+    "item": "anim_guns:modern_stock"
+  }
+}

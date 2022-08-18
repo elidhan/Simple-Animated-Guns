@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "anim_guns:item/hardened_iron_nugget"
+    }
+}

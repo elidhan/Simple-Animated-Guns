@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " i ",
+    " g ",
+    " i "
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "anim_guns:heavy_rifle_cartridge",
+    "count": 4
+  }
+}

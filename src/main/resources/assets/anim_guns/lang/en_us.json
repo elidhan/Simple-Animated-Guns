@@ -1,6 +1,28 @@
 {
 	"category.anim_guns.binds" : "Simple Animated Guns",
 	"key.anim_guns.reloadtoggle" : "Reload Gun",
+	"itemGroup.anim_guns.misc" : "S.A.G. Misc",
+	"itemGroup.anim_guns.guns" : "S.A.G. Guns",
+
+	"item.anim_guns.hardened_iron_ingot" : "Hardened Iron Ingot",
+	"item.anim_guns.hardened_iron_nugget" : "Hardened Iron Nugget",
+	"item.anim_guns.plastic" : "Plastic",
+
+	"item.anim_guns.gun_scope" : "Gun Scope",
+	"item.anim_guns.pistol_grip" : "Pistol Grip",
+	"item.anim_guns.long_barrel" : "Long Barrel",
+	"item.anim_guns.short_barrel" : "Short Barrel",
+	"item.anim_guns.wooden_stock" : "Wooden Stock",
+	"item.anim_guns.modern_stock" : "Modern Stock",
+	"item.anim_guns.wooden_handguard" : "Wooden Handguard",
+	"item.anim_guns.modern_handguard" : "Modern Handguard",
+
+	"item.anim_guns.blueprint_bundle" : "Blueprint Bundle",
+	"item.anim_guns.blueprint_revolver_magnum" : "Magnum Revolver Blueprint",
+	"item.anim_guns.blueprint_assaultrifle_light" : "Assault Rifle Blueprint",
+	"item.anim_guns.blueprint_assaultrifle_heavy" : "Heavy Assault Rifle Blueprint",
+	"item.anim_guns.blueprint_shotgun_combat" : "Combat Shotgun Blueprint",
+	"item.anim_guns.blueprint_sniper_classic" : "Classic Sniper Rifle Blueprint",
 
 	"item.anim_guns.standard_handgun_cartridge" : "Standard Handgun Cartridge",
 	"item.anim_guns.standard_rifle_cartridge" : "Standard Rifle Cartridge",
