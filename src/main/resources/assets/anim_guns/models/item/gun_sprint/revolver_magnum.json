@@ -760,12 +760,12 @@
 			"scale": [1.25, 1.25, 1.25]
 		},
 		"firstperson_righthand": {
-			"rotation": [0, 0, 5],
-			"translation": [-7.75, 6, 6]
+			"rotation": [79, 0, 5],
+			"translation": [-5.25, 5.25, 5.5]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 0, 5],
-			"translation": [-7.75, 6, 6]
+			"rotation": [79, 0, 5],
+			"translation": [-5.25, 5.25, 5.5]
 		},
 		"ground": {
 			"scale": [1.25, 1.25, 1.25]

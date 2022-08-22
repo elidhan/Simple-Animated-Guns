@@ -23,7 +23,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public abstract class GunItem extends Item implements FabricItem
+public abstract class GunItem
+extends Item
+implements FabricItem
 {
     private final float gunDamage;
     private final int rateOfFire;
@@ -89,15 +91,13 @@ public abstract class GunItem extends Item implements FabricItem
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
         //Just setting the gun's default NBT tags
-        //If there's a better way to do this, please let me know
-        //
+        //If there's a better way to do this, let me know
         if (!nbtCompound.contains("reloadTick"))
         {
             setDefaultNBT(nbtCompound);
         }
         //This part's for the keypress
         //to reload the gun
-        //
         if (world.isClient())
         {
             if (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) == stack
@@ -114,7 +114,6 @@ public abstract class GunItem extends Item implements FabricItem
         }
         //I was wondering why my gun kept reloading even after I switch off it
         //Maybe moving this off the if(world.isClient()) check will help
-        //
         if (nbtCompound.getBoolean("isReloading")
                 && (((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) != stack
                 || (reserveAmmoCount((PlayerEntity) entity, this.ammoType) <= 0 && this.reloadCycles <= 1)
@@ -127,8 +126,7 @@ public abstract class GunItem extends Item implements FabricItem
             //buf.writeBoolean(false);
             //ClientPlayNetworking.send(new Identifier("anim_guns:reload"), buf);
         }
-        //The actual reload process/ticking
-        //
+        //The actual reload process/tick
         if (nbtCompound.getBoolean("isReloading"))
         {
             doReloadTick(world, nbtCompound, (PlayerEntity)entity, stack);
@@ -223,7 +221,8 @@ public abstract class GunItem extends Item implements FabricItem
             for(int i = 0; i < this.pelletCount; i++)
             {
                 BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4, this.bulletSpread);
+                bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 8, this.bulletSpread);
                 bullet.setAccel(bullet.getVelocity());
 
                 world.spawnEntity(bullet);

@@ -10,6 +10,9 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
@@ -67,6 +70,7 @@ public class BulletEntity extends ThrownItemEntity
         if (this.world.isClient || (entityHitResult.getEntity() instanceof WitherEntity && ((WitherEntity)entityHitResult.getEntity()).shouldRenderOverlay())) {
             return;
         }
+        this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, SoundCategory.MASTER,1.0f, 1.0f);
         Entity entity = entityHitResult.getEntity();
         entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), this.damage);
         entity.timeUntilRegen = 0;

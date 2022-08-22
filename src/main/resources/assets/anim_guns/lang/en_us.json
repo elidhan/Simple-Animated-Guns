@@ -18,6 +18,7 @@
 	"item.anim_guns.modern_handguard" : "Modern Handguard",
 
 	"item.anim_guns.blueprint_bundle" : "Blueprint Bundle",
+	"item.anim_guns.blueprint_pistol_light" : "Pistol Blueprint",
 	"item.anim_guns.blueprint_revolver_magnum" : "Magnum Revolver Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_light" : "Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_heavy" : "Heavy Assault Rifle Blueprint",
@@ -30,6 +31,7 @@
 	"item.anim_guns.heavy_rifle_cartridge" : "Heavy Rifle Cartridge",
 	"item.anim_guns.shotgun_shell" : "Shotgun Shell",
 
+	"item.anim_guns.pistol_light" : "Pistol",
 	"item.anim_guns.revolver_magnum" : "Magnum Revolver",
 	"item.anim_guns.assaultrifle_light" : "Assault Rifle",
 	"item.anim_guns.assaultrifle_heavy" : "Heavy Assault Rifle",

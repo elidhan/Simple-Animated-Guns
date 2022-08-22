@@ -3,7 +3,7 @@
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
-			"rotation": [0, 0, 5],
+			"rotation": [1, 0, 5],
 			"translation": [-7.75, 6, 6.5]
 		}
 	}
