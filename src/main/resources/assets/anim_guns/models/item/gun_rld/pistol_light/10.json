@@ -433,12 +433,12 @@
 			"scale": [1.25, 1.25, 1.25]
 		},
 		"firstperson_righthand": {
-			"rotation": [24, 1, 16],
-			"translation": [-7.25, 6.5, 4.25]
+			"rotation": [0, 6, 0],
+			"translation": [-7.75, 6, 4.5]
 		},
 		"firstperson_lefthand": {
-			"rotation": [24, 1, 16],
-			"translation": [-7, 6.5, 4]
+			"rotation": [0, 0, 5],
+			"translation": [-7.75, 5.75, 5.75]
 		},
 		"ground": {
 			"scale": [1.25, 1.25, 1.25]

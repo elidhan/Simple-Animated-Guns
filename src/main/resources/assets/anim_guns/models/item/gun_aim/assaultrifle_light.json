@@ -1,12 +1,13 @@
 {
+	"credit": "Made with Blockbench",
 	"parent": "anim_guns:item/assaultrifle_light",
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
-			"translation": [-8.9675, 6, 8]
+			"translation": [-8.9675, 6.825, 8]
 		},
 		"firstperson_lefthand": {
-			"translation": [-8.9675, 6, 8]
+			"translation": [-8.9675, 6.825, 8]
 		}
 	}
 }

@@ -23,7 +23,7 @@
 	"item.anim_guns.blueprint_assaultrifle_light" : "Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_heavy" : "Heavy Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_shotgun_combat" : "Combat Shotgun Blueprint",
-	"item.anim_guns.blueprint_sniper_classic" : "Classic Sniper Rifle Blueprint",
+	"item.anim_guns.blueprint_sniper_classic" : "Hunting Rifle Blueprint",
 
 	"item.anim_guns.standard_handgun_cartridge" : "Standard Handgun Cartridge",
 	"item.anim_guns.standard_rifle_cartridge" : "Standard Rifle Cartridge",
@@ -36,5 +36,5 @@
 	"item.anim_guns.assaultrifle_light" : "Assault Rifle",
 	"item.anim_guns.assaultrifle_heavy" : "Heavy Assault Rifle",
 	"item.anim_guns.shotgun_combat" : "Combat Shotgun",
-	"item.anim_guns.sniper_classic" : "Classic Sniper Rifle"
+	"item.anim_guns.sniper_classic" : "Hunting Rifle"
 }

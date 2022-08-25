@@ -1,0 +1,16 @@
+{
+	"parent": "anim_guns:item/gun_fire/hip/sniper_classic/09",
+	"gui_light": "front",
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [0, 0, 0],
+			"translation": [-8.9675, 6.9375, 9],
+			"scale": [1, 1, 0.25]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 0, 0],
+			"translation": [-8.9675, 6.9375, 9],
+			"scale": [1, 1, 0.25]
+		}
+	}
+}

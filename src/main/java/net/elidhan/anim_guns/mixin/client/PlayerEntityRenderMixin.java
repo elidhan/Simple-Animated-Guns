@@ -17,7 +17,9 @@ public class PlayerEntityRenderMixin
     private static BipedEntityModel.ArmPose gunPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci)
     {
         if(player.getStackInHand(hand).getItem() instanceof GunItem
-                && GunItem.isLoaded(player.getStackInHand(hand)))
+                && GunItem.isLoaded(player.getStackInHand(hand))
+                && player.getStackInHand(hand).getOrCreateNbt().getInt("reloadTick") <= 0
+        )
         {
             return (BipedEntityModel.ArmPose.BOW_AND_ARROW);
         }

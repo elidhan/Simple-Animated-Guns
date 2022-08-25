@@ -4,11 +4,11 @@
 	"display": {
 		"firstperson_righthand": {
 			"rotation": [7.25, 0, 0],
-			"translation": [-8.9675, 6.75, 9]
+			"translation": [-8.9675, 7.6875, 9]
 		},
 		"firstperson_lefthand": {
 			"rotation": [7.25, 0, 0],
-			"translation": [-8.9675, 6.75, 9]
+			"translation": [-8.9675, 7.6875, 9]
 		}
 	}
 }

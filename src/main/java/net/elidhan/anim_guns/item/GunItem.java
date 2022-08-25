@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -53,8 +54,8 @@ implements FabricItem
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
                    int reloadStage1, int reloadStage2, int reloadStage3)
     {
-        super(settings);
-        
+        super(settings.maxDamage((magSize*10)+1));
+
         this.gunDamage = gunDamage;
         this.rateOfFire = rateOfFire;
         this.magSize = magSize;
@@ -149,15 +150,15 @@ implements FabricItem
         {
             if(rTick == this.reloadStage1)
             {
-                world.playSound(null, player.getX(), player.getY(), player.getZ(),this.reload1,SoundCategory.PLAYERS,1.0f, 1.0f);
+                world.playSound(null, player.getX(), player.getY(), player.getZ(),this.reload1,SoundCategory.MASTER,1.0f, 1.0f);
             }
             else if (rTick == this.reloadStage2)
             {
-                world.playSound(null, player.getX(), player.getY(), player.getZ(),this.reload2,SoundCategory.PLAYERS,1.0f, 1.0f);
+                world.playSound(null, player.getX(), player.getY(), player.getZ(),this.reload2,SoundCategory.MASTER,1.0f, 1.0f);
             }
             else if (rTick == this.reloadStage3+1)
             {
-                world.playSound(null, player.getX(), player.getY(), player.getZ(),this.reload3,SoundCategory.PLAYERS,1.0f, 1.0f);
+                world.playSound(null, player.getX(), player.getY(), player.getZ(),this.reload3,SoundCategory.MASTER,1.0f, 1.0f);
             }
         }
 
@@ -184,6 +185,7 @@ implements FabricItem
                         nbtCompound.putInt("reloadTick", this.reloadStage2);
                     }
                     nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
+                    stack.setDamage(this.getMaxDamage()-((nbtCompound.getInt("Clip")*10)+1));
                 }
                 break;
         }
@@ -214,7 +216,6 @@ implements FabricItem
     {
         float kick = user.getPitch() - getRecoil(user);
         user.getItemCooldownManager().set(this, this.rateOfFire);
-        useAmmo(itemStack);
 
         if (!world.isClient())
         {
@@ -222,7 +223,7 @@ implements FabricItem
             {
                 BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
                 bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 8, this.bulletSpread);
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4, this.bulletSpread);
                 bullet.setAccel(bullet.getVelocity());
 
                 world.spawnEntity(bullet);
@@ -232,7 +233,12 @@ implements FabricItem
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
         }
 
-        world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.PLAYERS,1.0f, 1.0f);
+        if(!user.getAbilities().creativeMode)
+        {
+            useAmmo(itemStack);
+            itemStack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        }
+        world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.MASTER,1.0f, 1.0f);
     }
     private float getRecoil(PlayerEntity user)
     {
@@ -279,6 +285,8 @@ implements FabricItem
                 InventoryUtil.removeItemFromInventory(player, this.ammoType, reserveAmmoCount(player, this.ammoType));
             }
         }
+
+        stack.setDamage(this.getMaxDamage()-((nbtCompound.getInt("Clip")*10)+1));
     }
     private static int remainingAmmo(ItemStack stack)
     {

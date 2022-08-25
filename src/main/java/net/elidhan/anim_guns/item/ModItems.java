@@ -41,20 +41,20 @@ public class ModItems {
 			4,
 			17,
 			STANDARD_HANDGUN_BULLET,
-			40,
+			26,
 			0.25f,
 			2.5f,
 			1,
 			1,
-			ModSounds.RELOAD_GENERIC_AR_P1,
-			ModSounds.RELOAD_GENERIC_AR_P2,
-			ModSounds.RELOAD_GENERIC_AR_P3,
-			ModSounds.ASSAULTRIFLE_LIGHT,
+			ModSounds.RELOAD_GENERIC_PISTOL_P1,
+			ModSounds.RELOAD_GENERIC_PISTOL_P2,
+			ModSounds.RELOAD_GENERIC_PISTOL_P3,
+			ModSounds.PISTOL_LIGHT,
 			1,
 			false,
-			1,
-			26,
-			34)
+			6,
+			16,
+			20)
 	{
 	});
     public static final Item MAGNUM_REVOLVER = registerItem("revolver_magnum", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),

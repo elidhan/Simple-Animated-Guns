@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bp ",
+    " i ",
+    " g "
+  ],
+  "key": {
+    "b": {
+      "item": "anim_guns:short_barrel"
+    },
+    "p": {
+      "item": "anim_guns:blueprint_pistol_light"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "g": {
+      "item": "anim_guns:pistol_grip"
+    }
+  },
+  "result": {
+    "item": "anim_guns:pistol_light"
+  }
+}
