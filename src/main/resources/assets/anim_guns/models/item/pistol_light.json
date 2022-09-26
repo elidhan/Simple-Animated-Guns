@@ -13,23 +13,21 @@
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/aim/pistol_light/02"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/pistol_light/01"},
 
-    {"predicate":  {"anim_guns:loading": 1},"model": "anim_guns:item/gun_rld/pistol_light/01"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/pistol_light/02"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/pistol_light/03"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/pistol_light/04"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/pistol_light/1"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/pistol_light/2"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/pistol_light/3"},
 
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/pistol_light/05"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/pistol_light/06"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/pistol_light/4"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/pistol_light/5"},
 
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/pistol_light/07"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.085},"model": "anim_guns:item/gun_rld/pistol_light/08"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/pistol_light/6"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.085},"model": "anim_guns:item/gun_rld/pistol_light/7"},
 
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/pistol_light/09"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.105},"model": "anim_guns:item/gun_rld/pistol_light/10"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/pistol_light/8"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.105},"model": "anim_guns:item/gun_rld/pistol_light/9"},
 
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.12},"model": "anim_guns:item/gun_rld/pistol_light/11"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.125},"model": "anim_guns:item/gun_rld/pistol_light/12"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.13},"model": "anim_guns:item/pistol_light_standby"}
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.12},"model": "anim_guns:item/gun_rld/pistol_light/10"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.125},"model": "anim_guns:item/gun_rld/pistol_light/11"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.13},"model": "anim_guns:item/gun_rld/pistol_light/12"}
   ]
 }

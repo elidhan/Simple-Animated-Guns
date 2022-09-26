@@ -93,7 +93,10 @@ implements FabricItem
         NbtCompound nbtCompound = stack.getOrCreateNbt();
         //Just setting the gun's default NBT tags
         //If there's a better way to do this, let me know
-        if (!nbtCompound.contains("reloadTick"))
+        if (!nbtCompound.contains("reloadTick")
+        || !nbtCompound.contains("Clip")
+        || !nbtCompound.contains("isScoped")
+        || !nbtCompound.contains("isReloading"))
         {
             setDefaultNBT(nbtCompound);
         }
@@ -110,7 +113,7 @@ implements FabricItem
             {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeBoolean(true);
-                ClientPlayNetworking.send(new Identifier("anim_guns:reload"), buf);
+                ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "reload"), buf);
             }
         }
         //I was wondering why my gun kept reloading even after I switch off it

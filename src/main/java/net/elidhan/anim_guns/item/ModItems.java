@@ -104,7 +104,7 @@ public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy"
 		3,
 		20,
 		STANDARD_RIFLE_BULLET,
-		68,
+		48,
 		0.125f,
 		2.5f,
 		1,
@@ -116,8 +116,8 @@ public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy"
 		1,
 		false,
 		6,
-		43,
-		60)
+		22,
+		40)
 {
 });
 public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
