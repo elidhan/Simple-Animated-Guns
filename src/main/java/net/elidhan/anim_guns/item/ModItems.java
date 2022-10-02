@@ -57,6 +57,27 @@ public class ModItems {
 			20)
 	{
 	});
+	public static final Item HEAVY_PISTOL = registerItem("pistol_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			11,
+			5,
+			7,
+			HEAVY_HANDGUN_BULLET,
+			26,
+			0.125f,
+			7.5f,
+			1,
+			1,
+			ModSounds.RELOAD_GENERIC_PISTOL_P1,
+			ModSounds.RELOAD_GENERIC_PISTOL_P2,
+			ModSounds.RELOAD_GENERIC_PISTOL_P3,
+			ModSounds.PISTOL_HEAVY,
+			1,
+			false,
+			6,
+			16,
+			20)
+	{
+	});
     public static final Item MAGNUM_REVOLVER = registerItem("revolver_magnum", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
             11,
             10,
@@ -85,7 +106,7 @@ public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light"
 		STANDARD_RIFLE_BULLET,
 		44,
 		0.15f,
-		1.25f,
+		1.625f,
 		1,
 		1,
 		ModSounds.RELOAD_GENERIC_AR_P1,

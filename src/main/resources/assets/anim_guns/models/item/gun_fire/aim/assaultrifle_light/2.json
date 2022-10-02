@@ -1,0 +1,10 @@
+{
+	"parent": "anim_guns:item/gun_fire/hip/assaultrifle_light/2",
+	"gui_light": "front",
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [2, 0, 0],
+			"translation": [-8.9675, 6, 5.75]
+		}
+	}
+}

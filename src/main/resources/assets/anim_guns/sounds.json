@@ -3,6 +3,7 @@
 	"generic_pistol_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_pistol_p2" ] },
 	"generic_pistol_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_pistol_p3" ] },
 	"pistol_light": { "category": "master", "sounds": [ "anim_guns:gun/fire/pistol_light" ] },
+	"pistol_heavy": { "category": "master", "sounds": [ "anim_guns:gun/fire/pistol_heavy" ] },
 
 	"generic_revolver_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_revolver_p1" ] },
 	"generic_revolver_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_revolver_p2" ] },

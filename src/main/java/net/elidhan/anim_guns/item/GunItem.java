@@ -126,9 +126,6 @@ implements FabricItem
         )
         {
             nbtCompound.putBoolean("isReloading",false);
-            //PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            //buf.writeBoolean(false);
-            //ClientPlayNetworking.send(new Identifier("anim_guns:reload"), buf);
         }
         //The actual reload process/tick
         if (nbtCompound.getBoolean("isReloading"))
@@ -241,7 +238,7 @@ implements FabricItem
             useAmmo(itemStack);
             itemStack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         }
-        world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.MASTER,1.0f, 1.0f);
+        world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.MASTER,1.0f, 1.0f-world.getRandom().nextFloat(0.1f));
     }
     private float getRecoil(PlayerEntity user)
     {

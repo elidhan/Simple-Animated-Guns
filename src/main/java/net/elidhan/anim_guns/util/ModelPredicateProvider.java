@@ -13,6 +13,7 @@ public class ModelPredicateProvider
     public static void registerModels()
     {
         registerGun(ModItems.PISTOL);
+        registerGun(ModItems.HEAVY_PISTOL);
         registerGun(ModItems.MAGNUM_REVOLVER);
         registerGun(ModItems.LIGHT_ASSAULT_RIFLE);
         registerGun(ModItems.HEAVY_ASSAULT_RIFLE);
