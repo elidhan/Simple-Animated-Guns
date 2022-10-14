@@ -1,0 +1,9 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "anim_guns:item/pistol_heavy_standby",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [-8.9675, 7.075, 5.25]
+		}
+	}
+}
