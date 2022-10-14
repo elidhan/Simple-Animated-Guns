@@ -5,12 +5,16 @@
     {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/pistol_heavy"},
     {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/pistol_heavy"},
 
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5},"model": "anim_guns:item/pistol_heavy_standby"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/2"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.2},"model": "anim_guns:item/pistol_heavy_standby"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.4},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/4"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/3"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.8},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/2"},
     {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/1"},
 
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_aim/pistol_heavy"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/2"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.2},"model": "anim_guns:item/gun_aim/pistol_heavy"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.4},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/4"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/3"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.8},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/2"},
     {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/1"},
 
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/pistol_heavy/1"},

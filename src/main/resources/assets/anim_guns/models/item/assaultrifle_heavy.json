@@ -5,12 +5,13 @@
     {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/assaultrifle_heavy"},
     {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/assaultrifle_heavy"},
 
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.3333334},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/03"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6666667},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/02"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/01"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.3333334},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/03"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.6666667},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/02"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/01"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.3333333},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/3"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6666667},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/2"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/1"},
+
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.3333333},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/3"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.6666667},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/2"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/assaultrifle_heavy/1"},
 
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/assaultrifle_heavy/1"},
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/assaultrifle_heavy/2"},

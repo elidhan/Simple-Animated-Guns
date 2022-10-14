@@ -237,7 +237,8 @@
 			"translation": [0, 0, -1.5]
 		},
 		"firstperson_righthand": {
-			"translation": [-6.5, 5, 5]
+			"rotation": [36, 16, 24],
+			"translation": [-10.5, 5, 5.75]
 		},
 		"firstperson_lefthand": {
 			"translation": [-6.5, 5, 4.75]

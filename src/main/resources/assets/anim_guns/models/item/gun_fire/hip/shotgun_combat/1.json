@@ -3,6 +3,8 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "anim_guns:gun/shotgun_combat",
+		"1": "anim_guns:misc/muzzleflash_01",
+		"2": "anim_guns:misc/muzzleflash_02",
 		"particle": "anim_guns:gun/shotgun_combat"
 	},
 	"elements": [
@@ -226,6 +228,45 @@
 				"up": {"uv": [8.5, 4.5, 8, 4], "texture": "#0"},
 				"down": {"uv": [5, 8, 4.5, 8.5], "texture": "#0"}
 			}
+		},
+		{
+			"from": [4.75, 5.5, -6.53125],
+			"to": [11.25, 12, -6.53125],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-0.25, 3.25, -2.8125]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"up": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"down": {"uv": [0, 0, 8, 8], "texture": "#1"}
+			}
+		},
+		{
+			"from": [8, 6.5, -13.03125],
+			"to": [8, 11, -6.53125],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, -1.8125]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"east": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#2"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [5.75, 8.75, -13.03125],
+			"to": [10.25, 8.75, -6.53125],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, -5.125]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#2"}
+			}
 		}
 	],
 	"gui_light": "front",
@@ -237,8 +278,8 @@
 			"translation": [0, 0, -1.5]
 		},
 		"firstperson_righthand": {
-			"rotation": [-4, 60, 32],
-			"translation": [-9.5, 3.25, 5]
+			"rotation": [-2, 0, 0],
+			"translation": [-6.5, 5, 5]
 		},
 		"firstperson_lefthand": {
 			"translation": [-6.5, 5, 4.75]

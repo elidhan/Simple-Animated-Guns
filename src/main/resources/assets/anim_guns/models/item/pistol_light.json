@@ -5,13 +5,15 @@
     {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/pistol_light"},
     {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/pistol_light"},
 
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5},"model": "anim_guns:item/pistol_light_standby"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/hip/pistol_light/02"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/pistol_light/01"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.25},"model": "anim_guns:item/gun_fire/hip/pistol_light/4"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_fire/hip/pistol_light/3"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/hip/pistol_light/2"},
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/pistol_light/1"},
 
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_aim/pistol_light"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/aim/pistol_light/02"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/pistol_light/01"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.25},"model": "anim_guns:item/gun_fire/aim/pistol_light/4"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_fire/aim/pistol_light/3"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/aim/pistol_light/2"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/pistol_light/1"},
 
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/pistol_light/1"},
     {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/pistol_light/2"},

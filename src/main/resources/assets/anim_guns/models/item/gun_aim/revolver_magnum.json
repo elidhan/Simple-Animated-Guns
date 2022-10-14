@@ -4,7 +4,7 @@
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
-			"translation": [-8.9675, 7.1125, 6]
+			"translation": [-8.9675, 6.95, 6]
 		},
 		"firstperson_lefthand": {
 			"translation": [-8.9675, 7.1125, 6]

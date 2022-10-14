@@ -2,32 +2,66 @@
 	"generic_pistol_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_pistol_p1" ] },
 	"generic_pistol_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_pistol_p2" ] },
 	"generic_pistol_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_pistol_p3" ] },
-	"pistol_light": { "category": "master", "sounds": [ "anim_guns:gun/fire/pistol_light" ] },
-	"pistol_heavy": { "category": "master", "sounds": [ "anim_guns:gun/fire/pistol_heavy" ] },
+	"pistol_light": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/pistol_light_1"
+		]
+	},
+	"pistol_heavy": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/pistol_heavy_1",
+			"anim_guns:gun/fire/pistol_heavy_2"
+		]
+	},
 
 	"generic_revolver_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_revolver_p1" ] },
 	"generic_revolver_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_revolver_p2" ] },
 	"generic_revolver_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_revolver_p3" ] },
-	"revolver_magnum": { "category": "master", "sounds": [ "anim_guns:gun/fire/revolver_magnum" ] },
+	"revolver_magnum": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/revolver_magnum_1"
+		]
+	},
 
 	"generic_ar_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p1" ] },
 	"generic_ar_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p2" ] },
 	"generic_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p3" ] },
-	"assaultrifle_light": { "category": "master", "sounds": [ "anim_guns:gun/fire/assaultrifle_light" ] },
+	"assaultrifle_light": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/assaultrifle_light_1",
+			"anim_guns:gun/fire/assaultrifle_light_2",
+			"anim_guns:gun/fire/assaultrifle_light_3",
+			"anim_guns:gun/fire/assaultrifle_light_4"
+		]
+	},
 
 	"heavy_ar_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/heavy_ar_p1" ] },
 	"heavy_ar_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/heavy_ar_p2" ] },
 	"heavy_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/heavy_ar_p3" ] },
-	"assaultrifle_heavy": { "category": "master", "sounds": [ "anim_guns:gun/fire/assaultrifle_heavy" ] },
+	"assaultrifle_heavy": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/assaultrifle_heavy_1",
+			"anim_guns:gun/fire/assaultrifle_heavy_2",
+			"anim_guns:gun/fire/assaultrifle_heavy_3"
+		]
+	},
 
 	"combat_shotgun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/combat_shotgun_p1" ] },
 	"combat_shotgun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/combat_shotgun_p2" ] },
 	"combat_shotgun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/combat_shotgun_p3" ] },
-	"shotgun_combat": { "category": "master", "sounds": [ "anim_guns:gun/fire/shotgun_combat" ] },
+	"shotgun_combat": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/shotgun_combat_1"
+		]
+	},
 
 	"generic_sniper_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p1" ] },
 	"generic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p2" ] },
 	"generic_sniper_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p3" ] },
 	"classic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/classic_sniper_p2" ] },
-	"sniper_classic": { "category": "master", "sounds": [ "anim_guns:gun/fire/sniper_classic" ] }
+	"sniper_classic": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/sniper_classic_1"
+		]
+	}
 }

@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "anim_guns:item/assaultrifle_heavy",
+	"parent": "anim_guns:item/assaultrifle_heavy_standby",
 	"gui_light": "front",
 	"display": {
 		"firstperson_righthand": {
