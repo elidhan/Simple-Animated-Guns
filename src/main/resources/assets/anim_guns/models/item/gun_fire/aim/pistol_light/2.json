@@ -1,0 +1,9 @@
+{
+	"parent": "anim_guns:item/gun_fire/hip/pistol_light/2",
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [16, 0, 0],
+			"translation": [-8.9675, 8.6, 6]
+		}
+	}
+}

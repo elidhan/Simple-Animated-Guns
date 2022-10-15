@@ -1,0 +1,8 @@
+{
+	"parent": "anim_guns:item/gun_fire/hip/smg_machinepistol/1",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [-8.9675, 7.475, 6.25]
+		}
+	}
+}

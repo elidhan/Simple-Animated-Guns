@@ -63,7 +63,7 @@ public class ModItems {
 			7,
 			HEAVY_HANDGUN_BULLET,
 			26,
-			0.125f,
+			0.25f,
 			7.5f,
 			1,
 			1,
@@ -84,7 +84,7 @@ public class ModItems {
             6,
             HEAVY_HANDGUN_BULLET,
             40,
-            0.15f,
+            0.125f,
             6.5f,
             1,
             1,
@@ -99,7 +99,28 @@ public class ModItems {
             34)
     {
     });
-public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	public static final Item MACHINE_PISTOL = registerItem("smg_machinepistol", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			5,
+			1,
+			30,
+			STANDARD_HANDGUN_BULLET,
+			44,
+			5,
+			2,
+			1,
+			1,
+			ModSounds.RELOAD_GENERIC_SMG_P1,
+			ModSounds.RELOAD_GENERIC_SMG_P2,
+			ModSounds.RELOAD_GENERIC_SMG_P3,
+			ModSounds.SMG_MACHINEPISTOL,
+			1,
+			false,
+			6,
+			18,
+			37)
+	{
+	});
+	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 		5.5f,
 		2,
 		30,
@@ -118,9 +139,9 @@ public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light"
 		6,
 		18,
 		37)
-{
-});
-public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	{
+	});
+	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 		8,
 		3,
 		20,
@@ -139,9 +160,9 @@ public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy"
 		6,
 		22,
 		40)
-{
-});
-public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	{
+	});
+	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
         5.5f,
         14,
         6,
@@ -160,8 +181,8 @@ public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new Gun
         1,
         4,
         13)
-{
-});
+	{
+	});
 	public static final Item CLASSIC_SNIPER_RIFLE = registerItem("sniper_classic", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
         22,
         20,

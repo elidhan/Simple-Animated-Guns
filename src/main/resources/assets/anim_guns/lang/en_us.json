@@ -32,7 +32,9 @@
 	"item.anim_guns.shotgun_shell" : "Shotgun Shell",
 
 	"item.anim_guns.pistol_light" : "Pistol",
-	"item.anim_guns.revolver_magnum" : "Magnum Revolver",
+	"item.anim_guns.pistol_heavy" : "Heavy Pistol",
+	"item.anim_guns.revolver_magnum" : "Revolver",
+	"item.anim_guns.smg_machinepistol" : "Machine Pistol",
 	"item.anim_guns.assaultrifle_light" : "Assault Rifle",
 	"item.anim_guns.assaultrifle_heavy" : "Heavy Assault Rifle",
 	"item.anim_guns.shotgun_combat" : "Combat Shotgun",

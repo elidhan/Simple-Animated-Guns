@@ -1,0 +1,33 @@
+{
+  "parent": "anim_guns:item/smg_machinepistol_standby",
+  "overrides":
+  [
+    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/smg_machinepistol"},
+    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/smg_machinepistol"},
+
+    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/smg_machinepistol/1"},
+    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/smg_machinepistol/1"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/smg_machinepistol/1"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/smg_machinepistol/2"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/smg_machinepistol/3"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/smg_machinepistol/4"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.04},"model": "anim_guns:item/gun_rld/smg_machinepistol/5"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.045},"model": "anim_guns:item/gun_rld/smg_machinepistol/6"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.05},"model": "anim_guns:item/gun_rld/smg_machinepistol/7"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/smg_machinepistol/8"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.105},"model": "anim_guns:item/gun_rld/smg_machinepistol/9"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.11},"model": "anim_guns:item/gun_rld/smg_machinepistol/10"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.155},"model": "anim_guns:item/gun_rld/smg_machinepistol/11"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.16},"model": "anim_guns:item/gun_rld/smg_machinepistol/12"},
+
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.195},"model": "anim_guns:item/gun_rld/smg_machinepistol/13"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.2},"model": "anim_guns:item/gun_rld/smg_machinepistol/12"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.205},"model": "anim_guns:item/gun_rld/smg_machinepistol/14"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.21},"model": "anim_guns:item/gun_rld/smg_machinepistol/15"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.215},"model": "anim_guns:item/gun_rld/smg_machinepistol/16"},
+    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.22},"model": "anim_guns:item/gun_rld/smg_machinepistol/17"}
+  ]
+}

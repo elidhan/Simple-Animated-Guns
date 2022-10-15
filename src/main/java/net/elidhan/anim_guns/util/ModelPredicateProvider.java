@@ -15,6 +15,7 @@ public class ModelPredicateProvider
         registerGun(ModItems.PISTOL);
         registerGun(ModItems.HEAVY_PISTOL);
         registerGun(ModItems.MAGNUM_REVOLVER);
+        registerGun(ModItems.MACHINE_PISTOL);
         registerGun(ModItems.LIGHT_ASSAULT_RIFLE);
         registerGun(ModItems.HEAVY_ASSAULT_RIFLE);
         registerGun(ModItems.COMBAT_SHOTGUN);
