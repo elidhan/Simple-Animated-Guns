@@ -1,0 +1,8 @@
+{
+	"parent": "anim_guns:item/gun_fire/hip/revolver_magnum/8",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [-8.9675, 6.95, 6]
+		}
+	}
+}

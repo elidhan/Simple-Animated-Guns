@@ -20,6 +20,7 @@
 	"item.anim_guns.blueprint_bundle" : "Blueprint Bundle",
 	"item.anim_guns.blueprint_pistol_light" : "Pistol Blueprint",
 	"item.anim_guns.blueprint_revolver_magnum" : "Magnum Revolver Blueprint",
+	"item.anim_guns.blueprint_smg_machinepistol" : "Machine Pistol Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_light" : "Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_heavy" : "Heavy Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_shotgun_combat" : "Combat Shotgun Blueprint",

@@ -1,0 +1,9 @@
+{
+	"parent": "anim_guns:item/gun_fire/hip/revolver_magnum/4",
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [32, 0, 0],
+			"translation": [-8.9675, 8.28333, 7.66667]
+		}
+	}
+}

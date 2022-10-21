@@ -23,6 +23,18 @@
 		]
 	},
 
+	"generic_smg_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p1" ] },
+	"generic_smg_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p2" ] },
+	"generic_smg_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p3" ] },
+	"smg_machinepistol": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/smg_machinepistol_1",
+			"anim_guns:gun/fire/smg_machinepistol_2",
+			"anim_guns:gun/fire/smg_machinepistol_3",
+			"anim_guns:gun/fire/smg_machinepistol_4"
+		]
+	},
+
 	"generic_ar_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p1" ] },
 	"generic_ar_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p2" ] },
 	"generic_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p3" ] },

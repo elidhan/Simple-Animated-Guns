@@ -1,5 +1,5 @@
 {
-	"parent": "anim_guns:item/gun_fire/hip/pistol_light/2",
+	"parent": "anim_guns:item/gun_fire/hip/pistol_light/4",
 	"display": {
 		"firstperson_righthand": {
 			"rotation": [4, 0, 0],
