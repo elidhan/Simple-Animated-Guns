@@ -6,6 +6,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,9 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractClientPlayerEntity.class)
 public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity
 {
-    public AbstractClientPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile)
+    public AbstractClientPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile, PlayerPublicKey publicKey)
     {
-        super(world, pos, yaw, profile);
+        super(world, pos, yaw, profile, publicKey);
     }
     @Inject(method = "getFovMultiplier", at = @At("Tail"), cancellable = true)
     public void zoomLevel(CallbackInfoReturnable<Float> ci){
