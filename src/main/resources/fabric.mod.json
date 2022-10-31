@@ -3,8 +3,8 @@
   "id": "animated_guns",
   "version": "${version}",
 
-  "name": "Animated Guns",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Simple Animated Guns",
+  "description": "3D animated guns",
   "authors": [
     "Elidhan"
   ],
@@ -30,9 +30,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=0.14.10",
     "fabric": "*",
-    "minecraft": "~1.19",
+    "minecraft": "1.19.2",
     "java": ">=17"
   },
   "suggests": {
