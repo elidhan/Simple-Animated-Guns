@@ -1,5 +1,6 @@
 package net.elidhan.anim_guns;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.item.GunItem;
@@ -43,7 +44,8 @@ public class AnimatedGuns implements ModInitializer
 		{
 			if (player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof GunItem)
 			{
-				player.getStackInHand(Hand.MAIN_HAND).getOrCreateNbt().putBoolean("isReloading", buf.readBoolean());
+				ItemStack stack = player.getStackInHand(Hand.MAIN_HAND);
+				stack.getOrCreateNbt().putBoolean("isReloading", true);
 			}
 		});
 	}

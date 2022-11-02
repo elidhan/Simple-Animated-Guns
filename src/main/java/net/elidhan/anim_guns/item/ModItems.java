@@ -1,6 +1,8 @@
 package net.elidhan.anim_guns.item;
 
 import net.elidhan.anim_guns.AnimatedGuns;
+import net.elidhan.anim_guns.item.gun.AssaultRifleItem;
+import net.elidhan.anim_guns.item.gun.HeavyAssaultRifleItem;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -81,7 +83,7 @@ public class ModItems {
 	{
 	});
     public static final Item MAGNUM_REVOLVER = registerItem("revolver_magnum", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
-            11,
+			11,
             10,
             6,
             HEAVY_HANDGUN_BULLET,
@@ -122,7 +124,7 @@ public class ModItems {
 			30)
 	{
 	});
-	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new AssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 		5.5f,
 		2,
 		30,
@@ -143,7 +145,7 @@ public class ModItems {
 		37)
 	{
 	});
-	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new HeavyAssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 		8,
 		3,
 		20,

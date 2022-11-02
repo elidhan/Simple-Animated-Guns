@@ -19,6 +19,7 @@ public class PlayerEntityRenderMixin
         if(player.getStackInHand(hand).getItem() instanceof GunItem
                 && GunItem.isLoaded(player.getStackInHand(hand))
                 && player.getStackInHand(hand).getOrCreateNbt().getInt("reloadTick") <= 0
+                && !player.isSprinting()
         )
         {
             return (BipedEntityModel.ArmPose.BOW_AND_ARROW);
