@@ -58,6 +58,15 @@
 		]
 	},
 
+	"wartorn_ar_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/wartorn_ar_p1" ] },
+	"wartorn_ar_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/wartorn_ar_p2" ] },
+	"wartorn_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/wartorn_ar_p3" ] },
+	"assaultrifle_rus": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/assaultrifle_rus_1"
+		]
+	},
+
 	"combat_shotgun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/combat_shotgun_p1" ] },
 	"combat_shotgun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/combat_shotgun_p2" ] },
 	"combat_shotgun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/combat_shotgun_p3" ] },

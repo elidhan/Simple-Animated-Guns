@@ -1,6 +1,5 @@
 package net.elidhan.anim_guns;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.item.GunItem;

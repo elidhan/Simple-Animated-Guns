@@ -1,6 +1,8 @@
 package net.elidhan.anim_guns;
 
 import net.elidhan.anim_guns.client.render.HeavyAssaultRifleRenderer;
+import net.elidhan.anim_guns.client.render.WarTornAssaultRifleRenderer;
+import net.elidhan.anim_guns.client.render.CombatShotgunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletEntityRenderer;
 import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.client.render.AssaultRifleRenderer;
@@ -22,15 +24,18 @@ public class AnimatedGunsClient implements ClientModInitializer
     @Override
     public void onInitializeClient()
     {
+        //Key bind
         KeyBindingHelper.registerKeyBinding(reloadToggle);
 
         //Projectile render
         EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletEntityRenderer::new);
 
         //Recoil Stuff
-        ClientPlayNetworking.registerGlobalReceiver(AnimatedGuns.RECOIL_PACKET_ID, (client, handler, buf, sender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(AnimatedGuns.RECOIL_PACKET_ID, (client, handler, buf, sender) ->
+        {
             float kick = buf.readFloat();
-            client.execute(() -> {
+            client.execute(() ->
+            {
                 if(client.player != null)
                     client.player.setPitch(kick);
             });
@@ -39,5 +44,7 @@ public class AnimatedGunsClient implements ClientModInitializer
         //Geckolib Stuff
         GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new AssaultRifleRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new HeavyAssaultRifleRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new WarTornAssaultRifleRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new CombatShotgunRenderer());
     }
 }

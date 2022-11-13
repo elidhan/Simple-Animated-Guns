@@ -2,7 +2,9 @@ package net.elidhan.anim_guns.item;
 
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.item.gun.AssaultRifleItem;
+import net.elidhan.anim_guns.item.gun.CombatShotgunItem;
 import net.elidhan.anim_guns.item.gun.HeavyAssaultRifleItem;
+import net.elidhan.anim_guns.item.gun.WarTornAssaultRifleItem;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -32,6 +34,7 @@ public class ModItems {
 	public static final Item MACHINE_PISTOL_BLUEPRINT = registerItem("blueprint_smg_machinepistol", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item LIGHT_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_light", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item HEAVY_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_heavy", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
+	public static final Item WAR_TORN_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_rus", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item COMBAT_SHOTGUN_BLUEPRINT = registerItem("blueprint_shotgun_combat", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item CLASSIC_SNIPER_RIFLE_BLUEPRINT = registerItem("blueprint_sniper_classic", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 
@@ -140,17 +143,17 @@ public class ModItems {
 		ModSounds.ASSAULTRIFLE_LIGHT,
 		1,
 		false,
-		6,
-		18,
+		8,
+		22,
 		37)
 	{
 	});
 	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new HeavyAssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
-		8,
+		8.5f,
 		3,
 		20,
 		STANDARD_RIFLE_BULLET,
-		48,
+		44,
 		0.125f,
 		2.5f,
 		1,
@@ -161,14 +164,35 @@ public class ModItems {
 		ModSounds.ASSAULTRIFLE_HEAVY,
 		1,
 		false,
-		6,
+		8,
 		22,
-		40)
+		37)
 	{
 	});
-	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+    public static final Item WAR_TORN_ASSAULT_RIFLE = registerItem("assaultrifle_rus", new WarTornAssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+            6.5f,
+            2,
+            30,
+            STANDARD_RIFLE_BULLET,
+            44,
+            0.5f,
+            2.5f,
+            1,
+            1,
+            ModSounds.RELOAD_HEAVY_AR_P1,
+            ModSounds.RELOAD_HEAVY_AR_P2,
+            ModSounds.RELOAD_HEAVY_AR_P3,
+            ModSounds.ASSAULTRIFLE_RUS,
+            1,
+            false,
+            8,
+            22,
+            37)
+    {
+    });
+	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new CombatShotgunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
         5.5f,
-        14,
+        15,
         6,
         SHOTGUN_SHELL,
         26,
