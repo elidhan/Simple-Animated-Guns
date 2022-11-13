@@ -189,15 +189,15 @@ public class ModItems {
             2.5f,
             1,
             1,
-			ModSounds.RELOAD_GENERIC_AR_P1,
-			ModSounds.RELOAD_GENERIC_AR_P2,
-			ModSounds.RELOAD_GENERIC_AR_P3,
+			ModSounds.RELOAD_WAR_TORN_AR_P1,
+			ModSounds.RELOAD_WAR_TORN_AR_P2,
+			ModSounds.RELOAD_WAR_TORN_AR_P3,
             ModSounds.ASSAULTRIFLE_RUS,
             1,
             false,
             8,
-            22,
-            37)
+            20,
+            31)
     {
     });
 	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),

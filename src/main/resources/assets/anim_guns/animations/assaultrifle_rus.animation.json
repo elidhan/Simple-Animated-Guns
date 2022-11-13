@@ -28,10 +28,14 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [0, 0, 1],
+							"vector": [0, 0, 1.25],
 							"easing": "linear"
 						},
-						"0.125": {
+						"0.0833": {
+							"vector": [0, 0, 0.625],
+							"easing": "linear"
+						},
+						"0.25": {
 							"vector": [0, 0, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [0.5]

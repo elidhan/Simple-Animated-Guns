@@ -144,6 +144,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "reload_magout"
+				}
 			}
 		},
 		"reload_magin": {
@@ -233,6 +238,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.1667": {
+					"effect": "reload_magin"
+				}
 			}
 		},
 		"reload_end": {
@@ -318,6 +328,11 @@
 								"easing": "easeInSine"
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.375": {
+					"effect": "reload_end"
 				}
 			}
 		}
