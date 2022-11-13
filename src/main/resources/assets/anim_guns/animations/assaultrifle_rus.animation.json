@@ -2,7 +2,6 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"idle": {
-			"loop": true,
 			"animation_length": 1,
 			"bones": {
 				"gun": {
@@ -207,6 +206,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.2083": {
+					"effect": "reload_magout"
+				}
 			}
 		},
 		"reload_magin": {
@@ -311,6 +315,11 @@
 							"vector": [0, 0, 0]
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.25": {
+					"effect": "reload_magin"
 				}
 			}
 		},
@@ -440,6 +449,11 @@
 							"easing": "linear"
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.2917": {
+					"effect": "reload_end"
 				}
 			}
 		}

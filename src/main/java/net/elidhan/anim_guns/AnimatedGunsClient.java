@@ -1,11 +1,8 @@
 package net.elidhan.anim_guns;
 
-import net.elidhan.anim_guns.client.render.HeavyAssaultRifleRenderer;
-import net.elidhan.anim_guns.client.render.WarTornAssaultRifleRenderer;
-import net.elidhan.anim_guns.client.render.CombatShotgunRenderer;
+import net.elidhan.anim_guns.client.render.GunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletEntityRenderer;
 import net.elidhan.anim_guns.item.ModItems;
-import net.elidhan.anim_guns.client.render.AssaultRifleRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -42,9 +39,9 @@ public class AnimatedGunsClient implements ClientModInitializer
         });
 
         //Geckolib Stuff
-        GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new AssaultRifleRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new HeavyAssaultRifleRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new WarTornAssaultRifleRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new CombatShotgunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new GunRenderer());
     }
 }

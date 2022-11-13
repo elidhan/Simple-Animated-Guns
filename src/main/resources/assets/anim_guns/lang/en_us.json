@@ -24,7 +24,7 @@
 	"item.anim_guns.blueprint_smg_machinepistol" : "Machine Pistol Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_light" : "Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_heavy" : "Heavy Assault Rifle Blueprint",
-	"item.anim_guns.blueprint_assaultrifle_rus" : "Heavy Assault Rifle Blueprint",
+	"item.anim_guns.blueprint_assaultrifle_rus" : "War-Torn Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_shotgun_combat" : "Combat Shotgun Blueprint",
 	"item.anim_guns.blueprint_sniper_classic" : "Hunting Rifle Blueprint",
 
@@ -39,8 +39,8 @@
 	"item.anim_guns.revolver_magnum" : "Revolver",
 	"item.anim_guns.smg_machinepistol" : "Machine Pistol",
 	"item.anim_guns.assaultrifle_light" : "Assault Rifle",
-	"item.anim_guns.assaultrifle_heavy" : "Battle Rifle",
-	"item.anim_guns.assaultrifle_rus" : "Heavy Assault Rifle",
+	"item.anim_guns.assaultrifle_heavy" : "Heavy Assault Rifle",
+	"item.anim_guns.assaultrifle_rus" : "War-Torn Assault Rifle",
 	"item.anim_guns.shotgun_combat" : "Combat Shotgun",
 	"item.anim_guns.sniper_classic" : "Hunting Rifle"
 }

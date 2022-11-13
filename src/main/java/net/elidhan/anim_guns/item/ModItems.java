@@ -1,10 +1,6 @@
 package net.elidhan.anim_guns.item;
 
 import net.elidhan.anim_guns.AnimatedGuns;
-import net.elidhan.anim_guns.item.gun.AssaultRifleItem;
-import net.elidhan.anim_guns.item.gun.CombatShotgunItem;
-import net.elidhan.anim_guns.item.gun.HeavyAssaultRifleItem;
-import net.elidhan.anim_guns.item.gun.WarTornAssaultRifleItem;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -44,6 +40,8 @@ public class ModItems {
 	public static final Item HEAVY_RIFLE_BULLET = registerItem("heavy_rifle_cartridge", new Item(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(64)));
 	public static final Item SHOTGUN_SHELL = registerItem("shotgun_shell", new Item(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(64)));
 	public static final Item PISTOL = registerItem("pistol_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"pistol_light",
+			"pistol_light",
 			5.5f,
 			4,
 			17,
@@ -65,6 +63,8 @@ public class ModItems {
 	{
 	});
 	public static final Item HEAVY_PISTOL = registerItem("pistol_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"pistol_heavy",
+			"pistol_heavy",
 			11,
 			5,
 			7,
@@ -86,6 +86,8 @@ public class ModItems {
 	{
 	});
     public static final Item MAGNUM_REVOLVER = registerItem("revolver_magnum", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"revolver_generic",
+			"revolver_generic",
 			11,
             10,
             6,
@@ -95,9 +97,9 @@ public class ModItems {
             6.5f,
             1,
             1,
-            ModSounds.RELOAD_GENERIC_REVOLVER_P1,
-            ModSounds.RELOAD_GENERIC_REVOLVER_P2,
-            ModSounds.RELOAD_GENERIC_REVOLVER_P3,
+			ModSounds.RELOAD_GENERIC_REVOLVER_P1,
+			ModSounds.RELOAD_GENERIC_REVOLVER_P2,
+			ModSounds.RELOAD_GENERIC_REVOLVER_P3,
             ModSounds.REVOLVER_MAGNUM,
             1,
             false,
@@ -107,6 +109,8 @@ public class ModItems {
     {
     });
 	public static final Item MACHINE_PISTOL = registerItem("smg_machinepistol", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"smg_machinepistol",
+			"smg_machinepistol",
 			5,
 			1,
 			30,
@@ -127,7 +131,9 @@ public class ModItems {
 			30)
 	{
 	});
-	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new AssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+		"assaultrifle_light",
+		"assaultrifle_generic",
 		5.5f,
 		2,
 		30,
@@ -148,7 +154,9 @@ public class ModItems {
 		37)
 	{
 	});
-	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new HeavyAssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+		"assaultrifle_heavy",
+		"assaultrifle_generic",
 		8.5f,
 		3,
 		20,
@@ -169,8 +177,10 @@ public class ModItems {
 		37)
 	{
 	});
-    public static final Item WAR_TORN_ASSAULT_RIFLE = registerItem("assaultrifle_rus", new WarTornAssaultRifleItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
-            6.5f,
+    public static final Item WAR_TORN_ASSAULT_RIFLE = registerItem("assaultrifle_rus", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"assaultrifle_rus",
+			"assaultrifle_rus",
+            7,
             2,
             30,
             STANDARD_RIFLE_BULLET,
@@ -179,9 +189,9 @@ public class ModItems {
             2.5f,
             1,
             1,
-            ModSounds.RELOAD_HEAVY_AR_P1,
-            ModSounds.RELOAD_HEAVY_AR_P2,
-            ModSounds.RELOAD_HEAVY_AR_P3,
+			ModSounds.RELOAD_GENERIC_AR_P1,
+			ModSounds.RELOAD_GENERIC_AR_P2,
+			ModSounds.RELOAD_GENERIC_AR_P3,
             ModSounds.ASSAULTRIFLE_RUS,
             1,
             false,
@@ -190,7 +200,9 @@ public class ModItems {
             37)
     {
     });
-	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new CombatShotgunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+		"shotgun_combat",
+		"shotgun_combat",
         5.5f,
         15,
         6,
@@ -200,9 +212,9 @@ public class ModItems {
         8.25f,
         5,
         2,
-        ModSounds.RELOAD_COMBAT_SHOTGUN_P1,
-        ModSounds.RELOAD_COMBAT_SHOTGUN_P2,
-        ModSounds.RELOAD_COMBAT_SHOTGUN_P3,
+		ModSounds.RELOAD_COMBAT_SHOTGUN_P1,
+		ModSounds.RELOAD_COMBAT_SHOTGUN_P2,
+		ModSounds.RELOAD_COMBAT_SHOTGUN_P3,
         ModSounds.SHOTGUN_COMBAT,
         6,
         false,
@@ -212,6 +224,8 @@ public class ModItems {
 	{
 	});
 	public static final Item CLASSIC_SNIPER_RIFLE = registerItem("sniper_classic", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+		"sniper_classic",
+		"sniper_classic",
         22,
         20,
         5,
@@ -221,9 +235,9 @@ public class ModItems {
         8.25f,
         1,
         2,
-        ModSounds.RELOAD_GENERIC_SNIPER_P1,
-        ModSounds.RELOAD_CLASSIC_SNIPER_P2,
-        ModSounds.RELOAD_GENERIC_SNIPER_P3,
+		ModSounds.RELOAD_GENERIC_SNIPER_P1,
+		ModSounds.RELOAD_CLASSIC_SNIPER_P2,
+		ModSounds.RELOAD_GENERIC_SNIPER_P3,
         ModSounds.SNIPER_CLASSIC,
         5,
         true,

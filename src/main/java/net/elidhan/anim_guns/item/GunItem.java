@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,7 +45,8 @@ implements FabricItem, IAnimatable, ISyncable
 {
     public AnimationFactory factory = GeckoLibUtil.createFactory(this);
     public static final String controllerName = "controller";
-
+    private final String gunID;
+    private final String animationID;
     private final float gunDamage;
     private final int rateOfFire;
     private final int magSize;
@@ -54,26 +56,28 @@ implements FabricItem, IAnimatable, ISyncable
     private final float gunRecoil;
     private final int pelletCount;
     private final int loadingType;
-    private final SoundEvent reload1;
-    private final SoundEvent reload2;
-    private final SoundEvent reload3;
+    private final SoundEvent reloadSoundMagOut;
+    private final SoundEvent reloadSoundMagIn;
+    private final SoundEvent reloadSoundEnd;
     private final SoundEvent shootSound;
     private final int reloadCycles;
     private final boolean isScoped;
     private final int reloadStage1;
     private final int reloadStage2;
     private final int reloadStage3;
-    public GunItem(Settings settings,
+    public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
                    float gunRecoil, int pelletCount, int loadingType,
-                   SoundEvent reload1, SoundEvent reload2, SoundEvent reload3,
+                   SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
                    int reloadStage1, int reloadStage2, int reloadStage3)
     {
         super(settings.maxDamage((magSize*10)+1));
         GeckoLibNetwork.registerSyncable(this);
 
+        this.gunID = gunID;
+        this.animationID = animationID;
         this.gunDamage = gunDamage;
         this.rateOfFire = rateOfFire;
         this.magSize = magSize;
@@ -83,9 +87,9 @@ implements FabricItem, IAnimatable, ISyncable
         this.gunRecoil = gunRecoil;
         this.pelletCount = pelletCount;
         this.loadingType = loadingType;
-        this.reload1 = reload1;
-        this.reload2 = reload2;
-        this.reload3 = reload3;
+        this.reloadSoundMagOut = reloadSoundMagOut;
+        this.reloadSoundMagIn = reloadSoundMagIn;
+        this.reloadSoundEnd = reloadSoundEnd;
         this.shootSound = shootSound;
         this.reloadCycles = reloadCycles;
         this.isScoped = isScoped;
@@ -143,7 +147,21 @@ implements FabricItem, IAnimatable, ISyncable
         }
     }
 
-    protected <ENTITY extends IAnimatable> void soundListener(SoundKeyframeEvent<ENTITY> event) {}
+    protected <ENTITY extends IAnimatable> void soundListener(SoundKeyframeEvent<ENTITY> event)
+    {
+        PlayerEntity player = MinecraftClient.getInstance().player;
+        if (player != null) {
+            switch (event.sound)
+            {
+                case "reload_magout" ->
+                        MinecraftClient.getInstance().player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
+                case "reload_magin" ->
+                        MinecraftClient.getInstance().player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
+                case "reload_end" ->
+                        MinecraftClient.getInstance().player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
+            }
+        }
+    }
 
     @Override
     public AnimationFactory getFactory()
@@ -385,5 +403,12 @@ implements FabricItem, IAnimatable, ISyncable
     {
         return false;
     }
-
+    public String getID()
+    {
+        return this.gunID;
+    }
+    public String getAnimationID()
+    {
+        return this.animationID;
+    }
 }
