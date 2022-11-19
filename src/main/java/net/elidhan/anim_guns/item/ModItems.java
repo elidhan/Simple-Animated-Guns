@@ -108,6 +108,29 @@ public class ModItems {
             34)
     {
     });
+    public static final Item OLD_ARMY_REVOLVER = registerItem("revolver_coltarmy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+            "revolver_coltarmy",
+            "revolver_coltarmy",
+            22,
+            20,
+            6,
+            HEAVY_HANDGUN_BULLET,
+            70,
+            0.125f,
+            8.5f,
+            1,
+            2,
+            ModSounds.RELOAD_GENERIC_REVOLVER_P1,
+            ModSounds.RELOAD_GENERIC_REVOLVER_P2,
+            ModSounds.RELOAD_GENERIC_REVOLVER_P3,
+            ModSounds.REVOLVER_MAGNUM,
+            6,
+            false,
+            1,
+            21,
+            51)
+    {
+    });
 	public static final Item MACHINE_PISTOL = registerItem("smg_machinepistol", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 			"smg_machinepistol",
 			"smg_machinepistol",
