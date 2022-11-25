@@ -223,6 +223,31 @@ public class ModItems {
             31)
     {
     });
+
+	public static final Item DOUBLE_BARRELED_SHOTGUN = registerItem("shotgun_doublebarrel", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"shotgun_doublebarrel",
+			"shotgun_doublebarrel",
+			7,
+			4,
+			2,
+			SHOTGUN_SHELL,
+			45,
+			12.5f,
+			15,
+			5,
+			1,
+			ModSounds.RELOAD_DOUBLE_BARREL_SHOTGUN_P1,
+			ModSounds.RELOAD_DOUBLE_BARREL_SHOTGUN_P2,
+			ModSounds.RELOAD_DOUBLE_BARREL_SHOTGUN_P3,
+			ModSounds.SHOTGUN_DOUBLEBARREL,
+			1,
+			false,
+			1,
+			13,
+			33)
+	{
+	});
+
 	public static final Item COMBAT_SHOTGUN = registerItem("shotgun_combat", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 		"shotgun_combat",
 		"shotgun_combat",

@@ -43,6 +43,7 @@ public class AnimatedGunsClient implements ClientModInitializer
         GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.DOUBLE_BARRELED_SHOTGUN, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new GunRenderer());
     }
 }

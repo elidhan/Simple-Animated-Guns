@@ -32,6 +32,10 @@ public class ModSounds
     public static SoundEvent RELOAD_WAR_TORN_AR_P2 = registerSoundEvent("wartorn_ar_p2");
     public static SoundEvent RELOAD_WAR_TORN_AR_P3 = registerSoundEvent("wartorn_ar_p3");
     public static SoundEvent ASSAULTRIFLE_RUS = registerSoundEvent("assaultrifle_rus");
+    public static SoundEvent RELOAD_DOUBLE_BARREL_SHOTGUN_P1 = registerSoundEvent("doublebarrel_shotgun_p1");
+    public static SoundEvent RELOAD_DOUBLE_BARREL_SHOTGUN_P2 = registerSoundEvent("doublebarrel_shotgun_p2");
+    public static SoundEvent RELOAD_DOUBLE_BARREL_SHOTGUN_P3 = registerSoundEvent("doublebarrel_shotgun_p3");
+    public static SoundEvent SHOTGUN_DOUBLEBARREL = registerSoundEvent("shotgun_doublebarrel");
     public static SoundEvent RELOAD_COMBAT_SHOTGUN_P1 = registerSoundEvent("combat_shotgun_p1");
     public static SoundEvent RELOAD_COMBAT_SHOTGUN_P2 = registerSoundEvent("combat_shotgun_p2");
     public static SoundEvent RELOAD_COMBAT_SHOTGUN_P3 = registerSoundEvent("combat_shotgun_p3");

@@ -76,6 +76,15 @@
 		]
 	},
 
+	"doublebarrel_shotgun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/doublebarrel_shotgun_p1" ] },
+	"doublebarrel_shotgun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/doublebarrel_shotgun_p2" ] },
+	"doublebarrel_shotgun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/doublebarrel_shotgun_p3" ] },
+	"shotgun_doublebarrel": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/shotgun_doublebarrel_1"
+		]
+	},
+
 	"generic_sniper_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p1" ] },
 	"generic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p2" ] },
 	"generic_sniper_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p3" ] },
