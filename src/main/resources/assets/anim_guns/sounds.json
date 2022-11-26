@@ -23,6 +23,15 @@
 		]
 	},
 
+	"oldarmy_revolver_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/oldarmy_revolver_p1" ] },
+	"oldarmy_revolver_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/oldarmy_revolver_p2" ] },
+	"oldarmy_revolver_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/oldarmy_revolver_p3" ] },
+	"revolver_coltnavy": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/revolver_coltnavy_1"
+		]
+	},
+
 	"generic_smg_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p1" ] },
 	"generic_smg_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p2" ] },
 	"generic_smg_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p3" ] },
