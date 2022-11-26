@@ -193,6 +193,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "reload_magout"
+				}
 			}
 		},
 		"reload_magin": {
@@ -322,6 +327,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.3333": {
+					"effect": "reload_magin"
+				}
 			}
 		},
 		"reload_end": {
@@ -423,6 +433,11 @@
 							"vector": [0, 0, 0]
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "reload_end"
 				}
 			}
 		}
