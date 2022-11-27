@@ -1,0 +1,319 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"firing": {
+			"animation_length": 0.5,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [-45, 0, 0]
+						},
+						"0.3333": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 3]
+						},
+						"0.2083": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					}
+				}
+			}
+		},
+		"reload_start": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": [5.00126, -9.9645, -0.02547],
+							"easing": "easeInSine"
+						},
+						"0.2917": {
+							"vector": [1.96736, 10.24688, -14.52728],
+							"easing": "easeOutSine"
+						},
+						"0.4583": {
+							"vector": [1.52879, 4.93249, 17.39935],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [-1.25, -0.25, 1],
+							"easing": "easeInSine"
+						},
+						"0.2083": {
+							"vector": [-2.59375, 0, 1.5],
+							"easing": "easeOutCubic"
+						},
+						"0.375": {
+							"vector": [-1.25, -0.25, 1.25],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"0.3333": {
+							"vector": [0, 0, 0]
+						},
+						"0.375": {
+							"vector": [0, 0, 135]
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.2917": {
+					"effect": "reload_start"
+				}
+			}
+		},
+		"reload_magout": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [1.52879, 4.93249, 17.39935],
+							"easing": "easeOutBack"
+						},
+						"0.2083": {
+							"vector": [-80, 0, 0],
+							"easing": "easeOutSine"
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [-1.25, -0.25, 1.25],
+							"easing": "linear"
+						},
+						"0.1667": {
+							"vector": [-1.25, -0.25, 1]
+						},
+						"0.25": {
+							"vector": [-1.25, 0.75, 1]
+						},
+						"0.4583": {
+							"vector": [-1.25, -1.25, 1],
+							"easing": "easeOutBack"
+						}
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"vector": [0, 0, 135]
+					}
+				},
+				"bullets": {
+					"position": {
+						"0.2917": {
+							"vector": [0, 0, 0]
+						},
+						"0.4167": {
+							"vector": [0, 0, 5]
+						}
+					},
+					"scale": {
+						"0.4167": {
+							"vector": [1, 1, 1]
+						},
+						"0.4583": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.2917": {
+					"effect": "reload_magout"
+				}
+			}
+		},
+		"reload_magin": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [-80, 0, 0],
+							"easing": "easeOutSine"
+						},
+						"0.25": {
+							"vector": [10, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [0.5]
+						},
+						"0.375": {
+							"vector": [10, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [0.5]
+						},
+						"0.5833": {
+							"vector": [12, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [5]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [-1.25, -1.25, 1],
+							"easing": "easeOutBack"
+						},
+						"0.25": {
+							"vector": [-1.25, 0, 1],
+							"easing": "easeOutBack"
+						}
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"vector": [0, 0, 135]
+					}
+				},
+				"bullets": {
+					"position": {
+						"0.1667": {
+							"vector": [2.12038, 1.8942, 4.64228]
+						},
+						"0.2083": {
+							"vector": [0.73113, 0.73113, 3.91979],
+							"easing": "linear"
+						},
+						"0.25": {
+							"vector": [0.10208, 0.10208, 2.86513],
+							"easing": "linear"
+						},
+						"0.2917": {
+							"vector": [0, 0, 1.5],
+							"easing": "linear"
+						},
+						"0.3333": {
+							"vector": [0, 0, 1.5],
+							"easing": "linear"
+						},
+						"0.4167": {
+							"vector": [0, 0, 0],
+							"easing": "easeInSine"
+						}
+					},
+					"scale": {
+						"0.125": {
+							"vector": [0, 0, 0]
+						},
+						"0.1667": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.3333": {
+					"effect": "reload_magin"
+				}
+			}
+		},
+		"reload_end": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [12, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [5]
+						},
+						"0.0833": {
+							"vector": [6, 0, 0]
+						},
+						"0.2083": {
+							"vector": [6.9242, 1.16999, -7.40869],
+							"easing": "easeInSine"
+						},
+						"0.3333": {
+							"vector": [5.8118, 1.87704, -11.60307],
+							"easing": "easeOutBack",
+							"easingArgs": [5]
+						},
+						"0.5833": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [0.5]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [-1.25, 0, 1],
+							"easing": "easeOutBack"
+						},
+						"0.125": {
+							"vector": [-1.0625, 0.46875, 1.375],
+							"easing": "easeInSine"
+						},
+						"0.4583": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutSine"
+						}
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 135]
+						},
+						"0.0833": {
+							"vector": [0, 0, 135]
+						},
+						"0.2083": {
+							"vector": [0, 0, 0],
+							"easing": "easeInSine"
+						}
+					}
+				},
+				"bullets": {
+					"position": {
+						"vector": [0, 0, 0],
+						"easing": "easeInSine"
+					}
+				}
+			},
+			"sound_effects": {
+				"0.2083": {
+					"effect": "reload_end"
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

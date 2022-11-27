@@ -56,6 +56,7 @@ implements FabricItem, IAnimatable, ISyncable
     private final float gunRecoil;
     private final int pelletCount;
     private final int loadingType;
+    private final SoundEvent reloadSoundStart;
     private final SoundEvent reloadSoundMagOut;
     private final SoundEvent reloadSoundMagIn;
     private final SoundEvent reloadSoundEnd;
@@ -69,7 +70,7 @@ implements FabricItem, IAnimatable, ISyncable
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
                    float gunRecoil, int pelletCount, int loadingType,
-                   SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
+                   SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
                    int reloadStage1, int reloadStage2, int reloadStage3)
     {
@@ -87,6 +88,7 @@ implements FabricItem, IAnimatable, ISyncable
         this.gunRecoil = gunRecoil;
         this.pelletCount = pelletCount;
         this.loadingType = loadingType;
+        this.reloadSoundStart = reloadSoundStart;
         this.reloadSoundMagOut = reloadSoundMagOut;
         this.reloadSoundMagIn = reloadSoundMagIn;
         this.reloadSoundEnd = reloadSoundEnd;
@@ -154,6 +156,8 @@ implements FabricItem, IAnimatable, ISyncable
         if (player != null) {
             switch (event.sound)
             {
+                case "reload_start" ->
+                        MinecraftClient.getInstance().player.playSound(this.reloadSoundStart, SoundCategory.MASTER, 1, 1);
                 case "reload_magout" ->
                         MinecraftClient.getInstance().player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
                 case "reload_magin" ->
@@ -325,7 +329,7 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
                 bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10, this.bulletSpread);
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 8, this.bulletSpread);
                 bullet.setAccel(bullet.getVelocity());
 
                 world.spawnEntity(bullet);
