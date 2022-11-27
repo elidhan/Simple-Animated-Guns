@@ -278,7 +278,7 @@ public class ModItems {
         20,
         5,
         HEAVY_RIFLE_BULLET,
-        26,
+        35,
         0.01f,
         8.25f,
         1,
@@ -290,8 +290,8 @@ public class ModItems {
         5,
         true,
         1,
-        8,
-        17)
+        12,
+        22)
 	{
 	});
 

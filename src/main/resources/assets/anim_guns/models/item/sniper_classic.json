@@ -1,64 +1,54 @@
 {
-  "parent": "anim_guns:item/sniper_classic_standby",
-  "overrides":
-  [
-    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/sniper_classic"},
-    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/sniper_classic"},
-
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.05},"model": "anim_guns:item/sniper_classic_standby"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.1},"model": "anim_guns:item/gun_fire/hip/sniper_classic/7"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.15},"model": "anim_guns:item/gun_fire/hip/sniper_classic/8"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.2},"model": "anim_guns:item/gun_fire/hip/sniper_classic/9"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.25},"model": "anim_guns:item/gun_fire/hip/sniper_classic/10"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.3},"model": "anim_guns:item/gun_fire/hip/sniper_classic/11"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.45},"model": "anim_guns:item/gun_fire/hip/sniper_classic/10"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_fire/hip/sniper_classic/9"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.55},"model": "anim_guns:item/gun_fire/hip/sniper_classic/8"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/hip/sniper_classic/7"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.7},"model": "anim_guns:item/gun_fire/hip/sniper_classic/6"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/hip/sniper_classic/5"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.8},"model": "anim_guns:item/gun_fire/hip/sniper_classic/4"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.85},"model": "anim_guns:item/gun_fire/hip/sniper_classic/3"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.95},"model": "anim_guns:item/gun_fire/hip/sniper_classic/2"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/sniper_classic/1"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.05},"model": "anim_guns:item/gun_aim/sniper_classic"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.1},"model": "anim_guns:item/gun_fire/aim/sniper_classic/7"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.15},"model": "anim_guns:item/gun_fire/aim/sniper_classic/8"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.2},"model": "anim_guns:item/gun_fire/aim/sniper_classic/9"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.25},"model": "anim_guns:item/gun_fire/aim/sniper_classic/10"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.3},"model": "anim_guns:item/gun_fire/aim/sniper_classic/11"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.45},"model": "anim_guns:item/gun_fire/aim/sniper_classic/10"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.5},"model": "anim_guns:item/gun_fire/aim/sniper_classic/9"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.55},"model": "anim_guns:item/gun_fire/aim/sniper_classic/8"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/aim/sniper_classic/7"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.7},"model": "anim_guns:item/gun_fire/aim/sniper_classic/6"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.75},"model": "anim_guns:item/gun_fire/aim/sniper_classic/5"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.8},"model": "anim_guns:item/gun_fire/aim/sniper_classic/4"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.85},"model": "anim_guns:item/gun_fire/aim/sniper_classic/3"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.95},"model": "anim_guns:item/gun_fire/aim/sniper_classic/2"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/sniper_classic/1"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/sniper_classic/1"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/sniper_classic/2"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/sniper_classic/3"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.025},"model": "anim_guns:item/gun_rld/sniper_classic/4"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/sniper_classic/5"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/sniper_classic/6"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.05},"model": "anim_guns:item/gun_rld/sniper_classic/7"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.055},"model": "anim_guns:item/gun_rld/sniper_classic/8"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.06},"model": "anim_guns:item/gun_rld/sniper_classic/9"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.065},"model": "anim_guns:item/gun_rld/sniper_classic/10"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.07},"model": "anim_guns:item/gun_rld/sniper_classic/11"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.075},"model": "anim_guns:item/gun_rld/sniper_classic/12"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/sniper_classic/13"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.095},"model": "anim_guns:item/gun_rld/sniper_classic/6"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/sniper_classic/5"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.105},"model": "anim_guns:item/gun_rld/sniper_classic/4"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.11},"model": "anim_guns:item/gun_rld/sniper_classic/3"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.115},"model": "anim_guns:item/gun_rld/sniper_classic/2"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.12},"model": "anim_guns:item/gun_rld/sniper_classic/1"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.125},"model": "anim_guns:item/sniper_classic_standby"}
-  ]
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "gui_light": "front",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        0,
+        -4.75
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        0,
+        -4.75
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        -6.5,
+        4.75,
+        1.5
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        -6.5,
+        5,
+        1.5
+      ]
+    },
+    "gui": {
+      "rotation": [
+        -90,
+        135,
+        90
+      ],
+      "scale": [
+        0.72,
+        0.72,
+        0.72
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -90,
+        -135,
+        -90
+      ]
+    }
+  }
 }

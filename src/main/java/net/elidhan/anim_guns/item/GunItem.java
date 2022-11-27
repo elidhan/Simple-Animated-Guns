@@ -99,6 +99,7 @@ implements FabricItem, IAnimatable, ISyncable
     }
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
+
         return PlayState.CONTINUE;
     }
     @Override
@@ -228,38 +229,42 @@ implements FabricItem, IAnimatable, ISyncable
     {
         int rTick = nbtCompound.getInt("reloadTick");
 
-        if(nbtCompound.getInt("reloadTick") == 0 && world instanceof ServerWorld)
+        if (world instanceof ServerWorld)
         {
-            final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
-            GeckoLibNetwork.syncAnimation(player, this, id, 2);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 2);
+            if(nbtCompound.getInt("reloadTick") == 0)
+            {
+                final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
+                GeckoLibNetwork.syncAnimation(player, this, id, 2);
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 2);
+                }
+            }
+            else if(nbtCompound.getInt("reloadTick") == this.reloadStage1)
+            {
+                final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
+                GeckoLibNetwork.syncAnimation(player, this, id, 3);
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 3);
+                }
+            }
+            else if(nbtCompound.getInt("reloadTick") == this.reloadStage2)
+            {
+                final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
+                GeckoLibNetwork.syncAnimation(player, this, id, 4);
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 4);
+                }
+            }
+            else if(nbtCompound.getInt("reloadTick") == this.reloadStage3)
+            {
+                final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
+                GeckoLibNetwork.syncAnimation(player, this, id, 5);
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 5);
+                }
             }
         }
-        else if(nbtCompound.getInt("reloadTick") == this.reloadStage1 && world instanceof ServerWorld)
-        {
-            final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
-            GeckoLibNetwork.syncAnimation(player, this, id, 3);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 3);
-            }
-        }
-        else if(nbtCompound.getInt("reloadTick") == this.reloadStage2 && world instanceof ServerWorld)
-        {
-            final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
-            GeckoLibNetwork.syncAnimation(player, this, id, 4);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 4);
-            }
-        }
-        else if(nbtCompound.getInt("reloadTick") == this.reloadStage3 && world instanceof ServerWorld)
-        {
-            final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
-            GeckoLibNetwork.syncAnimation(player, this, id, 5);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 5);
-            }
-        }
+
         nbtCompound.putInt("reloadTick", nbtCompound.getInt("reloadTick") + 1);
 
         switch(this.loadingType)
@@ -320,7 +325,7 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
                 bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4, this.bulletSpread);
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10, this.bulletSpread);
                 bullet.setAccel(bullet.getVelocity());
 
                 world.spawnEntity(bullet);
