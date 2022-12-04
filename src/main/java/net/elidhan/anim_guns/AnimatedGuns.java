@@ -3,6 +3,7 @@ package net.elidhan.anim_guns;
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
 import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.item.GunItem;
+import net.elidhan.anim_guns.particle.ModParticles;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -38,6 +39,7 @@ public class AnimatedGuns implements ModInitializer
 	{
 		ModItems.registerModItems();
 		ModSounds.registerSounds();
+		ModParticles.registerParticles();
 
 		ServerPlayNetworking.registerGlobalReceiver(new Identifier(MOD_ID,"reload"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
 		{

@@ -27,9 +27,9 @@
 	"oldarmy_revolver_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/oldarmy_revolver_p1" ] },
 	"oldarmy_revolver_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/oldarmy_revolver_p2" ] },
 	"oldarmy_revolver_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/oldarmy_revolver_p3" ] },
-	"revolver_coltnavy": {
+	"revolver_coltarmy": {
 		"category": "master", "sounds": [
-			"anim_guns:gun/fire/revolver_coltnavy_1"
+			"anim_guns:gun/fire/revolver_coltarmy_1"
 		]
 	},
 
@@ -98,10 +98,20 @@
 	"generic_sniper_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p1" ] },
 	"generic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p2" ] },
 	"generic_sniper_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p3" ] },
+
 	"classic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/classic_sniper_p2" ] },
 	"sniper_classic": {
 		"category": "master", "sounds": [
 			"anim_guns:gun/fire/sniper_classic_1"
+		]
+	},
+
+	"brush_gun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p1" ] },
+	"brush_gun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p2" ] },
+	"brush_gun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p3" ] },
+	"sniper_cowboy": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/sniper_cowboy_1"
 		]
 	}
 }

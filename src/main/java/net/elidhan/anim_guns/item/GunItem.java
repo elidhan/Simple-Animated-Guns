@@ -4,6 +4,7 @@ import io.netty.buffer.Unpooled;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
+import net.elidhan.anim_guns.particle.ModParticles;
 import net.elidhan.anim_guns.util.InventoryUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
@@ -39,6 +40,8 @@ import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
+import java.util.Random;
+
 public abstract class GunItem
 extends Item
 implements FabricItem, IAnimatable, ISyncable
@@ -53,7 +56,8 @@ implements FabricItem, IAnimatable, ISyncable
     private final Item ammoType;
     private final int reloadCooldown;
     private final float bulletSpread;
-    private final float gunRecoil;
+    private final float gunRecoilX;
+    private final float gunRecoilY;
     private final int pelletCount;
     private final int loadingType;
     private final SoundEvent reloadSoundStart;
@@ -69,7 +73,7 @@ implements FabricItem, IAnimatable, ISyncable
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
-                   float gunRecoil, int pelletCount, int loadingType,
+                   float gunRecoilX, float gunRecoilY, int pelletCount, int loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
                    int reloadStage1, int reloadStage2, int reloadStage3)
@@ -85,7 +89,8 @@ implements FabricItem, IAnimatable, ISyncable
         this.ammoType = ammoType;
         this.reloadCooldown = reloadCooldown;
         this.bulletSpread = bulletSpread;
-        this.gunRecoil = gunRecoil;
+        this.gunRecoilX = gunRecoilX;
+        this.gunRecoilY = gunRecoilY;
         this.pelletCount = pelletCount;
         this.loadingType = loadingType;
         this.reloadSoundStart = reloadSoundStart;
@@ -320,7 +325,9 @@ implements FabricItem, IAnimatable, ISyncable
     }
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
-        float kick = user.getPitch() - getRecoil(user);
+        Random rd = new Random();
+        float v_kick = user.getPitch() - getRecoilY(user);
+        float h_kick = user.getYaw() - getRecoilX(user,rd);
         user.getItemCooldownManager().set(this, this.rateOfFire);
 
         if (!world.isClient())
@@ -329,7 +336,7 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
                 bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 8, this.bulletSpread);
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10, this.bulletSpread);
                 bullet.setAccel(bullet.getVelocity());
 
                 world.spawnEntity(bullet);
@@ -340,7 +347,8 @@ implements FabricItem, IAnimatable, ISyncable
                 GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 1);
             }
             PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeFloat(kick);
+            buf.writeFloat(v_kick);
+            buf.writeDouble(h_kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
         }
 
@@ -349,11 +357,29 @@ implements FabricItem, IAnimatable, ISyncable
             itemStack.getOrCreateNbt().putInt("Clip", itemStack.getOrCreateNbt().getInt("Clip") - 1);
             itemStack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         }
-        world.playSound(null, user.getX(), user.getY(), user.getZ(),shootSound,SoundCategory.MASTER,1.0f, 1.0f);
+
+        world.playSound(null,
+                user.getX(),
+                user.getY(),
+                user.getZ(),
+                shootSound,SoundCategory.MASTER,1.0f, 1.0f);
+
+        if(world instanceof ServerWorld)
+        {
+            ((ServerWorld)world).spawnParticles(rd.nextBoolean()?ModParticles.MUZZLE_FLASH_PARTICLE_1:ModParticles.MUZZLE_FLASH_PARTICLE_2,
+                    user.getX()-(Math.sin(Math.toRadians(user.getYaw()+7.25f))*Math.abs((Math.abs(user.getPitch())-90)/90)),
+                    user.getEyeY()-(Math.sin(Math.toRadians(user.getPitch()))+0.5f),
+                    user.getZ()+(Math.cos(Math.toRadians(user.getYaw()+7.25f))*Math.abs((Math.abs(user.getPitch())-90)/90)),
+                    1,0,0,0,0);
+        }
     }
-    private float getRecoil(PlayerEntity user)
+    private float getRecoilX(PlayerEntity user, Random rd)
     {
-        return user.isSneaking() ? this.gunRecoil / 2 : this.gunRecoil;
+        return user.isSneaking() ? (this.gunRecoilX * (rd.nextBoolean()?1:-1)) / 2 : this.gunRecoilX * (rd.nextBoolean()?1:-1);
+    }
+    private float getRecoilY(PlayerEntity user)
+    {
+        return user.isSneaking() ? this.gunRecoilY / 2 : this.gunRecoilY;
     }
     public static boolean isLoaded(ItemStack stack)
     {

@@ -57,7 +57,7 @@ public class BulletEntity extends ThrownItemEntity
         if(accel != null)
             this.setVelocity(accel);
 
-        if(this.lifeTick >= 32)
+        if(this.lifeTick >= 10)
         {
             this.discard();
         }

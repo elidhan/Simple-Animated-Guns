@@ -17,7 +17,7 @@
 				"gun": {
 					"rotation": {
 						"0.0": {
-							"vector": [-3, 0, 0],
+							"vector": [-1.5, 0, 0],
 							"easing": "easeOutBack"
 						},
 						"0.2083": {

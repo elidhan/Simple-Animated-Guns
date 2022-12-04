@@ -15,7 +15,7 @@ public class ModSounds
     public static SoundEvent RELOAD_OLD_ARMY_REVOLVER_P1 = registerSoundEvent("oldarmy_revolver_p1");
     public static SoundEvent RELOAD_OLD_ARMY_REVOLVER_P2 = registerSoundEvent("oldarmy_revolver_p2");
     public static SoundEvent RELOAD_OLD_ARMY_REVOLVER_P3 = registerSoundEvent("oldarmy_revolver_p3");
-    public static SoundEvent REVOLVER_COLTNAVY = registerSoundEvent("revolver_coltnavy");
+    public static SoundEvent REVOLVER_COLTARMY = registerSoundEvent("revolver_coltarmy");
     public static SoundEvent RELOAD_GENERIC_REVOLVER_P0 = registerSoundEvent("generic_revolver_p0");
     public static SoundEvent RELOAD_GENERIC_REVOLVER_P1 = registerSoundEvent("generic_revolver_p1");
     public static SoundEvent RELOAD_GENERIC_REVOLVER_P2 = registerSoundEvent("generic_revolver_p2");
@@ -49,7 +49,11 @@ public class ModSounds
     public static SoundEvent RELOAD_GENERIC_SNIPER_P2 = registerSoundEvent("generic_sniper_p2");
     public static SoundEvent RELOAD_GENERIC_SNIPER_P3 = registerSoundEvent("generic_sniper_p3");
     public static SoundEvent RELOAD_CLASSIC_SNIPER_P2 = registerSoundEvent("classic_sniper_p2");
+    public static SoundEvent RELOAD_BRUSH_GUN_P1 = registerSoundEvent("brush_gun_p1");
+    public static SoundEvent RELOAD_BRUSH_GUN_P2 = registerSoundEvent("brush_gun_p2");
+    public static SoundEvent RELOAD_BRUSH_GUN_P3 = registerSoundEvent("brush_gun_p3");
     public static SoundEvent SNIPER_CLASSIC = registerSoundEvent("sniper_classic");
+    public static SoundEvent SNIPER_COWBOY = registerSoundEvent("sniper_cowboy");
     private static SoundEvent registerSoundEvent(String name)
     {
         Identifier id = new Identifier(AnimatedGuns.MOD_ID, name);

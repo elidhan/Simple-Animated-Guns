@@ -29,6 +29,7 @@
 	"item.anim_guns.blueprint_shotgun_doublebarrel" : "Double Barreled Shotgun Blueprint",
 	"item.anim_guns.blueprint_shotgun_combat" : "Combat Shotgun Blueprint",
 	"item.anim_guns.blueprint_sniper_classic" : "Hunting Rifle Blueprint",
+	"item.anim_guns.blueprint_sniper_cowboy" : "Brush Gun Blueprint",
 
 	"item.anim_guns.standard_handgun_cartridge" : "Standard Handgun Cartridge",
 	"item.anim_guns.standard_rifle_cartridge" : "Standard Rifle Cartridge",
@@ -46,5 +47,6 @@
 	"item.anim_guns.assaultrifle_rus" : "War-Torn Assault Rifle",
 	"item.anim_guns.shotgun_doublebarrel" : "Double Barreled Shotgun",
 	"item.anim_guns.shotgun_combat" : "Combat Shotgun",
-	"item.anim_guns.sniper_classic" : "Hunting Rifle"
+	"item.anim_guns.sniper_classic" : "Hunting Rifle",
+	"item.anim_guns.sniper_cowboy" : "Brush Gun"
 }
