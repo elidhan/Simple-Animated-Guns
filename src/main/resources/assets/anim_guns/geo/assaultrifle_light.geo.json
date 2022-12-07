@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.assaultrifle_light",
+				"identifier": "geometry.unknown",
 				"texture_width": 16,
 				"texture_height": 16,
 				"visible_bounds_width": 3,
@@ -442,6 +442,24 @@
 								"west": {"uv": [6.5, 2.5], "uv_size": [0.75, 1.25]},
 								"up": {"uv": [5, 9], "uv_size": [0.5, 0.75]},
 								"down": {"uv": [9, 6.25], "uv_size": [0.5, -0.75]}
+							}
+						}
+					]
+				},
+				{
+					"name": "muzzleflash",
+					"pivot": [0, 1.0625, -10.78125],
+					"cubes": [
+						{
+							"origin": [-0.005, 1.0575, -10.78125],
+							"size": [0.01, 0.01, 0],
+							"uv": {
+								"north": {"uv": [12, 12], "uv_size": [4, 4]},
+								"east": {"uv": [12, 12], "uv_size": [4, 4]},
+								"south": {"uv": [12, 12], "uv_size": [4, 4]},
+								"west": {"uv": [12, 12], "uv_size": [4, 4]},
+								"up": {"uv": [16, 16], "uv_size": [-4, -4]},
+								"down": {"uv": [16, 16], "uv_size": [-4, -4]}
 							}
 						}
 					]

@@ -47,7 +47,7 @@ public class ModItems {
 			17,
 			STANDARD_HANDGUN_BULLET,
 			26,
-			0.25f,
+			1f,
 			0.5f,
 			2.5f,
 			1,
@@ -66,13 +66,13 @@ public class ModItems {
 	});
 	public static final Item HEAVY_PISTOL = registerItem("pistol_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 			"pistol_heavy",
-			"pistol_heavy",
+			"pistol_generic",
 			11,
 			5,
 			7,
 			HEAVY_HANDGUN_BULLET,
-			26,
-			0.25f,
+			39,
+			1f,
 			3.75f,
 			7.5f,
 			1,
@@ -84,9 +84,9 @@ public class ModItems {
 			ModSounds.PISTOL_HEAVY,
 			1,
 			false,
-			6,
-			16,
-			20)
+			1,
+			14,
+			24)
 	{
 	});
     public static final Item MAGNUM_REVOLVER = registerItem("revolver_magnum", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),

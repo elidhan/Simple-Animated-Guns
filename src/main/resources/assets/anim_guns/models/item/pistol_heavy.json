@@ -1,37 +1,63 @@
 {
-  "parent": "anim_guns:item/pistol_heavy_standby",
-  "overrides":
-  [
-    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/pistol_heavy"},
-    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/pistol_heavy"},
-
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.2},"model": "anim_guns:item/pistol_heavy_standby"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.4},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/4"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/3"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 0.8},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/2"},
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/pistol_heavy/1"},
-
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.2},"model": "anim_guns:item/gun_aim/pistol_heavy"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.4},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/4"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.6},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/3"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 0.8},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/2"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/pistol_heavy/1"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/pistol_heavy/1"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/pistol_heavy/2"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/pistol_heavy/3"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/pistol_heavy/4"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/pistol_heavy/5"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.08},"model": "anim_guns:item/gun_rld/pistol_heavy/6"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.085},"model": "anim_guns:item/gun_rld/pistol_heavy/7"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.1},"model": "anim_guns:item/gun_rld/pistol_heavy/8"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.105},"model": "anim_guns:item/gun_rld/pistol_heavy/9"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.12},"model": "anim_guns:item/gun_rld/pistol_heavy/10"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.125},"model": "anim_guns:item/gun_rld/pistol_heavy/11"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.13},"model": "anim_guns:item/gun_rld/pistol_heavy/12"}
-  ]
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    24,
+    16
+  ],
+  "gui_light": "front",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -0.5,
+        -1.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -0.5,
+        -1.75
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        -6.5,
+        5,
+        2.25
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        -6.5,
+        5,
+        2.25
+      ]
+    },
+    "gui": {
+      "rotation": [
+        -90,
+        135,
+        90
+      ],
+      "translation": [
+        -1,
+        0.25,
+        0
+      ],
+      "scale": [
+        1.88,
+        1.88,
+        1.88
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -90,
+        -135,
+        -90
+      ]
+    }
+  }
 }

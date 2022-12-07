@@ -45,6 +45,19 @@
 							"easingArgs": [0.25]
 						}
 					}
+				},
+				"muzzleflash": {
+					"rotation": {
+						"vector": [0, 0, "Math.random(-90,90)"]
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1000, 1000, 1]
+						},
+						"0.05": {
+							"vector": [1, 1, 1]
+						}
+					}
 				}
 			}
 		},
@@ -235,7 +248,7 @@
 			}
 		},
 		"reload_start": {
-			"loop": "hold_last_frame",
+			"loop": true,
 			"animation_length": 0.5,
 			"bones": {
 				"gunbody": {
@@ -268,6 +281,11 @@
 							"easing": "easeOutBack",
 							"easingArgs": [0.5]
 						}
+					}
+				},
+				"muzzleflash": {
+					"scale": {
+						"vector": [0, 0, 0]
 					}
 				}
 			}
@@ -358,6 +376,11 @@
 							"vector": [0, 0, 0]
 						}
 					}
+				},
+				"muzzleflash": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
 				}
 			},
 			"sound_effects": {
@@ -439,6 +462,11 @@
 							"vector": [1, 1, 1]
 						}
 					}
+				},
+				"muzzleflash": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
 				}
 			},
 			"sound_effects": {
@@ -492,6 +520,11 @@
 							"vector": [0, 0, 0],
 							"easing": "easeInOutSine"
 						}
+					}
+				},
+				"muzzleflash": {
+					"scale": {
+						"vector": [0, 0, 0]
 					}
 				}
 			},

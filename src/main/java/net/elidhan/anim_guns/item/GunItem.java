@@ -4,7 +4,6 @@ import io.netty.buffer.Unpooled;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
 import net.elidhan.anim_guns.entity.projectile.BulletEntity;
-import net.elidhan.anim_guns.particle.ModParticles;
 import net.elidhan.anim_guns.util.InventoryUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
@@ -46,6 +45,7 @@ public abstract class GunItem
 extends Item
 implements FabricItem, IAnimatable, ISyncable
 {
+    private final Random rd = new Random();
     public AnimationFactory factory = GeckoLibUtil.createFactory(this);
     public static final String controllerName = "controller";
     private final String gunID;
@@ -106,7 +106,6 @@ implements FabricItem, IAnimatable, ISyncable
     }
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
-
         return PlayState.CONTINUE;
     }
     @Override
@@ -154,7 +153,6 @@ implements FabricItem, IAnimatable, ISyncable
             }
         }
     }
-
     protected <ENTITY extends IAnimatable> void soundListener(SoundKeyframeEvent<ENTITY> event)
     {
         PlayerEntity player = MinecraftClient.getInstance().player;
@@ -172,7 +170,6 @@ implements FabricItem, IAnimatable, ISyncable
             }
         }
     }
-
     @Override
     public AnimationFactory getFactory()
     {
@@ -196,6 +193,7 @@ implements FabricItem, IAnimatable, ISyncable
         //If there's a better way to do this, let me know
         if (!nbtCompound.contains("reloadTick")
                 || !nbtCompound.contains("Clip")
+                || !nbtCompound.contains("currentCycle")
                 || !nbtCompound.contains("isScoped")
                 || !nbtCompound.contains("isReloading"))
         {
@@ -204,7 +202,7 @@ implements FabricItem, IAnimatable, ISyncable
         //This part's for the keypress
         //to reload the gun
         if (world.isClient()
-                && ((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) == stack
+                && ((PlayerEntity)entity).getMainHandStack() == stack
                 && AnimatedGunsClient.reloadToggle.isPressed()
                 && remainingAmmo(stack) < this.magSize
                 && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
@@ -217,7 +215,7 @@ implements FabricItem, IAnimatable, ISyncable
         //The actual reload process/tick
         if (nbtCompound.getBoolean("isReloading"))
         {
-            if((((PlayerEntity)entity).getStackInHand(Hand.MAIN_HAND) != stack
+            if((((PlayerEntity)entity).getMainHandStack() != stack
                     || (reserveAmmoCount((PlayerEntity) entity, this.ammoType) <= 0 && this.reloadCycles <= 1)
                     || (nbtCompound.getInt("reloadTick") >= this.reloadCooldown)
                     || (remainingAmmo(stack) >= this.magSize && this.reloadCycles <= 1)))
@@ -244,7 +242,8 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
                 GeckoLibNetwork.syncAnimation(player, this, id, 2);
-                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+                {
                     GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 2);
                 }
             }
@@ -252,7 +251,8 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
                 GeckoLibNetwork.syncAnimation(player, this, id, 3);
-                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+                {
                     GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 3);
                 }
             }
@@ -260,7 +260,8 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
                 GeckoLibNetwork.syncAnimation(player, this, id, 4);
-                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+                {
                     GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 4);
                 }
             }
@@ -268,7 +269,8 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
                 GeckoLibNetwork.syncAnimation(player, this, id, 5);
-                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player)) {
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+                {
                     GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 5);
                 }
             }
@@ -312,22 +314,13 @@ implements FabricItem, IAnimatable, ISyncable
         if (hand == Hand.MAIN_HAND && !user.isSprinting() && isLoaded(itemStack))
         {
             shoot(world, user, itemStack);
-
-            if(this.reloadCycles > 1)
-            {
-                itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
-            }
-
-            itemStack.getOrCreateNbt().putInt("reloadTick",0);
-            itemStack.getOrCreateNbt().putBoolean("isReloading",false);
         }
         return TypedActionResult.fail(itemStack);
     }
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
-        Random rd = new Random();
         float v_kick = user.getPitch() - getRecoilY(user);
-        float h_kick = user.getYaw() - getRecoilX(user,rd);
+        float h_kick = user.getYaw() - getRecoilX(user,this.rd);
         user.getItemCooldownManager().set(this, this.rateOfFire);
 
         if (!world.isClient())
@@ -343,7 +336,8 @@ implements FabricItem, IAnimatable, ISyncable
             }
             final int id = GeckoLibUtil.guaranteeIDForStack(itemStack, (ServerWorld) world);
             GeckoLibNetwork.syncAnimation(user, this, id, 1);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(user)) {
+            for (PlayerEntity otherPlayer : PlayerLookup.tracking(user))
+            {
                 GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 1);
             }
             PacketByteBuf buf = PacketByteBufs.create();
@@ -364,14 +358,13 @@ implements FabricItem, IAnimatable, ISyncable
                 user.getZ(),
                 shootSound,SoundCategory.MASTER,1.0f, 1.0f);
 
-        if(world instanceof ServerWorld)
+        if(this.reloadCycles > 1)
         {
-            ((ServerWorld)world).spawnParticles(rd.nextBoolean()?ModParticles.MUZZLE_FLASH_PARTICLE_1:ModParticles.MUZZLE_FLASH_PARTICLE_2,
-                    user.getX()-(Math.sin(Math.toRadians(user.getYaw()+7.25f))*Math.abs((Math.abs(user.getPitch())-90)/90)),
-                    user.getEyeY()-(Math.sin(Math.toRadians(user.getPitch()))+0.5f),
-                    user.getZ()+(Math.cos(Math.toRadians(user.getYaw()+7.25f))*Math.abs((Math.abs(user.getPitch())-90)/90)),
-                    1,0,0,0,0);
+            itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
         }
+
+        itemStack.getOrCreateNbt().putInt("reloadTick",0);
+        itemStack.getOrCreateNbt().putBoolean("isReloading",false);
     }
     private float getRecoilX(PlayerEntity user, Random rd)
     {
@@ -389,33 +382,18 @@ implements FabricItem, IAnimatable, ISyncable
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
 
-        /*if (nbtCompound.getInt("Clip") <= 0)
+        int ammoToLoad = this.magSize - nbtCompound.getInt("Clip");
+
+        if (reserveAmmoCount(player, this.ammoType) >= ammoToLoad)
         {
-            if (reserveAmmoCount(player, this.ammoType) > this.magSize)
-            {
-                nbtCompound.putInt("Clip", this.magSize);
-                InventoryUtil.removeItemFromInventory(player, this.ammoType, this.magSize);
-            } else
-            {
-                nbtCompound.putInt("Clip", reserveAmmoCount(player, this.ammoType));
-                InventoryUtil.removeItemFromInventory(player, this.ammoType, reserveAmmoCount(player, this.ammoType));
-            }
+            nbtCompound.putInt("Clip", nbtCompound.getInt("Clip") + ammoToLoad);
+            InventoryUtil.removeItemFromInventory(player, this.ammoType, ammoToLoad);
         }
         else
-        {*/
-            int ammoToLoad = this.magSize - nbtCompound.getInt("Clip");
-
-            if (reserveAmmoCount(player, this.ammoType) >= ammoToLoad)
-            {
-                nbtCompound.putInt("Clip", nbtCompound.getInt("Clip") + ammoToLoad);
-                InventoryUtil.removeItemFromInventory(player, this.ammoType, ammoToLoad);
-            }
-            else
-            {
-                nbtCompound.putInt("Clip", nbtCompound.getInt("Clip") + reserveAmmoCount(player, this.ammoType));
-                InventoryUtil.removeItemFromInventory(player, this.ammoType, reserveAmmoCount(player, this.ammoType));
-            }
-        //}
+        {
+            nbtCompound.putInt("Clip", nbtCompound.getInt("Clip") + reserveAmmoCount(player, this.ammoType));
+            InventoryUtil.removeItemFromInventory(player, this.ammoType, reserveAmmoCount(player, this.ammoType));
+        }
 
         stack.setDamage(this.getMaxDamage()-((nbtCompound.getInt("Clip")*10)+1));
     }

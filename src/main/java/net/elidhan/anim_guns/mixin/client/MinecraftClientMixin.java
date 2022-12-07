@@ -28,7 +28,7 @@ public class MinecraftClientMixin
     {
         if (this.player == null)
             return;
-        ItemStack itemStack = this.player.getStackInHand(Hand.MAIN_HAND);
+        ItemStack itemStack = this.player.getMainHandStack();
         if (!itemStack.isEmpty() && itemStack.getItem() instanceof GunItem)
             itemUseCooldown = 0;
     }

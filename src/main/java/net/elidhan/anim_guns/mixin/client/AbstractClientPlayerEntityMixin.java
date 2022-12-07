@@ -24,7 +24,7 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity
     }
     @Inject(method = "getFovMultiplier", at = @At("Tail"), cancellable = true)
     public void zoomLevel(CallbackInfoReturnable<Float> ci){
-        ItemStack gun = this.getStackInHand(Hand.MAIN_HAND);
+        ItemStack gun = this.getMainHandStack();
 
         if(gun.getItem() instanceof GunItem && this.isSneaking() && GunItem.isLoaded(gun))
         {
