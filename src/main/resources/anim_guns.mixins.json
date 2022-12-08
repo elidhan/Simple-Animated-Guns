@@ -9,7 +9,9 @@
   "client": [
     "client.MinecraftClientMixin",
     "client.PlayerEntityRenderMixin",
-    "client.AbstractClientPlayerEntityMixin"
+    "client.AbstractClientPlayerEntityMixin",
+    "client.InGameHudMixin",
+    "client.HeldItemRendererMixin"
   ],
   "server": [
   ],

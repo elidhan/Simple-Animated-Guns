@@ -1,6 +1,8 @@
 package net.elidhan.anim_guns.mixin.client;
 
 import net.elidhan.anim_guns.item.GunItem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -10,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Environment(EnvType.CLIENT)
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRenderMixin
 {

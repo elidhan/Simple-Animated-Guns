@@ -12,6 +12,17 @@
 				}
 			}
 		},
+		"aim": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"position": {
+						"vector": [2.5, 0, 0]
+					}
+				}
+			}
+		},
 		"firing": {
 			"animation_length": 0.75,
 			"bones": {
@@ -94,6 +105,93 @@
 						"0.6667": {
 								"vector": [0, 0, 0],
 								"easing": "easeInSine"
+						}
+					}
+				}
+			}
+		},
+		"aim_firing": {
+			"animation_length": 0.75,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [-10, 0, 0.5],
+							"easing": "easeInElastic",
+							"easingArgs": [5]
+						},
+						"0.2083": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						},
+						"0.25": {
+							"vector": [0, 0, 0],
+							"easing": "easeInExpo"
+						},
+						"0.375": {
+							"vector": [0, -1.25, 0],
+							"easing": "easeOutCirc"
+						},
+						"0.625": {
+							"vector": [0, -1.25, 0],
+							"easing": "easeOutSine"
+
+						},
+						"0.75": {
+							"vector": [0, 0, 0],
+							"easing": "easeInCirc"
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [2.5, 0, 3],
+							"easing": "easeInElastic"
+						},
+						"0.0417": {
+							"vector": [2.5, 0.5, 2],
+							"easing": "easeOutQuad"
+						},
+						"0.25": {
+							"vector": [2.5, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						},
+						"0.4167": {
+							"vector": [2.5, 0, 0],
+							"easing": "linear"
+						},
+						"0.5": {
+							"vector": [2.5, 0, 1],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						},
+						"0.625": {
+							"vector": [2.5, 0, 1],
+							"easing": "linear"
+						},
+						"0.7083": {
+							"vector": [2.5, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					}
+				},
+				"pump": {
+					"position": {
+						"0.375": {
+							"vector": [0, 0, 0]
+						},
+						"0.4583": {
+							"vector": [0, 0, 1.5],
+							"easing": "easeInSine"
+						},
+						"0.5833": {
+							"vector": [0, 0, 1.5]
+						},
+						"0.6667": {
+							"vector": [0, 0, 0],
+							"easing": "easeInSine"
 						}
 					}
 				}

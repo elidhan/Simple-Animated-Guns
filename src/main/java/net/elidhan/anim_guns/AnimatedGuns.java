@@ -13,7 +13,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.slf4j.Logger;
@@ -23,7 +22,6 @@ public class AnimatedGuns implements ModInitializer
 {
 	public static final String MOD_ID = "anim_guns";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
 	public static final Identifier RECOIL_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "recoil");
 	public static final ItemGroup MISC = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "misc"), () -> new ItemStack(ModItems.MAGNUM_REVOLVER_BLUEPRINT));
 	public static final ItemGroup GUNS = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "guns"), () -> new ItemStack(ModItems.MAGNUM_REVOLVER));
@@ -41,10 +39,18 @@ public class AnimatedGuns implements ModInitializer
 
 		ServerPlayNetworking.registerGlobalReceiver(new Identifier(MOD_ID,"reload"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
 		{
-			if (player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof GunItem)
+			if (player.getMainHandStack().getItem() instanceof GunItem)
 			{
-				ItemStack stack = player.getStackInHand(Hand.MAIN_HAND);
-				stack.getOrCreateNbt().putBoolean("isReloading", true);
+				ItemStack stack = player.getMainHandStack();
+
+				stack.getOrCreateNbt().putBoolean("isReloading", buf.readBoolean());
+			}
+		});
+		ServerPlayNetworking.registerGlobalReceiver(new Identifier(MOD_ID,"aim"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
+		{
+			if (player.getMainHandStack().getItem() instanceof GunItem)
+			{
+				((GunItem) player.getMainHandStack().getItem()).toggleAim(player.getMainHandStack(),buf.readBoolean(), player.getWorld(), player);
 			}
 		});
 	}

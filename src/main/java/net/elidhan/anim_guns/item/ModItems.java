@@ -41,7 +41,7 @@ public class ModItems {
 	public static final Item SHOTGUN_SHELL = registerItem("shotgun_shell", new Item(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(64)));
 	public static final Item PISTOL = registerItem("pistol_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 			"pistol_light",
-			"pistol_light",
+			"pistol_generic",
 			5.5f,
 			4,
 			17,
@@ -84,7 +84,7 @@ public class ModItems {
 			ModSounds.PISTOL_HEAVY,
 			1,
 			false,
-			1,
+			13,
 			14,
 			24)
 	{

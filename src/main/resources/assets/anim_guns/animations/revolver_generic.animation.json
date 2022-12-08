@@ -12,6 +12,17 @@
 				}
 			}
 		},
+		"aim": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"position": {
+						"vector": [2.5, 0, 0]
+					}
+				}
+			}
+		},
 		"firing": {
 			"animation_length": 0.5,
 			"bones": {
@@ -32,6 +43,33 @@
 						},
 						"0.2083": {
 							"vector": [0, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					}
+				}
+			}
+		},
+		"aim_firing": {
+			"animation_length": 0.5,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [-45, 0, 0]
+						},
+						"0.3333": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [2.5, 0, 3]
+						},
+						"0.2083": {
+							"vector": [2.5, 0, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						}

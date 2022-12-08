@@ -18,11 +18,14 @@ import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 public class AnimatedGunsClient implements ClientModInitializer
 {
     public static KeyBinding reloadToggle = new KeyBinding("key.anim_guns.reloadtoggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,"category.anim_guns.binds");
+    public static KeyBinding aimToggle = new KeyBinding("key.anim_guns.aimtoggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V,"category.anim_guns.binds");
+
     @Override
     public void onInitializeClient()
     {
         //Key bind
         KeyBindingHelper.registerKeyBinding(reloadToggle);
+        KeyBindingHelper.registerKeyBinding(aimToggle);
 
         //Projectile render
         EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletEntityRenderer::new);
@@ -43,6 +46,7 @@ public class AnimatedGunsClient implements ClientModInitializer
         });
 
         //Geckolib Stuff
+        //GeoItemRenderer.registerItemRenderer(ModItems.PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.MAGNUM_REVOLVER, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.OLD_ARMY_REVOLVER, new GunRenderer());

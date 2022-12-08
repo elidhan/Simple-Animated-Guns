@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,6 +27,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -70,6 +72,7 @@ implements FabricItem, IAnimatable, ISyncable
     private final int reloadStage1;
     private final int reloadStage2;
     private final int reloadStage3;
+    private boolean keyLock;
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
@@ -103,6 +106,7 @@ implements FabricItem, IAnimatable, ISyncable
         this.reloadStage1 = reloadStage1;
         this.reloadStage2 = reloadStage2;
         this.reloadStage3 = reloadStage3;
+        this.keyLock = false;
     }
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
@@ -129,44 +133,64 @@ implements FabricItem, IAnimatable, ISyncable
             case 1 ->
             {
                 controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("firing", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
+                controller.setAnimation(new AnimationBuilder()
+                        .addAnimation("firing", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
+                        .addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
             }
             case 2 ->
             {
                 controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_start", ILoopType.EDefaultLoopTypes.HOLD_ON_LAST_FRAME));
+                controller.setAnimation(new AnimationBuilder().addAnimation("reload_start", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             }
             case 3 ->
             {
                 controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_magout", ILoopType.EDefaultLoopTypes.HOLD_ON_LAST_FRAME));
+                controller.setAnimation(new AnimationBuilder().addAnimation("reload_magout", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             }
             case 4 ->
             {
                 controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_magin", ILoopType.EDefaultLoopTypes.HOLD_ON_LAST_FRAME));
+                controller.setAnimation(new AnimationBuilder().addAnimation("reload_magin", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             }
             case 5 ->
             {
                 controller.markNeedsReload();
                 controller.setAnimation(new AnimationBuilder().addAnimation("reload_end", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             }
+            case 6 ->
+            {
+                controller.markNeedsReload();
+                controller.setAnimation(new AnimationBuilder().addAnimation("aim", ILoopType.EDefaultLoopTypes.LOOP));
+            }
+            case 7 ->
+            {
+                controller.markNeedsReload();
+                controller.setAnimation(new AnimationBuilder()
+                        .addAnimation("aim_firing", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
+                        .addAnimation("aim", ILoopType.EDefaultLoopTypes.LOOP));
+            }
+            case 8 ->
+            {
+                controller.markNeedsReload();
+                controller.setAnimation(new AnimationBuilder()
+                        .addAnimation("aim_reload_start", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
+            }
         }
     }
     protected <ENTITY extends IAnimatable> void soundListener(SoundKeyframeEvent<ENTITY> event)
     {
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             switch (event.sound)
             {
                 case "reload_start" ->
-                        MinecraftClient.getInstance().player.playSound(this.reloadSoundStart, SoundCategory.MASTER, 1, 1);
+                        player.playSound(this.reloadSoundStart, SoundCategory.MASTER, 1, 1);
                 case "reload_magout" ->
-                        MinecraftClient.getInstance().player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
+                        player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
                 case "reload_magin" ->
-                        MinecraftClient.getInstance().player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
+                        player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
                 case "reload_end" ->
-                        MinecraftClient.getInstance().player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
+                        player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
             }
         }
     }
@@ -175,15 +199,15 @@ implements FabricItem, IAnimatable, ISyncable
     {
         return this.factory;
     }
-    public void setDefaultNBT(NbtCompound nbtCompound)
+    private void setDefaultNBT(NbtCompound nbtCompound)
     {
         nbtCompound.putInt("reloadTick", 0);
         nbtCompound.putInt("currentCycle", 1);
-
         nbtCompound.putInt("Clip", 0);
 
         nbtCompound.putBoolean("isScoped", this.isScoped);
         nbtCompound.putBoolean("isReloading", false);
+        nbtCompound.putBoolean("isAiming", false);
     }
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
@@ -191,27 +215,37 @@ implements FabricItem, IAnimatable, ISyncable
         NbtCompound nbtCompound = stack.getOrCreateNbt();
         //Just setting the gun's default NBT tags
         //If there's a better way to do this, let me know
-        if (!nbtCompound.contains("reloadTick")
-                || !nbtCompound.contains("Clip")
-                || !nbtCompound.contains("currentCycle")
-                || !nbtCompound.contains("isScoped")
-                || !nbtCompound.contains("isReloading"))
+        if (!nbtCompound.contains("reloadTick") || !nbtCompound.contains("Clip") || !nbtCompound.contains("currentCycle") || !nbtCompound.contains("isScoped") || !nbtCompound.contains("isReloading") || !nbtCompound.contains("isAiming"))
         {
             setDefaultNBT(nbtCompound);
         }
         //This part's for the keypress
-        //to reload the gun
-        if (world.isClient()
-                && ((PlayerEntity)entity).getMainHandStack() == stack
-                && AnimatedGunsClient.reloadToggle.isPressed()
-                && remainingAmmo(stack) < this.magSize
-                && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
-                && !nbtCompound.getBoolean("isReloading"))
+        //to reload and aim the gun
+        if (world.isClient())
         {
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            buf.writeBoolean(true);
-            ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "reload"), buf);
+            if (((PlayerEntity) entity).getMainHandStack() == stack
+                    && AnimatedGunsClient.reloadToggle.isPressed()
+                    && remainingAmmo(stack) < this.magSize
+                    && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
+                    && !nbtCompound.getBoolean("isReloading"))
+            {
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeBoolean(true);
+                ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "reload"), buf);
+            }
+            if (((PlayerEntity) entity).getMainHandStack() == stack && AnimatedGunsClient.aimToggle.isPressed() && !nbtCompound.getBoolean("isReloading") && !this.keyLock)
+            {
+                this.keyLock = true;
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeBoolean(!stack.getOrCreateNbt().getBoolean("isAiming"));
+                ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "aim"), buf);
+            }
+            else if (!AnimatedGunsClient.aimToggle.isPressed())
+            {
+                this.keyLock = false;
+            }
         }
+
         //The actual reload process/tick
         if (nbtCompound.getBoolean("isReloading"))
         {
@@ -241,11 +275,12 @@ implements FabricItem, IAnimatable, ISyncable
             if(nbtCompound.getInt("reloadTick") == 0)
             {
                 final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
-                GeckoLibNetwork.syncAnimation(player, this, id, 2);
+                GeckoLibNetwork.syncAnimation(player, this, id, nbtCompound.getBoolean("isAiming")?8:2);
                 for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
                 {
-                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 2);
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, nbtCompound.getBoolean("isAiming")?8:2);
                 }
+                nbtCompound.putBoolean("isAiming", false);
             }
             else if(nbtCompound.getInt("reloadTick") == this.reloadStage1)
             {
@@ -335,11 +370,12 @@ implements FabricItem, IAnimatable, ISyncable
                 world.spawnEntity(bullet);
             }
             final int id = GeckoLibUtil.guaranteeIDForStack(itemStack, (ServerWorld) world);
-            GeckoLibNetwork.syncAnimation(user, this, id, 1);
+            GeckoLibNetwork.syncAnimation(user, this, id, itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
             for (PlayerEntity otherPlayer : PlayerLookup.tracking(user))
             {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 1);
+                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
             }
+
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeFloat(v_kick);
             buf.writeDouble(h_kick);
@@ -396,6 +432,17 @@ implements FabricItem, IAnimatable, ISyncable
         }
 
         stack.setDamage(this.getMaxDamage()-((nbtCompound.getInt("Clip")*10)+1));
+    }
+    public void toggleAim(ItemStack stack, boolean aim, ServerWorld world, PlayerEntity player)
+    {
+        stack.getOrCreateNbt().putBoolean("isAiming", aim);
+
+        final int id = GeckoLibUtil.guaranteeIDForStack(stack, world);
+        GeckoLibNetwork.syncAnimation(player, this, id, stack.getOrCreateNbt().getBoolean("isAiming")?6:0);
+        for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+        {
+            GeckoLibNetwork.syncAnimation(otherPlayer, this, id, stack.getOrCreateNbt().getBoolean("isAiming")?6:0);
+        }
     }
     private static int remainingAmmo(ItemStack stack)
     {
