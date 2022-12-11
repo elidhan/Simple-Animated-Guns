@@ -46,10 +46,11 @@ public class AnimatedGunsClient implements ClientModInitializer
         });
 
         //Geckolib Stuff
-        //GeoItemRenderer.registerItemRenderer(ModItems.PISTOL, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.MAGNUM_REVOLVER, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.OLD_ARMY_REVOLVER, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.MACHINE_PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new GunRenderer());

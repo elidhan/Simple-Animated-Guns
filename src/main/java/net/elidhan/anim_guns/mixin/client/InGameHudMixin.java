@@ -95,14 +95,14 @@ public class InGameHudMixin implements InGameHudMixinInterface
 
         float f = this.client.getLastFrameDuration();
         this.gunScopeScale = MathHelper.lerp(0.5f * f, this.gunScopeScale, 1.125f);
-        boolean holdingScopedGun = this.client.player != null
+        boolean aimingScopedGun = this.client.player != null
                 && this.client.player.getMainHandStack().getItem() instanceof GunItem
-                && this.client.player.getMainHandStack().getOrCreateNbt().getInt("Clip") > 0
-                && this.client.player.getMainHandStack().getOrCreateNbt().getBoolean("isScoped");
+                && this.client.player.getMainHandStack().getOrCreateNbt().getBoolean("isScoped")
+                && this.client.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming");
 
         if (this.client.options.getPerspective().isFirstPerson())
         {
-            if (this.client.player.isSneaking() && holdingScopedGun)
+            if (aimingScopedGun)
             {
                 this.renderGunScopeOverlay(this.gunScopeScale);
             }

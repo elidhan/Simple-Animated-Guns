@@ -354,12 +354,12 @@
 			"bones": {
 				"gunbody": {
 					"position": {
-						"vector": [2.4625, 0.88, 0]
+						"vector": [2.475, 0.88, 0]
 					}
 				},
 				"muzzleflash": {
 					"position": {
-						"vector": [2.4625, 0.88, 0]
+						"vector": [2.475, 0.88, 0]
 					}
 				}
 			}
@@ -371,14 +371,14 @@
 				"gunbody": {
 					"position": {
 						"0.0": {
-							"vector": [2.4625, 0.88, 1.125]
+							"vector": [2.475, 0.88, 1.125]
 						},
 						"0.0833": {
-							"vector": [2.4625, 0.88, 0.5],
+							"vector": [2.475, 0.88, 0.5],
 							"easing": "linear"
 						},
 						"0.25": {
-							"vector": [2.4625, 0.88, 0],
+							"vector": [2.475, 0.88, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [0.25]
 						}
@@ -389,7 +389,7 @@
 						"vector": [0, 0, "Math.random(-45,45)"]
 					},
 					"position": {
-						"vector": [2.4625, 1.5, 0]
+						"vector": [2.475, 1.5, 0]
 					},
 					"scale": {
 						"0.0": {
@@ -424,7 +424,7 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.4625, 0.88, 0]
+							"vector": [2.475, 0.88, 0]
 						},
 						"0.1667": {
 							"vector": [3, 0.25, 0.5],

@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRenderMixin
 {
-    @Inject(method = "getArmPose", at = @At("TAIL"))
-    private static BipedEntityModel.ArmPose gunPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci)
+    @Inject(method = "getArmPose", at = @At("TAIL"), cancellable = true)
+    private static void gunPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci)
     {
         if(player.getStackInHand(hand).getItem() instanceof GunItem
                 && GunItem.isLoaded(player.getStackInHand(hand))
@@ -25,13 +25,15 @@ public class PlayerEntityRenderMixin
                 && !player.isSprinting()
         )
         {
-            return (BipedEntityModel.ArmPose.BOW_AND_ARROW);
+            ci.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
+            return;
         }
         if(player.getStackInHand(hand).getItem() instanceof GunItem
                 && player.getStackInHand(hand).getOrCreateNbt().getInt("reloadTick") > 0)
         {
-            return (BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
+            ci.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
+            return;
         }
-        return BipedEntityModel.ArmPose.ITEM;
+        ci.setReturnValue(BipedEntityModel.ArmPose.ITEM);
     }
 }

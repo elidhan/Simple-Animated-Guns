@@ -29,7 +29,7 @@ public class AnimatedGuns implements ModInitializer
 	public static final EntityType<BulletEntity> BulletEntityType = Registry.register(
 			Registry.ENTITY_TYPE,
 			new Identifier(MOD_ID, "bullet"),
-			FabricEntityTypeBuilder.<BulletEntity>create(SpawnGroup.MISC, BulletEntity::new).dimensions(EntityDimensions.fixed(0.125f,0.125f)).trackRangeBlocks(4).trackedUpdateRate(10).build());
+			FabricEntityTypeBuilder.<BulletEntity>create(SpawnGroup.MISC, BulletEntity::new).dimensions(EntityDimensions.fixed(0.0625f,0.0625f)).trackRangeBlocks(4).trackedUpdateRate(10).build());
 
 	@Override
 	public void onInitialize()

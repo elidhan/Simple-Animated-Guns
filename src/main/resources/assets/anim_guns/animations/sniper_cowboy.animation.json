@@ -18,7 +18,7 @@
 			"bones": {
 				"gunbody": {
 					"position": {
-						"vector": [2.5, 0, 0]
+						"vector": [2.475, 0, 0]
 					}
 				}
 			}
@@ -161,20 +161,20 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.5, 0, 3]
+							"vector": [2.475, 0, 3]
 						},
 						"0.25": {
-							"vector": [2.5, 0, -0.15625],
+							"vector": [2.475, 0, -0.15625],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						},
 						"0.375": {
-							"vector": [2.5, 0, -0.15625],
+							"vector": [2.475, 0, -0.15625],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						},
 						"0.5": {
-							"vector": [2.5, 0, 0],
+							"vector": [2.475, 0, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						}

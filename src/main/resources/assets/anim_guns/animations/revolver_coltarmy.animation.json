@@ -18,7 +18,7 @@
 			"bones": {
 				"gunbody": {
 					"position": {
-						"vector": [2.5, 0, 0]
+						"vector": [2.475, 0, 0]
 					}
 				}
 			}
@@ -95,8 +95,7 @@
 						}
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"aim_firing": {
 			"animation_length": 1,
@@ -127,33 +126,33 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.5, 0, 3],
+							"vector": [2.475, 0, 3],
 							"easing": "easeInElastic"
 						},
 						"0.0417": {
-							"vector": [2.5, 1, 2.5],
+							"vector": [2.475, 1, 2.5],
 							"easing": "easeInOutSine"
 						},
 						"0.2917": {
-							"vector": [2.5, 0, 0],
+							"vector": [2.475, 0, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						},
 						"0.5": {
-							"vector": [2.5, -0.25, 0.5],
+							"vector": [2.475, -0.25, 0.5],
 							"easing": "easeInSine"
 						},
 						"0.5833": {
-							"vector": [2.5, -0.25, 0.5],
+							"vector": [2.475, -0.25, 0.5],
 							"easing": "easeInOutSine"
 						},
 						"0.6667": {
-							"vector": [2.5, 0, 0.5],
+							"vector": [2.475, 0, 0.5],
 							"easing": "easeOutBack",
 							"easingArgs": [2]
 						},
 						"0.8333": {
-							"vector": [2.5, 0, 0],
+							"vector": [2.475, 0, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						}
@@ -170,8 +169,7 @@
 						}
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"reload_start": {
 			"loop": true,

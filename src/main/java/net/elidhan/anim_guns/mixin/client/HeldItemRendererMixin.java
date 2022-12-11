@@ -22,10 +22,9 @@ public class HeldItemRendererMixin
     private void cancelFirstPersonRender(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
     {
         //IF PLAYER AIMS WITH SCOPED GUN
-        if(player.isSneaking()
-                && player.getMainHandStack().getItem() instanceof GunItem
+        if(player.getMainHandStack().getItem() instanceof GunItem
                 && player.getMainHandStack().getOrCreateNbt().getBoolean("isScoped")
-                && player.getMainHandStack().getOrCreateNbt().getInt("Clip") > 0)
+                && player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"))
             ci.cancel();
     }
 }

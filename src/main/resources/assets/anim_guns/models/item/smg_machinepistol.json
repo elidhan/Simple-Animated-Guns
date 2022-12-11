@@ -1,34 +1,64 @@
 {
-  "parent": "anim_guns:item/smg_machinepistol_standby",
-  "overrides":
-  [
-    {"predicate":  {"anim_guns:sprinting": 1},"model": "anim_guns:item/gun_sprint/smg_machinepistol"},
-    {"predicate":  {"anim_guns:aiming": 1},"model": "anim_guns:item/gun_aim/smg_machinepistol"},
-
-    {"predicate":  {"anim_guns:aiming": 0,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/hip/smg_machinepistol/1"},
-    {"predicate":  {"anim_guns:aiming": 1,"minecraft:cooldown": 1},"model": "anim_guns:item/gun_fire/aim/smg_machinepistol/1"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.01},"model": "anim_guns:item/gun_rld/smg_machinepistol/1"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.015},"model": "anim_guns:item/gun_rld/smg_machinepistol/2"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.02},"model": "anim_guns:item/gun_rld/smg_machinepistol/3"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.025},"model": "anim_guns:item/gun_rld/smg_machinepistol/4"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.03},"model": "anim_guns:item/gun_rld/smg_machinepistol/5"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.035},"model": "anim_guns:item/gun_rld/smg_machinepistol/6"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.085},"model": "anim_guns:item/gun_rld/smg_machinepistol/5"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.09},"model": "anim_guns:item/gun_rld/smg_machinepistol/4"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.095},"model": "anim_guns:item/gun_rld/smg_machinepistol/3"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.125},"model": "anim_guns:item/gun_rld/smg_machinepistol/7"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.13},"model": "anim_guns:item/gun_rld/smg_machinepistol/8"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.135},"model": "anim_guns:item/gun_rld/smg_machinepistol/9"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.15},"model": "anim_guns:item/gun_rld/smg_machinepistol/10"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.155},"model": "anim_guns:item/gun_rld/smg_machinepistol/11"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.18},"model": "anim_guns:item/gun_rld/smg_machinepistol/9"},
-
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.21},"model": "anim_guns:item/gun_rld/smg_machinepistol/12"},
-    {"predicate":  {"anim_guns:loading": 1,"anim_guns:load_tick": 0.215},"model": "anim_guns:item/gun_rld/smg_machinepistol/13"}
-  ]
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "gui_light": "front",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -0.25,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -0.25,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        -6.5,
+        5,
+        4
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        -6.5,
+        5,
+        4
+      ]
+    },
+    "gui": {
+      "rotation": [
+        -90,
+        135,
+        90
+      ],
+      "translation": [
+        -0.5,
+        0.25,
+        0
+      ],
+      "scale": [
+        2.24,
+        2.24,
+        2.24
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -90,
+        -135,
+        -90
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ]
+    }
+  }
 }

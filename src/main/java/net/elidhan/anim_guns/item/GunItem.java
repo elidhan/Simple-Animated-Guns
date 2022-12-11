@@ -354,8 +354,8 @@ implements FabricItem, IAnimatable, ISyncable
     }
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
-        float v_kick = user.getPitch() - getRecoilY(user);
-        float h_kick = user.getYaw() - getRecoilX(user,this.rd);
+        float v_kick = user.getPitch() - getRecoilY(itemStack);
+        float h_kick = user.getYaw() - getRecoilX(itemStack,this.rd);
         user.getItemCooldownManager().set(this, this.rateOfFire);
 
         if (!world.isClient())
@@ -370,10 +370,10 @@ implements FabricItem, IAnimatable, ISyncable
                 world.spawnEntity(bullet);
             }
             final int id = GeckoLibUtil.guaranteeIDForStack(itemStack, (ServerWorld) world);
-            GeckoLibNetwork.syncAnimation(user, this, id, itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
+            GeckoLibNetwork.syncAnimation(user, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
             for (PlayerEntity otherPlayer : PlayerLookup.tracking(user))
             {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
+                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
             }
 
             PacketByteBuf buf = PacketByteBufs.create();
@@ -401,14 +401,16 @@ implements FabricItem, IAnimatable, ISyncable
 
         itemStack.getOrCreateNbt().putInt("reloadTick",0);
         itemStack.getOrCreateNbt().putBoolean("isReloading",false);
+        if(itemStack.getOrCreateNbt().getBoolean("isScoped"))
+            itemStack.getOrCreateNbt().putBoolean("isAiming", false);
     }
-    private float getRecoilX(PlayerEntity user, Random rd)
+    private float getRecoilX(ItemStack stack, Random rd)
     {
-        return user.isSneaking() ? (this.gunRecoilX * (rd.nextBoolean()?1:-1)) / 2 : this.gunRecoilX * (rd.nextBoolean()?1:-1);
+        return stack.getOrCreateNbt().getBoolean("isAiming") ? (this.gunRecoilX * (rd.nextBoolean()?1:-1)) / 2 : this.gunRecoilX * (rd.nextBoolean()?1:-1);
     }
-    private float getRecoilY(PlayerEntity user)
+    private float getRecoilY(ItemStack stack)
     {
-        return user.isSneaking() ? this.gunRecoilY / 2 : this.gunRecoilY;
+        return stack.getOrCreateNbt().getBoolean("isAiming") ? this.gunRecoilY / 2 : this.gunRecoilY;
     }
     public static boolean isLoaded(ItemStack stack)
     {
