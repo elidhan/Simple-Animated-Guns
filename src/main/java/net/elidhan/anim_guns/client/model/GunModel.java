@@ -8,19 +8,19 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class GunModel extends AnimatedGeoModel<GunItem>
 {
     @Override
-    public Identifier getModelResource(GunItem object)
+    public Identifier getModelLocation(GunItem object)
     {
         return new Identifier(AnimatedGuns.MOD_ID, "geo/"+object.getID()+".geo.json");
     }
 
     @Override
-    public Identifier getTextureResource(GunItem object)
+    public Identifier getTextureLocation(GunItem object)
     {
         return new Identifier(AnimatedGuns.MOD_ID, "textures/gun/"+object.getID()+".png");
     }
 
     @Override
-    public Identifier getAnimationResource(GunItem animatable)
+    public Identifier getAnimationFileLocation(GunItem animatable)
     {
         return new Identifier(AnimatedGuns.MOD_ID, "animations/"+animatable.getAnimationID()+".animation.json");
     }
