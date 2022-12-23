@@ -1,6 +1,7 @@
 package net.elidhan.anim_guns.item;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import java.util.*;
 
@@ -11,5 +12,17 @@ public class BlueprintItem extends Item
     {
         super(settings);
         BLUEPRINT_ITEM_LIST.add(this);
+    }
+
+    @Override
+    public boolean hasRecipeRemainder()
+    {
+        return true;
+    }
+
+    @Override
+    public ItemStack getRecipeRemainder(ItemStack stack)
+    {
+        return new ItemStack(ModItems.BLUEPRINT_BUNDLE);
     }
 }

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bp ",
+    "fi ",
+    " gs"
+  ],
+  "key": {
+    "b": {
+      "item": "anim_guns:long_barrel"
+    },
+    "p": {
+      "item": "anim_guns:blueprint_assaultrifle_light"
+    },
+    "f": {
+      "item": "anim_guns:modern_handguard"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "g": {
+      "item": "anim_guns:pistol_grip"
+    },
+    "s": {
+      "item": "anim_guns:modern_stock"
+    }
+  },
+  "result": {
+    "item": "anim_guns:assaultrifle_light"
+  }
+}

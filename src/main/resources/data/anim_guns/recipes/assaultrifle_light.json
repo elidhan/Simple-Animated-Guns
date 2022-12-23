@@ -1,31 +1,36 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "bp ",
-    "fi ",
-    " gs"
-  ],
-  "key": {
-    "b": {
-      "item": "anim_guns:long_barrel"
-    },
-    "p": {
-      "item": "anim_guns:blueprint_assaultrifle_light"
-    },
-    "f": {
-      "item": "anim_guns:modern_handguard"
-    },
-    "i": {
-      "item": "anim_guns:hardened_iron_ingot"
-    },
-    "g": {
-      "item": "anim_guns:pistol_grip"
-    },
-    "s": {
-      "item": "anim_guns:modern_stock"
-    }
+  "type": "anim_guns:gun_crafting_bench",
+
+  "scope": {
+    "item": "minecraft:iron_nugget",
+    "count": 4
   },
-  "result": {
+  "barrel": {
+    "item": "anim_guns:long_barrel",
+    "count": 1
+  },
+  "handguard": {
+    "item": "anim_guns:modern_handguard",
+    "count": 1
+  },
+  "receiver": {
+    "item": "anim_guns:hardened_iron_ingot",
+    "count": 2
+  },
+  "stock": {
+    "item": "anim_guns:modern_stock",
+    "count": 1
+  },
+  "magazine": {
+    "item": "minecraft:iron_ingot",
+    "count": 1
+  },
+  "grip": {
+    "item": "anim_guns:pistol_grip",
+    "count": 1
+  },
+
+  "output": {
     "item": "anim_guns:assaultrifle_light"
   }
 }

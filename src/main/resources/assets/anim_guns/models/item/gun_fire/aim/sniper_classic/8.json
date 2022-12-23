@@ -1,9 +1,0 @@
-{
-	"parent": "anim_guns:item/gun_fire/hip/sniper_classic/8",
-	"display": {
-		"firstperson_righthand": {
-			"translation": [-8.9675, 6.275, 9.25],
-			"scale": [1, 1, 0.25]
-		}
-	}
-}

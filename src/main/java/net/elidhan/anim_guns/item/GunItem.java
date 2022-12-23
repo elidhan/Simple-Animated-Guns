@@ -14,20 +14,23 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.AnimationState;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -41,13 +44,13 @@ import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class GunItem
 extends Item
 implements FabricItem, IAnimatable, ISyncable
 {
-    private final Random rd = new Random();
     public AnimationFactory factory = GeckoLibUtil.createFactory(this);
     public static final String controllerName = "controller";
     private final String gunID;
@@ -354,8 +357,7 @@ implements FabricItem, IAnimatable, ISyncable
     }
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
-        float v_kick = user.getPitch() - getRecoilY(itemStack);
-        float h_kick = user.getYaw() - getRecoilX(itemStack,this.rd);
+        float v_kick = user.getPitch() - getRecoil(itemStack);
         user.getItemCooldownManager().set(this, this.rateOfFire);
 
         if (!world.isClient())
@@ -378,7 +380,6 @@ implements FabricItem, IAnimatable, ISyncable
 
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeFloat(v_kick);
-            buf.writeDouble(h_kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
         }
 
@@ -404,11 +405,7 @@ implements FabricItem, IAnimatable, ISyncable
         if(itemStack.getOrCreateNbt().getBoolean("isScoped"))
             itemStack.getOrCreateNbt().putBoolean("isAiming", false);
     }
-    private float getRecoilX(ItemStack stack, Random rd)
-    {
-        return stack.getOrCreateNbt().getBoolean("isAiming") ? (this.gunRecoilX * (rd.nextBoolean()?1:-1)) / 2 : this.gunRecoilX * (rd.nextBoolean()?1:-1);
-    }
-    private float getRecoilY(ItemStack stack)
+    private float getRecoil(ItemStack stack)
     {
         return stack.getOrCreateNbt().getBoolean("isAiming") ? this.gunRecoilY / 2 : this.gunRecoilY;
     }
@@ -460,6 +457,7 @@ implements FabricItem, IAnimatable, ISyncable
     {
         return false;
     }
+
     @Override
     public boolean isEnchantable(ItemStack stack)
     {

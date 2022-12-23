@@ -1,9 +1,0 @@
-{
-	"parent": "anim_guns:item/gun_fire/hip/shotgun_combat/4",
-	"display": {
-		"firstperson_righthand": {
-			"rotation": [3, 0, 0],
-			"translation": [-8.9675, 7.225, 7.75]
-		}
-	}
-}

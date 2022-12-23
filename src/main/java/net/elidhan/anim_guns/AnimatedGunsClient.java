@@ -9,6 +9,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -33,14 +34,12 @@ public class AnimatedGunsClient implements ClientModInitializer
         //Recoil Stuff
         ClientPlayNetworking.registerGlobalReceiver(AnimatedGuns.RECOIL_PACKET_ID, (client, handler, buf, sender) ->
         {
-            float v_kick = buf.readFloat();
-            float h_kick = (float)buf.readDouble();
+            float kick = buf.readFloat();
             client.execute(() ->
             {
                 if(client.player != null)
                 {
-                    client.player.setPitch(v_kick);
-                    client.player.setYaw((h_kick));
+                    client.player.setPitch(kick);
                 }
             });
         });

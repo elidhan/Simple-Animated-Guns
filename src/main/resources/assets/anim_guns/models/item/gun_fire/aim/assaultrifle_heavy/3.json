@@ -1,8 +1,0 @@
-{
-	"parent": "anim_guns:item/gun_fire/hip/assaultrifle_heavy/2",
-	"display": {
-		"firstperson_righthand": {
-			"translation": [-8.9675, 6.1, 4.75]
-		}
-	}
-}

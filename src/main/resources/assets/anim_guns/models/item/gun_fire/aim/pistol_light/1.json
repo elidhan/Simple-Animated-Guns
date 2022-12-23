@@ -1,8 +1,0 @@
-{
-	"parent": "anim_guns:item/gun_fire/hip/pistol_light/1",
-	"display": {
-		"firstperson_righthand": {
-			"translation": [-8.9675, 7.85, 5]
-		}
-	}
-}

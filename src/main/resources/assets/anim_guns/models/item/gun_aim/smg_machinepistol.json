@@ -1,8 +1,0 @@
-{
-	"parent": "anim_guns:item/smg_machinepistol_standby",
-	"display": {
-		"firstperson_righthand": {
-			"translation": [-8.9675, 7.475, 6]
-		}
-	}
-}

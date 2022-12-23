@@ -9,8 +9,7 @@
 	},
 	"pistol_heavy": {
 		"category": "master", "sounds": [
-			"anim_guns:gun/fire/pistol_heavy_1",
-			"anim_guns:gun/fire/pistol_heavy_2"
+			"anim_guns:gun/fire/pistol_heavy_1"
 		]
 	},
 
@@ -38,10 +37,7 @@
 	"generic_smg_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_smg_p3" ] },
 	"smg_machinepistol": {
 		"category": "master", "sounds": [
-			"anim_guns:gun/fire/smg_machinepistol_1",
-			"anim_guns:gun/fire/smg_machinepistol_2",
-			"anim_guns:gun/fire/smg_machinepistol_3",
-			"anim_guns:gun/fire/smg_machinepistol_4"
+			"anim_guns:gun/fire/smg_machinepistol_1"
 		]
 	},
 
@@ -50,10 +46,7 @@
 	"generic_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p3" ] },
 	"assaultrifle_light": {
 		"category": "master", "sounds": [
-			"anim_guns:gun/fire/assaultrifle_light_1",
-			"anim_guns:gun/fire/assaultrifle_light_2",
-			"anim_guns:gun/fire/assaultrifle_light_3",
-			"anim_guns:gun/fire/assaultrifle_light_4"
+			"anim_guns:gun/fire/assaultrifle_light_1"
 		]
 	},
 
@@ -62,9 +55,7 @@
 	"heavy_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/heavy_ar_p3" ] },
 	"assaultrifle_heavy": {
 		"category": "master", "sounds": [
-			"anim_guns:gun/fire/assaultrifle_heavy_1",
-			"anim_guns:gun/fire/assaultrifle_heavy_2",
-			"anim_guns:gun/fire/assaultrifle_heavy_3"
+			"anim_guns:gun/fire/assaultrifle_heavy_1"
 		]
 	},
 
