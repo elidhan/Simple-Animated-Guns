@@ -3,6 +3,7 @@ package net.elidhan.anim_guns;
 import net.elidhan.anim_guns.client.render.GunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletEntityRenderer;
 import net.elidhan.anim_guns.item.ModItems;
+import net.elidhan.anim_guns.screen.BlueprintScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -57,5 +58,7 @@ public class AnimatedGunsClient implements ClientModInitializer
         GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.CLASSIC_SNIPER_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.BRUSH_GUN, new GunRenderer());
+
+        HandledScreens.register(AnimatedGuns.BLUEPRINT_SCREEN_HANDLER_TYPE, BlueprintScreen::new);
     }
 }

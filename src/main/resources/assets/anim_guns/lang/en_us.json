@@ -1,6 +1,7 @@
 {
 	"category.anim_guns.binds" : "Simple Animated Guns",
 	"key.anim_guns.reloadtoggle" : "Reload Gun",
+	"key.anim_guns.aimtoggle" : "Aim Sights",
 	"itemGroup.anim_guns.misc" : "S.A.G. Misc",
 	"itemGroup.anim_guns.guns" : "S.A.G. Guns",
 
@@ -16,6 +17,12 @@
 	"item.anim_guns.modern_stock" : "Modern Stock",
 	"item.anim_guns.wooden_handguard" : "Wooden Handguard",
 	"item.anim_guns.modern_handguard" : "Modern Handguard",
+
+	"item.anim_guns.rifle_magazine" : "Rifle Magazine",
+	"item.anim_guns.pistol_magazine" : "Pistol Magazine",
+	"item.anim_guns.smg_magazine" : "SMG Magazine",
+	"item.anim_guns.tube_magazine" : "Tube Magazine",
+	"item.anim_guns.revolver_chamber" : "Revolver Chamber",
 
 	"item.anim_guns.blueprint_bundle" : "Blueprint Bundle",
 	"item.anim_guns.blueprint_pistol_light" : "Pistol Blueprint",

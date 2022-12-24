@@ -18,7 +18,12 @@
 			"bones": {
 				"gunbody": {
 					"position": {
-						"vector": [2.475, 0, 0]
+						"vector": [2.475, 0.625, 0]
+					}
+				},
+				"muzzleflash": {
+					"position": {
+						"vector": [2.475, 0.625, 0]
 					}
 				}
 			}
@@ -47,6 +52,19 @@
 							"easingArgs": [1]
 						}
 					}
+				},
+				"muzzleflash": {
+					"rotation": {
+						"vector": [0, 0, "Math.random(-45,45)"]
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1000, 1000, 1]
+						},
+						"0.0417": {
+							"vector": [1, 1, 1]
+						}
+					}
 				}
 			}
 		},
@@ -66,14 +84,88 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.475, 0, 3]
+							"vector": [2.475, 0.625, 3]
 						},
 						"0.2083": {
-							"vector": [2.475, 0, 0],
+							"vector": [2.475, 0.625, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						}
 					}
+				},
+				"muzzleflash": {
+					"rotation": {
+						"vector": [0, 0, "Math.random(-45,45)"]
+					},
+					"position": {
+						"vector": [2.475, 0.625, 0]
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1000, 1000, 1]
+						},
+						"0.0417": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
+		},
+		"aim_reload_start": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": [5.00126, -9.9645, -0.02547],
+							"easing": "easeInSine"
+						},
+						"0.2917": {
+							"vector": [1.96736, 10.24688, -14.52728],
+							"easing": "easeOutSine"
+						},
+						"0.4583": {
+							"vector": [1.52879, 4.93249, 17.39935],
+							"easing": "easeOutBack",
+							"easingArgs": [1]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [2.475, 0.625, 0]
+						},
+						"0.0833": {
+							"vector": [-1.25, -0.25, 1],
+							"easing": "easeInSine"
+						},
+						"0.2083": {
+							"vector": [-2.59375, 0, 1.5],
+							"easing": "easeOutCubic"
+						},
+						"0.375": {
+							"vector": [-1.25, -0.25, 1.25],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"0.3333": {
+							"vector": [0, 0, 0]
+						},
+						"0.375": {
+							"vector": [0, 0, 135]
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.2917": {
+					"effect": "reload_start"
 				}
 			}
 		},

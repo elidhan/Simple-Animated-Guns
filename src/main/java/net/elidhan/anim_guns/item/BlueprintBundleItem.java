@@ -1,11 +1,12 @@
 package net.elidhan.anim_guns.item;
 
+import net.elidhan.anim_guns.screen.BlueprintScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -22,24 +23,14 @@ public class BlueprintBundleItem extends Item
     {
         ItemStack itemStack = user.getStackInHand(hand);
 
-        for(int i = 0; i < BlueprintItem.BLUEPRINT_ITEM_LIST.size(); i++)
-        {
-            ItemStack bluePrint = new ItemStack(BlueprintItem.BLUEPRINT_ITEM_LIST.get(i));
-            if (user.getInventory().getEmptySlot() > -1)
-            {
-                user.giveItemStack(bluePrint);
-            }
-            else
-            {
-                user.dropItem(bluePrint.getItem());
-            }
-        }
-
-        user.world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2f, ((user.getRandom().nextFloat() - user.getRandom().nextFloat()) * 0.7f + 1.0f) * 2.0f);
-        user.incrementStat(Stats.USED.getOrCreateStat(this));
-        if (!user.getAbilities().creativeMode) {
-            itemStack.decrement(1);
-        }
+        user.openHandledScreen(createScreenHandlerFactory());
         return TypedActionResult.success(itemStack, world.isClient());
+    }
+
+    private NamedScreenHandlerFactory createScreenHandlerFactory()
+    {
+        return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, playerEntity) ->
+                new BlueprintScreenHandler(syncId, playerInventory), new TranslatableText("container.blueprints")
+        );
     }
 }

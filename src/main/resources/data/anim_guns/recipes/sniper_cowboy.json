@@ -1,31 +1,31 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "bp ",
-    "fi ",
-    " gs"
+    "  p",
+    "bis",
+    "fm "
   ],
   "key": {
     "b": {
       "item": "anim_guns:long_barrel"
     },
     "p": {
-      "item": "anim_guns:blueprint_assaultrifle_light"
+      "item": "anim_guns:blueprint_sniper_cowboy"
     },
     "f": {
-      "item": "anim_guns:modern_handguard"
+      "item": "anim_guns:wooden_handguard"
     },
     "i": {
       "item": "anim_guns:hardened_iron_ingot"
     },
-    "g": {
-      "item": "anim_guns:pistol_grip"
-    },
     "s": {
-      "item": "anim_guns:modern_stock"
+      "item": "anim_guns:wooden_stock"
+    },
+    "m": {
+      "item": "anim_guns:tube_magazine"
     }
   },
   "result": {
-    "item": "anim_guns:assaultrifle_light"
+    "item": "anim_guns:sniper_cowboy"
   }
 }

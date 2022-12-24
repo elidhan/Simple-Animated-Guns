@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "bp ",
-    "fi ",
-    " g "
+    "  p",
+    "bi ",
+    "fmg"
   ],
   "key": {
     "b": {
@@ -20,6 +20,9 @@
     },
     "g": {
       "item": "anim_guns:pistol_grip"
+    },
+    "m": {
+      "item": "anim_guns:smg_magazine"
     }
   },
   "result": {

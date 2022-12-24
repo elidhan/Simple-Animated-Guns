@@ -36,7 +36,7 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity
                 ci.setReturnValue(0.125f);
             }
             else{
-                ci.setReturnValue(0.8f);
+                ci.setReturnValue(0.75f);
             }
         }
     }

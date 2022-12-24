@@ -21,16 +21,18 @@ public class ModItems {
 	public static final Item MODERN_STOCK = registerItem("modern_stock", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item WOODEN_HANDGUARD = registerItem("wooden_handguard", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item MODERN_HANDGUARD = registerItem("modern_handguard", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
-	public static final Item RIFLE_MAGAZINE = registerItem("rifle_magazine", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item PISTOL_MAGAZINE = registerItem("pistol_magazine", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
-	public static final Item TUBE_MAGAZINE = registerItem("tube_magazine", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
+	public static final Item REVOLVER_CHAMBER = registerItem("revolver_chamber", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 	public static final Item SMG_MAGAZINE = registerItem("smg_magazine", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
+	public static final Item RIFLE_MAGAZINE = registerItem("rifle_magazine", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
+	public static final Item TUBE_MAGAZINE = registerItem("tube_magazine", new Item(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(64)));
 
 	public static final Item BLUEPRINT_BUNDLE = registerItem("blueprint_bundle", new BlueprintBundleItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
 
 	public static final Item PISTOL_BLUEPRINT = registerItem("blueprint_pistol_light", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
 	public static final Item HEAVY_PISTOL_BLUEPRINT = registerItem("blueprint_pistol_heavy", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
 	public static final Item MAGNUM_REVOLVER_BLUEPRINT = registerItem("blueprint_revolver_magnum", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
+	public static final Item OLD_ARMY_REVOLVER_BLUEPRINT = registerItem("blueprint_revolver_coltarmy", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
 	public static final Item MACHINE_PISTOL_BLUEPRINT = registerItem("blueprint_smg_machinepistol", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
 	public static final Item LIGHT_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_light", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
 	public static final Item HEAVY_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_heavy", new BlueprintItem(new FabricItemSettings().group(AnimatedGuns.MISC).maxCount(1)));
@@ -48,7 +50,7 @@ public class ModItems {
 	public static final Item PISTOL = registerItem("pistol_light", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 			"pistol_light",
 			"pistol_generic",
-			5.5f,
+			5f,
 			4,
 			17,
 			STANDARD_HANDGUN_BULLET,
@@ -78,9 +80,9 @@ public class ModItems {
 			7,
 			HEAVY_HANDGUN_BULLET,
 			39,
-			1f,
+			2.5f,
 			3.75f,
-			7.5f,
+			8.5f,
 			1,
 			1,
 			null,
@@ -105,7 +107,7 @@ public class ModItems {
             44,
             0.125f,
 			1.25f,
-            6.5f,
+            6f,
             1,
             1,
 			ModSounds.RELOAD_GENERIC_REVOLVER_P0,
@@ -140,8 +142,8 @@ public class ModItems {
             ModSounds.REVOLVER_COLTARMY,
             6,
             false,
-            1,
             21,
+            22,
             51)
     {
     });
@@ -153,7 +155,7 @@ public class ModItems {
 			30,
 			STANDARD_HANDGUN_BULLET,
 			44,
-			3,
+			3.75f,
 			1,
 			2,
 			1,
@@ -178,7 +180,7 @@ public class ModItems {
 		30,
 		STANDARD_RIFLE_BULLET,
 		44,
-		0.15f,
+		1.25f,
 		1.5f,
 		2f,
 		1,
@@ -228,7 +230,7 @@ public class ModItems {
             30,
             STANDARD_RIFLE_BULLET,
             44,
-            0.5f,
+            2.5f,
 			2f,
             3f,
             1,
@@ -266,7 +268,7 @@ public class ModItems {
 			ModSounds.SHOTGUN_DOUBLEBARREL,
 			1,
 			false,
-			1,
+			12,
 			13,
 			33)
 	{
@@ -292,8 +294,8 @@ public class ModItems {
         ModSounds.SHOTGUN_COMBAT,
         6,
         false,
-        1,
         4,
+        5,
         13)
 	{
 	});
@@ -305,7 +307,7 @@ public class ModItems {
         5,
         HEAVY_RIFLE_BULLET,
         35,
-        0.01f,
+        0.125f,
 		2.25f,
         8.25f,
         1,
@@ -317,8 +319,8 @@ public class ModItems {
         ModSounds.SNIPER_CLASSIC,
         5,
         true,
-        1,
         12,
+        13,
         22)
 	{
 	});
@@ -331,7 +333,7 @@ public class ModItems {
 			10,
 			HEAVY_HANDGUN_BULLET,
 			32,
-			0.125f,
+			1f,
 			1.25f,
 			5.25f,
 			1,
@@ -343,8 +345,8 @@ public class ModItems {
 			ModSounds.SNIPER_COWBOY,
 			10,
 			false,
-			1,
 			8,
+			9,
 			20)
 	{
 	});

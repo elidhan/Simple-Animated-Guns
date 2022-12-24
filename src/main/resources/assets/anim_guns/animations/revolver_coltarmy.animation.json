@@ -18,7 +18,7 @@
 			"bones": {
 				"gunbody": {
 					"position": {
-						"vector": [2.475, 0, 0]
+						"vector": [2.475, 0.75, 0]
 					}
 				}
 			}
@@ -94,6 +94,19 @@
 							"easing": "easeInSine"
 						}
 					}
+				},
+				"muzzleflash": {
+					"rotation": {
+						"vector": [0, 0, "Math.random(-45,45)"]
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1000, 1000, 1]
+						},
+						"0.0417": {
+							"vector": [1, 1, 1]
+						}
+					}
 				}
 			}
 		},
@@ -126,33 +139,33 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.475, 0, 3],
+							"vector": [2.475, 0.75, 3],
 							"easing": "easeInElastic"
 						},
 						"0.0417": {
-							"vector": [2.475, 1, 2.5],
+							"vector": [2.475, 1.75, 2.5],
 							"easing": "easeInOutSine"
 						},
 						"0.2917": {
-							"vector": [2.475, 0, 0],
+							"vector": [2.475, 0.75, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						},
 						"0.5": {
-							"vector": [2.475, -0.25, 0.5],
+							"vector": [2.475, 0.5, 0.5],
 							"easing": "easeInSine"
 						},
 						"0.5833": {
-							"vector": [2.475, -0.25, 0.5],
+							"vector": [2.475, 0.5, 0.5],
 							"easing": "easeInOutSine"
 						},
 						"0.6667": {
-							"vector": [2.475, 0, 0.5],
+							"vector": [2.475, 0.75, 0.5],
 							"easing": "easeOutBack",
 							"easingArgs": [2]
 						},
 						"0.8333": {
-							"vector": [2.475, 0, 0],
+							"vector": [2.475, 0.75, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						}
@@ -168,21 +181,128 @@
 							"easing": "easeInSine"
 						}
 					}
-				}
-			}
-		},
-		"reload_start": {
-			"loop": true,
-			"animation_length": 1,
-			"bones": {
-				"gunbody": {
+				},
+				"muzzleflash": {
+					"rotation": {
+						"vector": [0, 0, "Math.random(-45,45)"]
+					},
 					"position": {
-						"vector": [0, 0, 0]
+						"vector": [2.475, 0.75, 0]
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1000, 1000, 1]
+						},
+						"0.0417": {
+							"vector": [1, 1, 1]
+						}
 					}
 				}
 			}
 		},
-		"reload_magout": {
+		"aim_reload_start": {
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0417": {
+							"vector": [4.00474, 0, 0]
+						},
+						"0.0833": {
+							"vector": [2.50474, 0, 0]
+						},
+						"0.125": {
+							"vector": [0, 0, 0]
+						},
+						"0.4167": {
+							"vector": [4.67357, 2.5048, 7.91433],
+							"easing": "easeInQuad"
+						},
+						"0.6667": {
+							"vector": [-24.09824, 6.24482, 50.2161],
+							"easing": "easeOutBack",
+							"easingArgs": [0.5]
+						},
+						"0.7083": {
+							"vector": [-24.09824, 6.24482, 50.2161],
+							"easing": "easeOutBack",
+							"easingArgs": [0.5]
+						},
+						"0.8333": {
+							"vector": [-24.66125, 3.14032, 43.36668],
+							"easing": "easeOutBack",
+							"easingArgs": [5]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [2.475, 0.75, 0]
+						},
+						"0.0833": {
+							"vector": [2.5, 0, 0]
+						},
+						"0.25": {
+							"vector": [2.5, 0, 0]
+						},
+						"0.4167": {
+							"vector": [2.5, -0.5, 1],
+							"easing": "easeInQuad"
+						},
+						"0.6667": {
+							"vector": [3, 0, 1],
+							"easing": "easeOutBack",
+							"easingArgs": [0.5]
+						}
+					}
+				},
+				"chamberdoor": {
+					"rotation": {
+						"0.6667": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [0, 0, -180],
+							"easing": "linear"
+						}
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [0, 0, -22.5]
+						},
+						"0.6667": {
+							"vector": [0, 0, -22.5]
+						}
+					}
+				},
+				"hammer": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [22.5, 0, 0]
+						},
+						"0.6667": {
+							"vector": [22.5, 0, 0]
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "reload_magout"
+				}
+			}
+		},
+		"reload_start": {
 			"animation_length": 1,
 			"bones": {
 				"gunbody": {
@@ -281,6 +401,35 @@
 			"sound_effects": {
 				"0.0": {
 					"effect": "reload_magout"
+				}
+			}
+		},
+		"reload_magout": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"vector": [-24.66125, 3.14032, 43.36668]
+					},
+					"position": {
+						"vector": [3, 0, 1]
+					}
+				},
+				"hammer": {
+					"rotation": {
+						"vector": [22.5, 0, 0]
+					}
+				},
+				"chamber": {
+					"rotation": {
+						"vector": [0, 0, -22.5]
+					}
+				},
+				"chamberdoor": {
+					"rotation": {
+						"vector": [0, 0, -180]
+					}
 				}
 			}
 		},

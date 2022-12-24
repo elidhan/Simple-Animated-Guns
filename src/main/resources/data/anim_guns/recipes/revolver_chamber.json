@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " n ",
+    "nin",
+    " n "
+  ],
+  "key": {
+    "n": {
+      "item": "anim_guns:hardened_iron_nugget"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "anim_guns:revolver_chamber"
+  }
+}

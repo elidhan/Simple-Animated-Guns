@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b p",
+    "bis",
+    "f  "
+  ],
+  "key": {
+    "b": {
+      "item": "anim_guns:long_barrel"
+    },
+    "p": {
+      "item": "anim_guns:blueprint_shotgun_doublebarrel"
+    },
+    "f": {
+      "item": "anim_guns:wooden_handguard"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "s": {
+      "item": "anim_guns:wooden_stock"
+    }
+  },
+  "result": {
+    "item": "anim_guns:shotgun_doublebarrel"
+  }
+}
