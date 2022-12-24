@@ -14,23 +14,19 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -43,9 +39,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
-
-import java.util.Objects;
-import java.util.Random;
 
 public abstract class GunItem
 extends Item
@@ -61,7 +54,6 @@ implements FabricItem, IAnimatable, ISyncable
     private final Item ammoType;
     private final int reloadCooldown;
     private final float bulletSpread;
-    private final float gunRecoilX;
     private final float gunRecoilY;
     private final int pelletCount;
     private final int loadingType;
@@ -79,7 +71,7 @@ implements FabricItem, IAnimatable, ISyncable
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
-                   float gunRecoilX, float gunRecoilY, int pelletCount, int loadingType,
+                   float gunRecoilY, int pelletCount, int loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
                    int reloadStage1, int reloadStage2, int reloadStage3)
@@ -95,7 +87,6 @@ implements FabricItem, IAnimatable, ISyncable
         this.ammoType = ammoType;
         this.reloadCooldown = reloadCooldown;
         this.bulletSpread = bulletSpread;
-        this.gunRecoilX = gunRecoilX;
         this.gunRecoilY = gunRecoilY;
         this.pelletCount = pelletCount;
         this.loadingType = loadingType;
