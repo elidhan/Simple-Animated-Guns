@@ -24,6 +24,9 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     public BlueprintScreen(BlueprintScreenHandler handler, PlayerInventory inventory, Text title)
     {
         super(handler, inventory, title);
+
+        this.backgroundWidth = 102;
+        this.backgroundHeight = 96;
     }
 
     protected void setBlueprint(int index)
@@ -43,10 +46,11 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     @Override
     protected void init()
     {
-        addDrawableChild(new ButtonWidget((this.width/2)-20, (this.height/2)-23, 10, 20, new LiteralText("\u276E"), (button) -> setBlueprint(currentBlueprintIndex - 1)));
-        addDrawableChild(new ButtonWidget((this.width/2)+10, (this.height/2)-23, 10, 20, new LiteralText("\u276F"), (button) -> setBlueprint(currentBlueprintIndex + 1)));
+        super.init();
+        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+24, 10, 20, new LiteralText("\u276E"), (button) -> setBlueprint(currentBlueprintIndex - 1)));
+        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24, 10, 20, new LiteralText("\u276F"), (button) -> setBlueprint(currentBlueprintIndex + 1)));
 
-        addDrawableChild(new ButtonWidget((this.width/2)-16, this.height/2, 32, 20 , new LiteralText("Set"), (button) ->
+        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+35, ((this.height-this.backgroundHeight)/2)+48, 32, 20 , new LiteralText("Set"), (button) ->
         {
             if (client != null)
             {
@@ -78,7 +82,7 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        int i = (this.width/2)-88;
+        int i = this.x;
         int j = (this.height - this.backgroundHeight) / 2;
         this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
@@ -88,8 +92,6 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     {
         this.renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
-        this.itemRenderer.renderInGui(new ItemStack(BlueprintItem.BLUEPRINT_ITEM_LIST.get(getCurrentBlueprint())), 80+(this.width-this.backgroundWidth)/2, 62+(this.height-this.backgroundHeight)/2);
-        RenderSystem.enableDepthTest();
-        drawMouseoverTooltip(matrices,mouseX,mouseY);
+        this.itemRenderer.renderInGui(new ItemStack(BlueprintItem.BLUEPRINT_ITEM_LIST.get(getCurrentBlueprint())), 43+(this.width - this.backgroundWidth)/2, 26+(this.height - this.backgroundHeight)/2);
     }
 }
