@@ -23,6 +23,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -67,7 +68,6 @@ implements FabricItem, IAnimatable, ISyncable
     private final int reloadStage1;
     private final int reloadStage2;
     private final int reloadStage3;
-    private boolean keyLock;
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
@@ -100,7 +100,6 @@ implements FabricItem, IAnimatable, ISyncable
         this.reloadStage1 = reloadStage1;
         this.reloadStage2 = reloadStage2;
         this.reloadStage3 = reloadStage3;
-        this.keyLock = false;
     }
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
@@ -149,7 +148,9 @@ implements FabricItem, IAnimatable, ISyncable
             case 5 ->
             {
                 controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_end", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
+                controller.setAnimation(new AnimationBuilder()
+                        .addAnimation("reload_end", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
+                        .addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
             }
             case 6 ->
             {
@@ -188,13 +189,16 @@ implements FabricItem, IAnimatable, ISyncable
             }
         }
     }
+
     @Override
     public AnimationFactory getFactory()
     {
         return this.factory;
     }
-    private void setDefaultNBT(NbtCompound nbtCompound)
+    private void setDefaultNBT(ItemStack stack)
     {
+        NbtCompound nbtCompound = stack.getOrCreateNbt();
+
         nbtCompound.putInt("reloadTick", 0);
         nbtCompound.putInt("currentCycle", 1);
         nbtCompound.putInt("Clip", 0);
@@ -206,13 +210,14 @@ implements FabricItem, IAnimatable, ISyncable
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
-        NbtCompound nbtCompound = stack.getOrCreateNbt();
         //Just setting the gun's default NBT tags
         //If there's a better way to do this, let me know
-        if (!nbtCompound.contains("reloadTick") || !nbtCompound.contains("Clip") || !nbtCompound.contains("currentCycle") || !nbtCompound.contains("isScoped") || !nbtCompound.contains("isReloading") || !nbtCompound.contains("isAiming"))
+        if (!stack.hasNbt())
         {
-            setDefaultNBT(nbtCompound);
+            setDefaultNBT(stack);
         }
+        NbtCompound nbtCompound = stack.getOrCreateNbt();
+
         //This part's for the keypress
         //to reload and aim the gun
         if (world.isClient())
@@ -227,16 +232,15 @@ implements FabricItem, IAnimatable, ISyncable
                 buf.writeBoolean(true);
                 ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "reload"), buf);
             }
-            if (((PlayerEntity) entity).getMainHandStack() == stack && AnimatedGunsClient.aimToggle.isPressed() && !nbtCompound.getBoolean("isReloading") && !this.keyLock)
+
+            if (((PlayerEntity)entity).getMainHandStack() == stack && !nbtCompound.getBoolean("isReloading"))
             {
-                this.keyLock = true;
-                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-                buf.writeBoolean(!stack.getOrCreateNbt().getBoolean("isAiming"));
-                ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "aim"), buf);
-            }
-            else if (!AnimatedGunsClient.aimToggle.isPressed())
-            {
-                this.keyLock = false;
+                while(AnimatedGunsClient.aimToggle.wasPressed())
+                {
+                    PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                    buf.writeBoolean(!stack.getOrCreateNbt().getBoolean("isAiming"));
+                    ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "aim"), buf);
+                }
             }
         }
 
