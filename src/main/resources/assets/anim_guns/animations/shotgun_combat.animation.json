@@ -18,7 +18,7 @@
 			"bones": {
 				"gunbody": {
 					"position": {
-						"vector": [2.475, 1.75, 0]
+						"vector": [2.46125, 1.75, 0]
 					}
 				}
 			}
@@ -126,33 +126,33 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.475, 1.75, 3],
+							"vector": [2.46125, 1.75, 3],
 							"easing": "easeInElastic"
 						},
 						"0.0417": {
-							"vector": [2.475, 2.25, 2],
+							"vector": [2.46125, 2.25, 2],
 							"easing": "easeOutQuad"
 						},
 						"0.25": {
-							"vector": [2.475, 1.75, 0],
+							"vector": [2.46125, 1.75, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						},
 						"0.2917": {
-							"vector": [2.475, 1.75, 0],
+							"vector": [2.46125, 1.75, 0],
 							"easing": "linear"
 						},
 						"0.375": {
-							"vector": [2.475, 1.75, 1],
+							"vector": [2.46125, 1.75, 1],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						},
 						"0.5": {
-							"vector": [2.475, 1.75, 1],
+							"vector": [2.46125, 1.75, 1],
 							"easing": "linear"
 						},
 						"0.5833": {
-							"vector": [2.475, 1.75, 0],
+							"vector": [2.46125, 1.75, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [1]
 						}
@@ -181,7 +181,7 @@
 						"vector": [0, 0, "Math.random(-45,45)"]
 					},
 					"position": {
-						"vector": [2.475, 1.75, 0]
+						"vector": [2.46125, 1.75, 0]
 					},
 					"scale": {
 						"0.0": {
@@ -215,7 +215,7 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [2.475, 1.75, 0]
+							"vector": [2.46125, 1.75, 0]
 						},
 						"0.0833": {
 							"vector": [3.21875, -0.25, 1],

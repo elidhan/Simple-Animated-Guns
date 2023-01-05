@@ -9,20 +9,23 @@ import net.elidhan.anim_guns.screen.BlueprintScreenHandler;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.bernie.geckolib3.network.GeckoLibNetwork;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class AnimatedGuns implements ModInitializer
 {
@@ -51,7 +54,7 @@ public class AnimatedGuns implements ModInitializer
 			if (player.getMainHandStack().getItem() instanceof GunItem)
 			{
 				ItemStack stack = player.getMainHandStack();
-
+				player.setSprinting(false);
 				stack.getOrCreateNbt().putBoolean("isReloading", buf.readBoolean());
 			}
 		});
@@ -79,6 +82,23 @@ public class AnimatedGuns implements ModInitializer
 				player.dropItem(new ItemStack(blueprint), false, true);
 			}
 
+		});
+
+		ServerPlayNetworking.registerGlobalReceiver(new Identifier(MOD_ID,"gun_melee"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->
+		{
+			ItemStack stack = buf.readItemStack();
+
+			((GunItem)stack.getItem()).toggleAim(player.getMainHandStack(),false, player.getWorld(), player);
+
+			float i = player.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0)*((GunItem) stack.getItem()).getRateOfFire();
+			if ((int)i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
+
+			final int id = GeckoLibUtil.guaranteeIDForStack(stack, player.getWorld());
+			GeckoLibNetwork.syncAnimation(player, (GunItem)stack.getItem(), id, 9);
+			for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+			{
+				GeckoLibNetwork.syncAnimation(otherPlayer, (GunItem)stack.getItem(), id, 9);
+			}
 		});
 
 		ServerPlayNetworking.registerGlobalReceiver(new Identifier(MOD_ID,"aim"), (server, player, serverPlayNetworkHandler, buf, packetSender) ->

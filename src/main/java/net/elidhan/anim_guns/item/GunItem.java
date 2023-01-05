@@ -1,5 +1,7 @@
 package net.elidhan.anim_guns.item;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import io.netty.buffer.Unpooled;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
@@ -10,10 +12,16 @@ import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,11 +31,17 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.LiteralText;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -41,10 +55,14 @@ import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
+import java.util.List;
+import java.util.Random;
+
 public abstract class GunItem
 extends Item
 implements FabricItem, IAnimatable, ISyncable
 {
+    public final Random random;
     public AnimationFactory factory = GeckoLibUtil.createFactory(this);
     public static final String controllerName = "controller";
     private final String gunID;
@@ -52,9 +70,10 @@ implements FabricItem, IAnimatable, ISyncable
     private final float gunDamage;
     private final int rateOfFire;
     private final int magSize;
-    private final Item ammoType;
+    public final Item ammoType;
     private final int reloadCooldown;
     private final float bulletSpread;
+    private final float gunRecoilX;
     private final float gunRecoilY;
     private final int pelletCount;
     private final int loadingType;
@@ -68,10 +87,13 @@ implements FabricItem, IAnimatable, ISyncable
     private final int reloadStage1;
     private final int reloadStage2;
     private final int reloadStage3;
+    private boolean isSprinting;
+    private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
                    Item ammoType, int reloadCooldown, float bulletSpread,
-                   float gunRecoilY, int pelletCount, int loadingType,
+                   float gunRecoilX, float gunRecoilY, int pelletCount, int loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
                    int reloadStage1, int reloadStage2, int reloadStage3)
@@ -79,6 +101,7 @@ implements FabricItem, IAnimatable, ISyncable
         super(settings.maxDamage((magSize*10)+1));
         GeckoLibNetwork.registerSyncable(this);
 
+        this.random = new Random();
         this.gunID = gunID;
         this.animationID = animationID;
         this.gunDamage = gunDamage;
@@ -87,6 +110,7 @@ implements FabricItem, IAnimatable, ISyncable
         this.ammoType = ammoType;
         this.reloadCooldown = reloadCooldown;
         this.bulletSpread = bulletSpread;
+        this.gunRecoilX = gunRecoilX;
         this.gunRecoilY = gunRecoilY;
         this.pelletCount = pelletCount;
         this.loadingType = loadingType;
@@ -100,9 +124,80 @@ implements FabricItem, IAnimatable, ISyncable
         this.reloadStage1 = reloadStage1;
         this.reloadStage2 = reloadStage2;
         this.reloadStage3 = reloadStage3;
+        this.isSprinting = false;
+        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", 16, EntityAttributeModifier.Operation.ADDITION));
+        this.attributeModifiers = builder.build();
+    }
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+    {
+        ItemStack itemStack = user.getStackInHand(hand);
+
+        if (hand == Hand.MAIN_HAND && !user.isSprinting() && isLoaded(itemStack))
+        {
+            shoot(world, user, itemStack);
+        }
+        return TypedActionResult.fail(itemStack);
+    }
+    public void shoot(World world, PlayerEntity user, ItemStack itemStack)
+    {
+        double h_kick = getRecoilX(itemStack);
+        float v_kick = getRecoilY(itemStack);
+
+        user.getItemCooldownManager().set(this, this.rateOfFire);
+
+        if (!world.isClient())
+        {
+            for(int i = 0; i < this.pelletCount; i++)
+            {
+                BulletEntity bullet = new BulletEntity(user, world, this.gunDamage, 12);
+                bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10, this.bulletSpread);
+                bullet.setAccel(bullet.getVelocity());
+
+                world.spawnEntity(bullet);
+            }
+            final int id = GeckoLibUtil.guaranteeIDForStack(itemStack, (ServerWorld) world);
+            GeckoLibNetwork.syncAnimation(user, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
+            for (PlayerEntity otherPlayer : PlayerLookup.tracking(user))
+            {
+                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
+            }
+
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeFloat(v_kick);
+            buf.writeDouble(h_kick);
+            ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
+        }
+
+        if(!user.getAbilities().creativeMode)
+        {
+            itemStack.getOrCreateNbt().putInt("Clip", itemStack.getOrCreateNbt().getInt("Clip") - 1);
+            itemStack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        }
+
+        world.playSound(null,
+                user.getX(),
+                user.getY(),
+                user.getZ(),
+                shootSound,SoundCategory.MASTER,1.0f, 1.0f);
+
+        if(this.reloadCycles > 1)
+        {
+            itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
+        }
+
+        itemStack.getOrCreateNbt().putInt("reloadTick",0);
+        itemStack.getOrCreateNbt().putBoolean("isReloading",false);
     }
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
+        if(event.getController().getCurrentAnimation() == null || event.getController().getAnimationState() == AnimationState.Stopped)
+        {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle",ILoopType.EDefaultLoopTypes.LOOP));
+        }
+
         return PlayState.CONTINUE;
     }
     @Override
@@ -170,6 +265,19 @@ implements FabricItem, IAnimatable, ISyncable
                 controller.setAnimation(new AnimationBuilder()
                         .addAnimation("aim_reload_start", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             }
+            case 9 ->
+            {
+                controller.markNeedsReload();
+                controller.setAnimation(new AnimationBuilder()
+                        .addAnimation("melee", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
+                        .addAnimation("idle"));
+            }
+            case 10 ->
+            {
+                controller.markNeedsReload();
+                controller.setAnimation(new AnimationBuilder()
+                        .addAnimation("sprinting", ILoopType.EDefaultLoopTypes.LOOP));
+            }
         }
     }
     protected <ENTITY extends IAnimatable> void soundListener(SoundKeyframeEvent<ENTITY> event)
@@ -186,6 +294,8 @@ implements FabricItem, IAnimatable, ISyncable
                         player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
                 case "reload_end" ->
                         player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
+                case "melee" ->
+                        player.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
             }
         }
     }
@@ -207,16 +317,48 @@ implements FabricItem, IAnimatable, ISyncable
         nbtCompound.putBoolean("isReloading", false);
         nbtCompound.putBoolean("isAiming", false);
     }
+
+    @Override
+    public void onCraft(ItemStack stack, World world, PlayerEntity player)
+    {
+        setDefaultNBT(stack);
+        if(world instanceof ServerWorld)
+        {
+            final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
+            GeckoLibNetwork.syncAnimation(player, this, id, 0);
+            for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
+            {
+                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 0);
+            }
+        }
+        super.onCraft(stack, world, player);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    {
+        if(Screen.hasShiftDown())
+        {
+            tooltip.add(new TranslatableText("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
+            tooltip.add(new TranslatableText("Damage: "+this.gunDamage).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("Bullet Spread: "+this.bulletSpread).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("Recoil: "+this.gunRecoilY).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("RPM: "+(int)(((float)20/this.rateOfFire)*60)).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("Reload Time: "+(float)this.reloadCooldown/20+"s").formatted(Formatting.GRAY));
+        }
+        else
+        {
+            tooltip.add(new TranslatableText("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
+            tooltip.add(new TranslatableText("Press Shift to see stats").formatted(Formatting.AQUA));
+        }
+        super.appendTooltip(stack, world, tooltip, context);
+    }
+
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
-        //Just setting the gun's default NBT tags
-        //If there's a better way to do this, let me know
-        if (!stack.hasNbt())
-        {
-            setDefaultNBT(stack);
-        }
         NbtCompound nbtCompound = stack.getOrCreateNbt();
+        this.isSprinting = entity.isSprinting();
 
         //This part's for the keypress
         //to reload and aim the gun
@@ -244,6 +386,37 @@ implements FabricItem, IAnimatable, ISyncable
             }
         }
 
+        //update sprint animation
+        if(world instanceof ServerWorld)
+        {
+            if(this.isSprinting
+                && ((PlayerEntity)entity).getMainHandStack() == stack
+                && GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation() != null
+                && !GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation().animationName.equals("sprinting")
+                && !GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation().animationName.equals("melee"))
+            {
+                this.toggleAim(stack, false, (ServerWorld) world, ((PlayerEntity) entity));
+
+                final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) world);
+                GeckoLibNetwork.syncAnimation((PlayerEntity) entity, this, id, 10);
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(entity))
+                {
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 10);
+                }
+            }
+            else if(!this.isSprinting
+                    && GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation() != null
+                    && GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation().animationName.equals("sprinting"))
+            {
+                final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) world);
+                GeckoLibNetwork.syncAnimation((PlayerEntity) entity, this, id, 0);
+                for (PlayerEntity otherPlayer : PlayerLookup.tracking(entity))
+                {
+                    GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 0);
+                }
+            }
+        }
+
         //The actual reload process/tick
         if (nbtCompound.getBoolean("isReloading"))
         {
@@ -253,7 +426,7 @@ implements FabricItem, IAnimatable, ISyncable
                     || (remainingAmmo(stack) >= this.magSize && this.reloadCycles <= 1)))
                 nbtCompound.putBoolean("isReloading",false);
 
-            doReloadTick(world, nbtCompound, (PlayerEntity)entity, stack);
+            this.doReloadTick(world, nbtCompound, (PlayerEntity)entity, stack);
         }
         else
         {
@@ -339,68 +512,14 @@ implements FabricItem, IAnimatable, ISyncable
                 break;
         }
     }
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+    private float getRecoilX(ItemStack stack)
     {
-        ItemStack itemStack = user.getStackInHand(hand);
-
-        if (hand == Hand.MAIN_HAND && !user.isSprinting() && isLoaded(itemStack))
-        {
-            shoot(world, user, itemStack);
-        }
-        return TypedActionResult.fail(itemStack);
+        boolean rd = this.random.nextBoolean();
+        return stack.getOrCreateNbt().getBoolean("isAiming") ?
+                (rd ? this.gunRecoilX : -this.gunRecoilX) / 2 :
+                (rd ? this.gunRecoilX : -this.gunRecoilX);
     }
-    public void shoot(World world, PlayerEntity user, ItemStack itemStack)
-    {
-        float v_kick = user.getPitch() - getRecoil(itemStack);
-        user.getItemCooldownManager().set(this, this.rateOfFire);
-
-        if (!world.isClient())
-        {
-            for(int i = 0; i < this.pelletCount; i++)
-            {
-                BulletEntity bullet = new BulletEntity(user, world, this.gunDamage);
-                bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10, this.bulletSpread);
-                bullet.setAccel(bullet.getVelocity());
-
-                world.spawnEntity(bullet);
-            }
-            final int id = GeckoLibUtil.guaranteeIDForStack(itemStack, (ServerWorld) world);
-            GeckoLibNetwork.syncAnimation(user, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(user))
-            {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
-            }
-
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeFloat(v_kick);
-            ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
-        }
-
-        if(!user.getAbilities().creativeMode)
-        {
-            itemStack.getOrCreateNbt().putInt("Clip", itemStack.getOrCreateNbt().getInt("Clip") - 1);
-            itemStack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        }
-
-        world.playSound(null,
-                user.getX(),
-                user.getY(),
-                user.getZ(),
-                shootSound,SoundCategory.MASTER,1.0f, 1.0f);
-
-        if(this.reloadCycles > 1)
-        {
-            itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
-        }
-
-        itemStack.getOrCreateNbt().putInt("reloadTick",0);
-        itemStack.getOrCreateNbt().putBoolean("isReloading",false);
-        if(itemStack.getOrCreateNbt().getBoolean("isScoped"))
-            itemStack.getOrCreateNbt().putBoolean("isAiming", false);
-    }
-    private float getRecoil(ItemStack stack)
+    private float getRecoilY(ItemStack stack)
     {
         return stack.getOrCreateNbt().getBoolean("isAiming") ? this.gunRecoilY / 2 : this.gunRecoilY;
     }
@@ -430,6 +549,9 @@ implements FabricItem, IAnimatable, ISyncable
     public void toggleAim(ItemStack stack, boolean aim, ServerWorld world, PlayerEntity player)
     {
         stack.getOrCreateNbt().putBoolean("isAiming", aim);
+        stack.getOrCreateNbt().putBoolean("isScoped",this.isScoped);
+
+        if (aim) player.setSprinting(false);
 
         final int id = GeckoLibUtil.guaranteeIDForStack(stack, world);
         GeckoLibNetwork.syncAnimation(player, this, id, stack.getOrCreateNbt().getBoolean("isAiming")?6:0);
@@ -438,7 +560,13 @@ implements FabricItem, IAnimatable, ISyncable
             GeckoLibNetwork.syncAnimation(otherPlayer, this, id, stack.getOrCreateNbt().getBoolean("isAiming")?6:0);
         }
     }
-    private static int remainingAmmo(ItemStack stack)
+    public void doMeleeAttack(ItemStack itemStack)
+    {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeItemStack(itemStack);
+        ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "gun_melee"), buf);
+    }
+    public static int remainingAmmo(ItemStack stack)
     {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
         return nbtCompound.getInt("Clip");
@@ -452,11 +580,26 @@ implements FabricItem, IAnimatable, ISyncable
     {
         return false;
     }
-
+    @Override
+    public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner)
+    {
+        return false;
+    }
     @Override
     public boolean isEnchantable(ItemStack stack)
     {
         return false;
+    }
+    @Override
+    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
+        if (slot == EquipmentSlot.MAINHAND) {
+            return this.attributeModifiers;
+        }
+        return super.getAttributeModifiers(slot);
+    }
+    public int getRateOfFire()
+    {
+        return this.rateOfFire;
     }
     public String getID()
     {

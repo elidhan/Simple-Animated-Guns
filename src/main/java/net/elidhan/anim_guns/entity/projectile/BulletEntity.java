@@ -21,16 +21,18 @@ public class BulletEntity extends ThrownItemEntity
 {
     private Vec3d accel;
     private float damage;
+    private float maxLife;
     private int lifeTick;
     public BulletEntity(EntityType<? extends ThrownItemEntity> entityType, World world)
     {
         super(entityType, world);
     }
 
-    public BulletEntity(LivingEntity livingEntity, World world, float dmg)
+    public BulletEntity(LivingEntity livingEntity, World world, float dmg, int maxLife)
     {
         super(AnimatedGuns.BulletEntityType, livingEntity, world);
         this.damage = dmg;
+        this.maxLife = maxLife;
         this.lifeTick = 0;
         this.setNoGravity(true);
     }
@@ -56,7 +58,7 @@ public class BulletEntity extends ThrownItemEntity
         if(accel != null)
             this.setVelocity(accel);
 
-        if(this.lifeTick >= 12)
+        if(this.lifeTick >= this.maxLife)
         {
             this.discard();
         }

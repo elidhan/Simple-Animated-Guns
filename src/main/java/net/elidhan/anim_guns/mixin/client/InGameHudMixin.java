@@ -7,9 +7,12 @@ import net.elidhan.anim_guns.mixininterface.InGameHudMixinInterface;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -22,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
-public class InGameHudMixin implements InGameHudMixinInterface
+public abstract class InGameHudMixin implements InGameHudMixinInterface
 {
     @Mutable
     @Final
@@ -110,6 +113,17 @@ public class InGameHudMixin implements InGameHudMixinInterface
             {
                 this.gunScopeScale = 0.5f;
             }
+        }
+    }
+
+    @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
+    private void cancelCrosshair(MatrixStack matrices, CallbackInfo ci)
+    {
+        if(client.player != null
+                && client.player.getMainHandStack().getItem() instanceof GunItem
+                && client.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"))
+        {
+            ci.cancel();
         }
     }
 }

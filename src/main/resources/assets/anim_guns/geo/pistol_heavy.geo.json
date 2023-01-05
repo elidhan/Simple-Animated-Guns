@@ -6,7 +6,7 @@
 				"identifier": "geometry.unknown",
 				"texture_width": 24,
 				"texture_height": 16,
-				"visible_bounds_width": 3,
+				"visible_bounds_width": 4,
 				"visible_bounds_height": 1.5,
 				"visible_bounds_offset": [0, 0.25, 0]
 			},
@@ -348,6 +348,44 @@
 								"west": {"uv": [2, 13], "uv_size": [0.5, 0.5]},
 								"up": {"uv": [13, 2], "uv_size": [0.5, 0.5]},
 								"down": {"uv": [3, 13.5], "uv_size": [0.5, -0.5]}
+							}
+						}
+					]
+				},
+				{
+					"name": "leftArm",
+					"parent": "gunbody",
+					"pivot": [6.00002, 6, 6],
+					"cubes": [
+						{
+							"origin": [4.50002, -4, 4.5],
+							"size": [3, 16, 3],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [3, 16]},
+								"east": {"uv": [0, 0], "uv_size": [3, 16]},
+								"south": {"uv": [0, 0], "uv_size": [3, 16]},
+								"west": {"uv": [0, 0], "uv_size": [3, 16]},
+								"up": {"uv": [3, 3], "uv_size": [-3, -3]},
+								"down": {"uv": [3, 3], "uv_size": [-3, -3]}
+							}
+						}
+					]
+				},
+				{
+					"name": "rightArm",
+					"parent": "gunbody",
+					"pivot": [-5.99998, 6, 6],
+					"cubes": [
+						{
+							"origin": [-7.49998, -4, 4.5],
+							"size": [3, 16, 3],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [3, 16]},
+								"east": {"uv": [0, 0], "uv_size": [3, 16]},
+								"south": {"uv": [0, 0], "uv_size": [3, 16]},
+								"west": {"uv": [0, 0], "uv_size": [3, 16]},
+								"up": {"uv": [3, 3], "uv_size": [-3, -3]},
+								"down": {"uv": [3, 3], "uv_size": [-3, -3]}
 							}
 						}
 					]

@@ -36,11 +36,12 @@ public class AnimatedGunsClient implements ClientModInitializer
         ClientPlayNetworking.registerGlobalReceiver(AnimatedGuns.RECOIL_PACKET_ID, (client, handler, buf, sender) ->
         {
             float kick = buf.readFloat();
+            double h_kick = buf.readDouble();
             client.execute(() ->
             {
                 if(client.player != null)
                 {
-                    client.player.setPitch(kick);
+                    client.player.changeLookDirection(h_kick*5, -kick*5);
                 }
             });
         });

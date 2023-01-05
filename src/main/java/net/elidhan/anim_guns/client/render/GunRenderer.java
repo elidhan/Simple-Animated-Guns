@@ -28,6 +28,7 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
 
     //I pray to Notch this stuff isn't gonna be the cause of a crash later on.
     private ModelTransformation.Mode transformType;
+    private VertexConsumerProvider bufferSource;
     private RenderLayer renderType;
 
     @Override
@@ -42,6 +43,7 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
     public void render(GeoModel model, GunItem animatable, float partialTick, RenderLayer type, MatrixStack poseStack, @Nullable VertexConsumerProvider bufferSource, @Nullable VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
     {
         //Will this break something?
+        this.bufferSource = bufferSource;
         this.renderType = type;
         super.render(model, animatable, partialTick, type, poseStack, bufferSource, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
@@ -62,22 +64,15 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
                 bone.setHidden(true);
                 renderArms = true;
             }
-            case "stock_0" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("stockID") != 0);
-            case "stock_1" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("stockID") != 1);
-            case "stock_2" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("stockID") != 2);
-            case "muzzle" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("muzzleID") == 0);
-            case "foregrip" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("foregripID") == 0);
-            case "sight_0" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("sightID") != 0);
-            case "sight_1" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("sightID") != 1);
-            case "sight_2" -> bone.setHidden(currentItemStack.getOrCreateNbt().getInt("sightID") != 2);
 
-            //I have no idea what a packedLight is but it makes the muzzleflah fullbright when I set it to a high number
+            //I have no idea what a packedLight is but it makes the muzzleflash fullbright when I set it to a high number
             //so I'm keeping it like this
             case "muzzleflash" -> packedLight = 255;
         }
 
         //I just want the arms to show, why do we have to suffer just to get opposable thumbs
-        if(renderArms && this.transformType.isFirstPerson())
+        //  && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND
+        if(renderArms && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND)
         {
             PlayerEntityRenderer playerEntityRenderer = (PlayerEntityRenderer)client.getEntityRenderDispatcher().getRenderer(client.player);
             PlayerEntityModel<AbstractClientPlayerEntity> playerEntityModel = playerEntityRenderer.getModel();
@@ -93,13 +88,13 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
             assert(client.player != null);
 
             Identifier playerSkin = client.player.getSkinTexture();
-            VertexConsumer arm = this.rtb.getBuffer(RenderLayer.getEntitySolid(playerSkin));
-            VertexConsumer sleeve = this.rtb.getBuffer(RenderLayer.getEntityTranslucent(playerSkin));
+            VertexConsumer arm = this.bufferSource.getBuffer(RenderLayer.getEntitySolid(playerSkin));
+            VertexConsumer sleeve = this.bufferSource.getBuffer(RenderLayer.getEntityTranslucent(playerSkin));
 
             if(bone.name.equals("leftArm"))
             {
-                //poseStack.scale(0.875f,1f,0.875f);
-                poseStack.translate(0,-0.30625,0);
+                poseStack.scale(0.67f, 1.33f, 0.67f);
+                poseStack.translate(-0.25,-0.43625,0.1625);
                 playerEntityModel.leftArm.setPivot(bone.rotationPointX,bone.rotationPointY,bone.rotationPointZ);
                 playerEntityModel.leftArm.setAngles(0,0,0);
                 playerEntityModel.leftArm.render(poseStack, arm, packedLight, packedOverlay, 1, 1, 1, 1);
@@ -110,8 +105,8 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
             }
             else if (bone.name.equals("rightArm"))
             {
-                //poseStack.scale(0.875f,1f,0.875f);
-                poseStack.translate(0,-0.30625,0);
+                poseStack.scale(0.67f, 1.33f, 0.67f);
+                poseStack.translate(0.25,-0.43625,0.1625);
                 playerEntityModel.rightArm.setPivot(bone.rotationPointX,bone.rotationPointY,bone.rotationPointZ);
                 playerEntityModel.rightArm.setAngles(0,0,0);
                 playerEntityModel.rightArm.render(poseStack, arm, packedLight, packedOverlay, 1, 1, 1, 1);
@@ -124,6 +119,6 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
             poseStack.pop();
         }
 
-        super.renderRecursively(bone, poseStack, this.rtb.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
+        super.renderRecursively(bone, poseStack, this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

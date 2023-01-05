@@ -11,7 +11,8 @@
     "client.PlayerEntityRenderMixin",
     "client.AbstractClientPlayerEntityMixin",
     "client.InGameHudMixin",
-    "client.HeldItemRendererMixin"
+    "client.HeldItemRendererMixin",
+    "client.ClientPlayerEntityMixin"
   ],
   "server": [
   ],
