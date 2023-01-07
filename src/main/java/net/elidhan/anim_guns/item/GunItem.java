@@ -39,6 +39,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.AnimationState;
@@ -597,6 +598,13 @@ implements FabricItem, IAnimatable, ISyncable
         }
         return super.getAttributeModifiers(slot);
     }
+
+    @Override
+    public int getItemBarColor(ItemStack stack)
+    {
+        return MathHelper.packRgb(0.0f,1f,1f);
+    }
+
     public int getRateOfFire()
     {
         return this.rateOfFire;

@@ -179,7 +179,7 @@ public class ModItems {
 		2,
 		30,
 		STANDARD_RIFLE_BULLET,
-		44,
+		50,
 		1f,
 		1f,
 		2f,
@@ -192,19 +192,19 @@ public class ModItems {
 		ModSounds.ASSAULTRIFLE_LIGHT,
 		1,
 		false,
-		8,
-		22,
-		37)
+		5,
+		21,
+		32)
 	{
 	});
 	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
 		"assaultrifle_heavy",
-		"assaultrifle_generic",
+		"assaultrifle_heavy",
 		8.5f,
 		3,
 		20,
 		STANDARD_RIFLE_BULLET,
-		44,
+		50,
 		0.5f,
 		1.25f,
 		3.5f,
@@ -217,9 +217,9 @@ public class ModItems {
 		ModSounds.ASSAULTRIFLE_HEAVY,
 		1,
 		false,
-		8,
-		22,
-		37)
+		5,
+		21,
+		32)
 	{
 	});
     public static final Item WAR_TORN_ASSAULT_RIFLE = registerItem("assaultrifle_rus", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
@@ -244,7 +244,7 @@ public class ModItems {
             false,
             10,
             24,
-            40)
+            39)
     {
     });
 
@@ -296,7 +296,7 @@ public class ModItems {
         false,
         4,
         5,
-        13)
+        15)
 	{
 	});
 	public static final Item CLASSIC_SNIPER_RIFLE = registerItem("sniper_classic", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),

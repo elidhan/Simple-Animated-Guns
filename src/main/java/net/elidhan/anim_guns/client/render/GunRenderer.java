@@ -61,7 +61,7 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
         {
             case "leftArm", "rightArm" ->
             {
-                bone.setHidden(true);
+                bone.setHidden(true, false);
                 renderArms = true;
             }
 
