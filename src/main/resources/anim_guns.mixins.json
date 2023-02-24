@@ -14,8 +14,6 @@
     "client.HeldItemRendererMixin",
     "client.ClientPlayerEntityMixin"
   ],
-  "server": [
-  ],
   "injectors": {
     "defaultRequire": 1
   }

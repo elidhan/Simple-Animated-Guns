@@ -78,7 +78,7 @@
 				"gunbody": {
 					"rotation": {
 						"0.0": {
-							"vector": [2.5, 0, 0]
+							"vector": [2.5, "h_recoil", 0]
 						},
 						"0.0417": {
 							"vector": [-37.5, 0, 0],

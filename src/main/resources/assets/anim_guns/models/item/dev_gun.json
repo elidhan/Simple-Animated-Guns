@@ -7,28 +7,28 @@
       "translation": [
         0,
         0,
-        -6.75
+        -2.5
       ]
     },
     "thirdperson_lefthand": {
       "translation": [
         0,
         0,
-        -6.75
+        -2.5
       ]
     },
     "firstperson_righthand": {
       "translation": [
         -6.5,
         4.75,
-        -0.5
+        4
       ]
     },
     "firstperson_lefthand": {
       "translation": [
         -6.5,
-        4.75,
-        -0.5
+        5,
+        4
       ]
     },
     "gui": {
@@ -38,14 +38,14 @@
         90
       ],
       "translation": [
-        -1.5,
-        2,
+        0,
+        -0.25,
         0
       ],
       "scale": [
-        0.84,
-        0.84,
-        0.84
+        0.98,
+        0.98,
+        0.98
       ]
     },
     "fixed": {

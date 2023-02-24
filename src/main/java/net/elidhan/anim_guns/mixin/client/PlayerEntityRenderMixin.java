@@ -34,6 +34,5 @@ public class PlayerEntityRenderMixin
             ci.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
             return;
         }
-        ci.setReturnValue(BipedEntityModel.ArmPose.ITEM);
     }
 }

@@ -29,7 +29,7 @@
 				"gunbody": {
 					"rotation": {
 						"0.0": {
-							"vector": [-45, 0, 0.5],
+							"vector": [-45, "h_recoil", 0.5],
 							"easing": "easeInElastic",
 							"easingArgs": [5]
 						},

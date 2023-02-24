@@ -23,6 +23,9 @@
     ],
     "client": [
       "net.elidhan.anim_guns.AnimatedGunsClient"
+    ],
+    "preLaunch": [
+      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
     ]
   },
   "mixins": [
@@ -30,6 +33,7 @@
   ],
 
   "depends": {
+    "geckolib3": ">=3.0.79",
     "fabricloader": ">=0.14.11",
     "fabric": "*",
     "minecraft": "1.18.2",

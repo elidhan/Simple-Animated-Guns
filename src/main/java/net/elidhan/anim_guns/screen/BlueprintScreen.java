@@ -56,7 +56,7 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
             {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeInt(getCurrentBlueprint());
-                ClientPlayNetworking.send(new Identifier(AnimatedGuns.MOD_ID, "select_blueprint"), buf);
+                ClientPlayNetworking.send(AnimatedGuns.SELECT_BLUEPRINT_PACKET_ID, buf);
 
                 this.close();
             }

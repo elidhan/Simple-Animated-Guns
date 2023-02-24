@@ -30,36 +30,25 @@ public abstract class MinecraftClientMixin
     @Nullable
     public ClientPlayerEntity player;
     @Shadow
-    private int itemUseCooldown;
-    @Shadow
     @Nullable
     public HitResult crosshairTarget;
-    @Shadow
-    @Nullable
-    public ClientWorld world;
     @Shadow
     protected int attackCooldown;
     @Shadow
     @Nullable
     public ClientPlayerInteractionManager interactionManager;
-    @Shadow
-    @Final
-    public GameOptions options;
-
-    @Shadow
-    protected abstract void doItemUse();
-
-    @Inject(method = "doItemUse", at = @At("RETURN"))
-    public void doItemUse(CallbackInfo ci)
-    {
-        if (this.player == null)
-            return;
-        ItemStack itemStack = this.player.getMainHandStack();
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof GunItem)
-            itemUseCooldown = 0;
-    }
 
     //Replace attack animation
+    /*@Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
+    private void gunMeleeAttack(CallbackInfoReturnable<Boolean> cir)
+    {
+        if (player != null && player.getMainHandStack().getItem() instanceof GunItem)
+        {
+            ((GunItem)player.getMainHandStack().getItem()).doMeleeAttack(player.getMainHandStack());
+            cir.setReturnValue(false);
+        }
+    }*/
+
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void gunMeleeAttack(CallbackInfoReturnable<Boolean> cir)
     {
@@ -96,7 +85,6 @@ public abstract class MinecraftClientMixin
         }
     }
 
-    //Prevent mining animation when holding gun
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
     private void handleBlockBreaking(boolean b, CallbackInfo ci)
     {

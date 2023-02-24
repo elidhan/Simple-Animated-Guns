@@ -1,7 +1,6 @@
 package net.elidhan.anim_guns;
 
 import net.elidhan.anim_guns.client.render.GunRenderer;
-import net.elidhan.anim_guns.entity.projectile.BulletEntityRenderer;
 import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.screen.BlueprintScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -9,7 +8,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -29,9 +27,6 @@ public class AnimatedGunsClient implements ClientModInitializer
         KeyBindingHelper.registerKeyBinding(reloadToggle);
         KeyBindingHelper.registerKeyBinding(aimToggle);
 
-        //Projectile render
-        EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletEntityRenderer::new);
-
         //Recoil Stuff
         ClientPlayNetworking.registerGlobalReceiver(AnimatedGuns.RECOIL_PACKET_ID, (client, handler, buf, sender) ->
         {
@@ -46,17 +41,19 @@ public class AnimatedGunsClient implements ClientModInitializer
             });
         });
 
-        //Geckolib Stuff
+        //Geckolib
         GeoItemRenderer.registerItemRenderer(ModItems.PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_PISTOL, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.MAGNUM_REVOLVER, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.OLD_ARMY_REVOLVER, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.MACHINE_PISTOL, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_SMG, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.DOUBLE_BARRELED_SHOTGUN, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.RIOT_SHOTGUN, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.CLASSIC_SNIPER_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.BRUSH_GUN, new GunRenderer());
 

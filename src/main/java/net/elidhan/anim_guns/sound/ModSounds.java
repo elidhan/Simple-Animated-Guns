@@ -25,6 +25,11 @@ public class ModSounds
     public static SoundEvent RELOAD_GENERIC_SMG_P2 = registerSoundEvent("generic_smg_p2");
     public static SoundEvent RELOAD_GENERIC_SMG_P3 = registerSoundEvent("generic_smg_p3");
     public static SoundEvent SMG_MACHINEPISTOL = registerSoundEvent("smg_machinepistol");
+    public static SoundEvent RELOAD_HEAVY_SMG_P0 = registerSoundEvent("heavy_smg_p0");
+    public static SoundEvent RELOAD_HEAVY_SMG_P1 = registerSoundEvent("heavy_smg_p1");
+    public static SoundEvent RELOAD_HEAVY_SMG_P2 = registerSoundEvent("heavy_smg_p2");
+    public static SoundEvent RELOAD_HEAVY_SMG_P3 = registerSoundEvent("heavy_smg_p3");
+    public static SoundEvent SMG_HEAVY = registerSoundEvent("smg_heavy");
     public static SoundEvent RELOAD_GENERIC_AR_P1 = registerSoundEvent("generic_ar_p1");
     public static SoundEvent RELOAD_GENERIC_AR_P2 = registerSoundEvent("generic_ar_p2");
     public static SoundEvent RELOAD_GENERIC_AR_P3 = registerSoundEvent("generic_ar_p3");
