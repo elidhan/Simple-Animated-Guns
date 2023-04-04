@@ -96,6 +96,15 @@
 		]
 	},
 
+	"riot_shotgun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/riot_shotgun_p1" ] },
+	"riot_shotgun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/riot_shotgun_p2" ] },
+	"riot_shotgun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/riot_shotgun_p3" ] },
+	"shotgun_riot": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/shotgun_riot_1"
+		]
+	},
+
 	"generic_sniper_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p1" ] },
 	"generic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p2" ] },
 	"generic_sniper_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p3" ] },

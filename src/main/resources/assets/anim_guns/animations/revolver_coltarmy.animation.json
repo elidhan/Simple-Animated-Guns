@@ -25,6 +25,99 @@
 				}
 			}
 		},
+		"melee": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [-87.0408, -3.08662, 71.88698],
+							"easing": "easeInSine"
+						},
+						"0.2083": {
+							"vector": [-72.04067, -3.08718, 71.88748],
+							"easing": "easeOutBack",
+							"easingArgs": [10]
+						},
+						"0.2917": {
+							"vector": [-72.04067, -3.08718, 71.88748],
+							"easing": "easeOutBack",
+							"easingArgs": [2]
+						},
+						"0.5": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutSine"
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [5, 1, 0],
+							"easing": "easeInSine"
+						},
+						"0.2083": {
+							"vector": [3, 1, -7],
+							"easing": "easeOutBack",
+							"easingArgs": [2]
+						},
+						"0.2917": {
+							"vector": [3, 1, -7],
+							"easing": "easeOutBack",
+							"easingArgs": [2]
+						},
+						"0.5": {
+							"vector": [0, 0, 0],
+							"easing": "easeOutSine"
+						}
+					}
+				},
+				"leftArm": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"rightArm": {
+					"rotation": {
+						"vector": [90, 0, -180]
+					},
+					"position": {
+						"vector": [6, -7.21875, 2]
+					}
+				}
+			}
+		},
+		"sprinting": {
+			"loop": true,
+			"bones": {
+				"gunbody": {
+					"rotation": {
+						"vector": ["-60+(Math.sin(query.anim_time*550)*5)", 0, 11.25]
+					},
+					"position": {
+						"vector": [-1, "2+(Math.sin(query.anim_time*1100))", "-2+(Math.sin(query.anim_time*550))"]
+					}
+				},
+				"leftArm": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"rightArm": {
+					"rotation": {
+						"vector": [90, 0, -180]
+					},
+					"position": {
+						"vector": [6, -7.21875, 2]
+					}
+				}
+			}
+		},
 		"aim": {
 			"loop": true,
 			"animation_length": 1,
@@ -256,7 +349,7 @@
 		},
 		"aim_reload_start": {
 			"loop": true,
-			"animation_length": 1,
+			"animation_length": 1.5,
 			"bones": {
 				"gunbody": {
 					"rotation": {
@@ -576,7 +669,7 @@
 		},
 		"reload_magout": {
 			"loop": true,
-			"animation_length": 1.5,
+			"animation_length": 1,
 			"bones": {
 				"gunbody": {
 					"rotation": {

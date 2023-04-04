@@ -139,9 +139,9 @@ public class ModItems {
             ModSounds.REVOLVER_COLTARMY,
             6,
             false,
+            20,
             21,
-            22,
-            51)
+            50)
     {
     });
 	public static final Item MACHINE_PISTOL = registerItem("smg_machinepistol", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
@@ -272,7 +272,7 @@ public class ModItems {
 			4,
 			2,
 			SHOTGUN_SHELL,
-			45,
+			44,
 			7.5f,
 			new float[] {0.5f, 15f},
 			5,
@@ -284,9 +284,9 @@ public class ModItems {
 			ModSounds.SHOTGUN_DOUBLEBARREL,
 			1,
 			false,
+			11,
 			12,
-			13,
-			33)
+			30)
 	{
 	});
 
@@ -328,10 +328,10 @@ public class ModItems {
             10,
             GunItem.LoadingType.PER_CARTRIDGE,
             null,
-            ModSounds.RELOAD_COMBAT_SHOTGUN_P1,
-            ModSounds.RELOAD_COMBAT_SHOTGUN_P2,
-            ModSounds.RELOAD_BRUSH_GUN_P3,
-            ModSounds.SHOTGUN_DOUBLEBARREL,
+            ModSounds.RELOAD_RIOT_SHOTGUN_P1,
+            ModSounds.RELOAD_RIOT_SHOTGUN_P2,
+            ModSounds.RELOAD_RIOT_SHOTGUN_P3,
+            ModSounds.SHOTGUN_RIOT,
             8,
             false,
             4,
@@ -347,7 +347,7 @@ public class ModItems {
         20,
         5,
         HEAVY_RIFLE_BULLET,
-        35,
+        36,
         0.125f,
 		new float[]{2.5f, 8.25f},
         1,
@@ -361,7 +361,7 @@ public class ModItems {
         true,
         12,
         13,
-        22)
+        24)
 	{
 	});
 
@@ -372,7 +372,7 @@ public class ModItems {
 			12,
 			10,
 			HEAVY_HANDGUN_BULLET,
-			32,
+			36,
 			0.5f,
 			new float[] {1.75f, 5.25f},
 			1,
@@ -386,7 +386,7 @@ public class ModItems {
 			false,
 			8,
 			9,
-			20)
+			21)
 	{
 	});
 
