@@ -30,7 +30,7 @@
 		},
 		"melee": {
 			"loop": true,
-			"animation_length": 1,
+			"animation_length": 0.5,
 			"bones": {
 				"gunbody": {
 					"rotation": {
@@ -92,7 +92,7 @@
 							"vector": [4.25, -7.31, 0.19]
 						},
 						"0.125": {
-							"vector": [-2.75, -7.3125, 0.19]
+							"vector": [-2.75, -7.3125, 2.19]
 						}
 					},
 					"scale": {
@@ -117,6 +117,11 @@
 					"position": {
 						"vector": [6, -7.2813, 2]
 					}
+				}
+			},
+			"sound_effects": {
+				"0.125": {
+					"effect": "melee"
 				}
 			}
 		},

@@ -35,6 +35,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.elidhan.anim_guns.util.RaycastUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -157,6 +158,9 @@ implements FabricItem, IAnimatable, ISyncable
 
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
+        itemStack.getOrCreateNbt().putInt("reloadTick",0);
+        itemStack.getOrCreateNbt().putBoolean("isReloading", false);
+
         double h_kick = getRecoilX(itemStack);
         float v_kick = getRecoilY(itemStack);
 
@@ -166,21 +170,30 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 int maxDistance = 200;
 
+                Vec3d camUpDirection = RaycastUtil.rotVec(user.getPitch()-90, user.getYaw());
+
+                /*
                 Vec3d bulletDirection = user.getRotationVector().add(new Vec3d(
                         this.random.nextGaussian()/64,
                         this.random.nextGaussian()/64,
                         this.random.nextGaussian()/64
                 ).multiply(this.bulletSpread));
+                */
+
+                Vec3d bulletDirection = user.getRotationVector().add(RaycastUtil.horiSpread(user, random.nextFloat(-bulletSpread*5, bulletSpread*5)));
 
                 HitResult result = getHitResult(world, user, user.getEyePos(), bulletDirection, maxDistance);
 
                 if (result instanceof EntityHitResult entityHitResult) {
-                    entityHitResult.getEntity().damage(DamageSource.player(user), this.gunDamage);
+                    if (entityHitResult.getEntity().isInvulnerableTo(DamageSource.thrownProjectile(user, user))
+                        || entityHitResult.getEntity().isInvulnerable())
+                        continue;
+                    entityHitResult.getEntity().damage(DamageSource.thrownProjectile(user, user), this.gunDamage);
                     entityHitResult.getEntity().timeUntilRegen = 0;
                 } else {
                     BlockHitResult blockHitResult = (BlockHitResult) result;
-                    ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, world.getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 1);
-                    //((ServerWorld) world).spawnParticles(ParticleTypes.FLAME, blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 0);
+                    //((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, world.getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 1);
+                    ((ServerWorld) world).spawnParticles(ParticleTypes.FLAME, blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 0);
                 }
             }
 
@@ -215,9 +228,6 @@ implements FabricItem, IAnimatable, ISyncable
         {
             itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
         }
-
-        itemStack.getOrCreateNbt().putInt("reloadTick",0);
-        itemStack.getOrCreateNbt().putBoolean("isReloading",false);
     }
 
     public HitResult getHitResult(World world, PlayerEntity player, Vec3d origin, Vec3d direction, double maxDistance)
@@ -382,7 +392,7 @@ implements FabricItem, IAnimatable, ISyncable
         {
             tooltip.add(new TranslatableText("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
             tooltip.add(new TranslatableText("Damage: "+this.gunDamage).formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("Bullet Spread: ").formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("Bullet Spread: "+this.bulletSpread).formatted(Formatting.GRAY));
             tooltip.add(new TranslatableText("Recoil: "+this.gunRecoil[1]).formatted(Formatting.GRAY));
             tooltip.add(new TranslatableText("RPM: "+(int)(((float)20/this.rateOfFire)*60)).formatted(Formatting.GRAY));
             tooltip.add(new TranslatableText("Reload Time: "+(float)this.reloadCooldown/20+"s").formatted(Formatting.GRAY));
@@ -412,7 +422,8 @@ implements FabricItem, IAnimatable, ISyncable
                     && AnimatedGunsClient.reloadToggle.isPressed()
                     && remainingAmmo(stack) < this.magSize
                     && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
-                    && !nbtCompound.getBoolean("isReloading"))
+                    && !nbtCompound.getBoolean("isReloading")
+                    && !isSprinting)
             {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBoolean(true);
@@ -453,13 +464,13 @@ implements FabricItem, IAnimatable, ISyncable
         }
 
         //The actual reload process/tick
-        if (nbtCompound.getBoolean("isReloading"))
+        if (nbtCompound.getBoolean("isReloading") && !isSprinting)
         {
             if((mainHandGun != stack
                     || (reserveAmmoCount((PlayerEntity) entity, this.ammoType) <= 0 && this.reloadCycles <= 1)
                     || (nbtCompound.getInt("reloadTick") >= this.reloadCooldown)
                     || (remainingAmmo(stack) >= this.magSize && this.reloadCycles <= 1)))
-                nbtCompound.putBoolean("isReloading",false);
+                nbtCompound.putBoolean("isReloading", false);
 
             this.doReloadTick(world, nbtCompound, (PlayerEntity)entity, stack);
         }
@@ -467,6 +478,7 @@ implements FabricItem, IAnimatable, ISyncable
         {
             if (nbtCompound.getInt("reloadTick") > this.reloadStage3 && nbtCompound.getInt("reloadTick") <= this.reloadCooldown) finishReload((PlayerEntity) entity, stack);
 
+            nbtCompound.putBoolean("isReloading", false);
             nbtCompound.putInt("reloadTick", 0);
         }
     }

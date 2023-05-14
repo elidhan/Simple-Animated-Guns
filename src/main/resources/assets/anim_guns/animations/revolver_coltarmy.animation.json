@@ -27,7 +27,7 @@
 		},
 		"melee": {
 			"loop": true,
-			"animation_length": 1,
+			"animation_length": 0.5,
 			"bones": {
 				"gunbody": {
 					"rotation": {
@@ -58,16 +58,16 @@
 							"vector": [0, 0, 0]
 						},
 						"0.0833": {
-							"vector": [5, 1, 0],
+							"vector": [6, 0.5, 0],
 							"easing": "easeInSine"
 						},
 						"0.2083": {
-							"vector": [3, 1, -7],
+							"vector": [4, 0.5, -7],
 							"easing": "easeOutBack",
 							"easingArgs": [2]
 						},
 						"0.2917": {
-							"vector": [3, 1, -7],
+							"vector": [4, 0.5, -7],
 							"easing": "easeOutBack",
 							"easingArgs": [2]
 						},
@@ -89,6 +89,11 @@
 					"position": {
 						"vector": [6, -7.21875, 2]
 					}
+				}
+			},
+			"sound_effects": {
+				"0.125": {
+					"effect": "melee"
 				}
 			}
 		},

@@ -68,6 +68,7 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
             //I have no idea what a packedLight is but it makes the muzzleflash fullbright when I set it to a high number
             //so I'm keeping it like this
             case "muzzleflash" -> packedLight = 255;
+
         }
 
         //I just want the arms to show, why do we have to suffer just to get opposable thumbs

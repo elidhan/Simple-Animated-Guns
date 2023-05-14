@@ -10,7 +10,7 @@
       "item": "anim_guns:long_barrel"
     },
     "p": {
-      "item": "anim_guns:blueprint_shotgun_combat"
+      "item": "anim_guns:blueprint_shotgun_riot"
     },
     "f": {
       "item": "anim_guns:modern_handguard"
@@ -29,6 +29,6 @@
     }
   },
   "result": {
-    "item": "anim_guns:shotgun_combat"
+    "item": "anim_guns:shotgun_riot"
   }
 }

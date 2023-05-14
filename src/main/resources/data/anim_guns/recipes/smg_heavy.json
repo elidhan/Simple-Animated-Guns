@@ -7,10 +7,10 @@
   ],
   "key": {
     "b": {
-      "item": "anim_guns:long_barrel"
+      "item": "anim_guns:short_barrel"
     },
     "p": {
-      "item": "anim_guns:blueprint_shotgun_combat"
+      "item": "anim_guns:blueprint_smg_heavy"
     },
     "f": {
       "item": "anim_guns:modern_handguard"
@@ -25,10 +25,10 @@
       "item": "anim_guns:modern_stock"
     },
     "m": {
-      "item": "anim_guns:tube_magazine"
+      "item": "anim_guns:smg_magazine"
     }
   },
   "result": {
-    "item": "anim_guns:shotgun_combat"
+    "item": "anim_guns:smg_heavy"
   }
 }

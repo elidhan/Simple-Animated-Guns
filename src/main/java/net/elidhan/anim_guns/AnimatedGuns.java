@@ -49,7 +49,6 @@ public class AnimatedGuns implements ModInitializer
 			if (player.getMainHandStack().getItem() instanceof GunItem)
 			{
 				ItemStack stack = player.getMainHandStack();
-				player.setSprinting(false);
 				stack.getOrCreateNbt().putBoolean("isReloading", buf.readBoolean());
 
 				final int id = GeckoLibUtil.guaranteeIDForStack(stack, player.getWorld());

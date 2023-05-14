@@ -43,7 +43,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         {
             NbtCompound nbtCompound = this.getMainHandStack().getOrCreateNbt();
 
-            if(nbtCompound.getBoolean("isAiming") || nbtCompound.getBoolean("isReloading"))
+            if(nbtCompound.getBoolean("isAiming"))
             {
                 super.setSprinting(false);
                 ci.cancel();
