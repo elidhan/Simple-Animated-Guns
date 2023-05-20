@@ -170,17 +170,12 @@ implements FabricItem, IAnimatable, ISyncable
             {
                 int maxDistance = 200;
 
-                Vec3d camUpDirection = RaycastUtil.rotVec(user.getPitch()-90, user.getYaw());
-
-                /*
-                Vec3d bulletDirection = user.getRotationVector().add(new Vec3d(
+                Vec3d bulletDirection = user.getRotationVector()
+                        .add(new Vec3d(
                         this.random.nextGaussian()/64,
                         this.random.nextGaussian()/64,
-                        this.random.nextGaussian()/64
-                ).multiply(this.bulletSpread));
-                */
-
-                Vec3d bulletDirection = user.getRotationVector().add(RaycastUtil.horiSpread(user, random.nextFloat(-bulletSpread*5, bulletSpread*5)));
+                        this.random.nextGaussian()/64).multiply(this.bulletSpread))
+                        .add(RaycastUtil.horiSpread(user, random.nextFloat(-bulletSpread*5, bulletSpread*5)));
 
                 HitResult result = getHitResult(world, user, user.getEyePos(), bulletDirection, maxDistance);
 

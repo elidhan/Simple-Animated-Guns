@@ -7,12 +7,13 @@
     "PlayerEntityMixin"
   ],
   "client": [
-    "client.MinecraftClientMixin",
-    "client.PlayerEntityRenderMixin",
     "client.AbstractClientPlayerEntityMixin",
-    "client.InGameHudMixin",
+    "client.ClientPlayerEntityMixin",
+    "client.GameRendererMixin",
     "client.HeldItemRendererMixin",
-    "client.ClientPlayerEntityMixin"
+    "client.InGameHudMixin",
+    "client.MinecraftClientMixin",
+    "client.PlayerEntityRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

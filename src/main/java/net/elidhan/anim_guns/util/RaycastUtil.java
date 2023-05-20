@@ -8,16 +8,6 @@ import net.minecraft.util.math.Vec3f;
 
 public class RaycastUtil
 {
-    public static Vec3d rotVec(float pitch, float yaw) {
-        float f = pitch * ((float)Math.PI / 180);
-        float g = -yaw * ((float)Math.PI / 180);
-        float h = MathHelper.cos(g);
-        float i = MathHelper.sin(g);
-        float j = MathHelper.cos(f);
-        float k = MathHelper.sin(f);
-        return new Vec3d(i * j, -k, h * j);
-    }
-
     public static Vec3d horiSpread(PlayerEntity user, float x_spread)
     {
         Vec3d vec3d = user.getOppositeRotationVector(1.0f);
