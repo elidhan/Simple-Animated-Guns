@@ -26,17 +26,27 @@ public class GameRendererMixin
     @Redirect(method = "renderHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;bobView(Lnet/minecraft/client/util/math/MatrixStack;F)V"))
     private void bobViewGun(GameRenderer instance, MatrixStack matrices, float tickDelta)
     {
-       if(this.client.player != null && !(this.client.player.getMainHandStack().getItem() instanceof GunItem))
-           allowBobView(matrices, tickDelta);
+        if(this.client.player == null)
+            return;
+
+       if(!(this.client.player.getMainHandStack().getItem() instanceof GunItem))
+       {
+           allowBobView(matrices, tickDelta, 1.0f);
+       }
+       else if (!this.client.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming") && !this.client.player.isSprinting())
+       {
+           allowBobView(matrices, tickDelta, 0.25f);
+       }
     }
 
-    private void allowBobView(MatrixStack matrices, float tickDelta) {
+    private void allowBobView(MatrixStack matrices, float tickDelta, float multiplier) {
         if (!(this.client.getCameraEntity() instanceof PlayerEntity playerEntity)) {
             return;
         }
-        float f = playerEntity.horizontalSpeed - playerEntity.prevHorizontalSpeed;
+        float f = (playerEntity.horizontalSpeed - playerEntity.prevHorizontalSpeed);
         float g = -(playerEntity.horizontalSpeed + f * tickDelta);
-        float h = MathHelper.lerp(tickDelta, playerEntity.prevStrideDistance, playerEntity.strideDistance);
+        float h = MathHelper.lerp(tickDelta, playerEntity.prevStrideDistance, playerEntity.strideDistance) * multiplier;
+
         matrices.translate(MathHelper.sin(g * (float)Math.PI) * h * 0.5f, -Math.abs(MathHelper.cos(g * (float)Math.PI) * h), 0.0);
         matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(MathHelper.sin(g * (float)Math.PI) * h * 3.0f));
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(Math.abs(MathHelper.cos(g * (float)Math.PI - 0.2f) * h) * 5.0f));

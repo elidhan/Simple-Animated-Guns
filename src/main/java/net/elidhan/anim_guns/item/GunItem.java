@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
+import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.util.InventoryUtil;
+import net.elidhan.anim_guns.util.BulletUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -21,33 +23,24 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.elidhan.anim_guns.util.RaycastUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.AnimationState;
@@ -81,7 +74,7 @@ implements FabricItem, IAnimatable, ISyncable
     private final int magSize;
     public final Item ammoType;
     private final int reloadCooldown;
-    private final float bulletSpread;
+    private final float[] bulletSpread;
     private final float[] gunRecoil;
     private final int pelletCount;
     private final LoadingType loadingType;
@@ -99,7 +92,7 @@ implements FabricItem, IAnimatable, ISyncable
 
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
-                   Item ammoType, int reloadCooldown, float bulletSpread,
+                   Item ammoType, int reloadCooldown, float[] bulletSpread,
                    float[] gunRecoil, int pelletCount, LoadingType loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
                    SoundEvent shootSound, int reloadCycles, boolean isScoped,
@@ -168,28 +161,18 @@ implements FabricItem, IAnimatable, ISyncable
         {
             for(int i = 0; i < this.pelletCount; i++)
             {
-                int maxDistance = 200;
+                BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
+                bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
 
-                Vec3d bulletDirection = user.getRotationVector()
-                        .add(new Vec3d(
-                        this.random.nextGaussian()/64,
-                        this.random.nextGaussian()/64,
-                        this.random.nextGaussian()/64).multiply(this.bulletSpread))
-                        .add(RaycastUtil.horiSpread(user, random.nextFloat(-bulletSpread*5, bulletSpread*5)));
+                Vec3d vertiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[0]*5, bulletSpread[0]*5)));
+                Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1]*5, bulletSpread[1]*5)));
 
-                HitResult result = getHitResult(world, user, user.getEyePos(), bulletDirection, maxDistance);
+                Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
 
-                if (result instanceof EntityHitResult entityHitResult) {
-                    if (entityHitResult.getEntity().isInvulnerableTo(DamageSource.thrownProjectile(user, user))
-                        || entityHitResult.getEntity().isInvulnerable())
-                        continue;
-                    entityHitResult.getEntity().damage(DamageSource.thrownProjectile(user, user), this.gunDamage);
-                    entityHitResult.getEntity().timeUntilRegen = 0;
-                } else {
-                    BlockHitResult blockHitResult = (BlockHitResult) result;
-                    //((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, world.getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 1);
-                    ((ServerWorld) world).spawnParticles(ParticleTypes.FLAME, blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 0);
-                }
+                bullet.setVelocity(result.getX(), result.getY(), result.getZ(), 20, 0);
+                bullet.setBaseVel(bullet.getVelocity());
+
+                world.spawnEntity(bullet);
             }
 
             //set animation
@@ -225,7 +208,29 @@ implements FabricItem, IAnimatable, ISyncable
         }
     }
 
-    public HitResult getHitResult(World world, PlayerEntity player, Vec3d origin, Vec3d direction, double maxDistance)
+    /*
+
+     int maxDistance = 100;
+
+                Vec3d bulletDirection = user.getRotationVector()
+                        .add(RaycastUtil.vertiSpread(user, random.nextFloat(-bulletSpread[0]*5, bulletSpread[0]*5)))
+                        .add(RaycastUtil.horiSpread(user, random.nextFloat(-bulletSpread[1]*5, bulletSpread[1]*5)));
+
+                HitResult result = getHitResult(world, user, user.getEyePos(), bulletDirection, maxDistance);
+
+                if (result instanceof EntityHitResult entityHitResult) {
+                    if(!entityHitResult.getEntity().isInvulnerable())
+                    {
+                        entityHitResult.getEntity().damage(DamageSource.player(user), this.gunDamage);
+                        entityHitResult.getEntity().timeUntilRegen = 0;
+                    }
+                } else {
+                    BlockHitResult blockHitResult = (BlockHitResult) result;
+                    //((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, world.getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 1);
+                    ((ServerWorld) world).spawnParticles(ParticleTypes.FLAME, blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 0);
+                }
+
+      public HitResult getHitResult(World world, PlayerEntity player, Vec3d origin, Vec3d direction, double maxDistance)
     {
         Vec3d destination = origin.add(direction.multiply(maxDistance));
         HitResult hitResult = world.raycast(new RaycastContext(origin, destination, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
@@ -238,6 +243,9 @@ implements FabricItem, IAnimatable, ISyncable
         }
         return hitResult;
     }
+
+     */
+
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
         if(event.getController().getCurrentAnimation() == null || event.getController().getAnimationState() == AnimationState.Stopped)
@@ -387,7 +395,6 @@ implements FabricItem, IAnimatable, ISyncable
         {
             tooltip.add(new TranslatableText("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
             tooltip.add(new TranslatableText("Damage: "+this.gunDamage).formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("Bullet Spread: "+this.bulletSpread).formatted(Formatting.GRAY));
             tooltip.add(new TranslatableText("Recoil: "+this.gunRecoil[1]).formatted(Formatting.GRAY));
             tooltip.add(new TranslatableText("RPM: "+(int)(((float)20/this.rateOfFire)*60)).formatted(Formatting.GRAY));
             tooltip.add(new TranslatableText("Reload Time: "+(float)this.reloadCooldown/20+"s").formatted(Formatting.GRAY));

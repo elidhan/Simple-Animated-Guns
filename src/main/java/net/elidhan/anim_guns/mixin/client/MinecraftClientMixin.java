@@ -1,5 +1,6 @@
 package net.elidhan.anim_guns.mixin.client;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.elidhan.anim_guns.item.GunItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -92,5 +93,11 @@ public abstract class MinecraftClientMixin
         {
             ci.cancel();
         }
+    }
+
+    @ModifyExpressionValue(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ActionResult;shouldSwingHand()Z"))
+    private boolean noSwingGun(boolean original)
+    {
+        return original && this.player != null && !(this.player.getMainHandStack().getItem() instanceof GunItem);
     }
 }
