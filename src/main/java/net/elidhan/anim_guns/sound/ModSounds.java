@@ -63,6 +63,11 @@ public class ModSounds
     public static SoundEvent RELOAD_BRUSH_GUN_P3 = registerSoundEvent("brush_gun_p3");
     public static SoundEvent SNIPER_CLASSIC = registerSoundEvent("sniper_classic");
     public static SoundEvent SNIPER_COWBOY = registerSoundEvent("sniper_cowboy");
+    public static SoundEvent RELOAD_M60_P0 = registerSoundEvent("m60_p0");
+    public static SoundEvent RELOAD_M60_P1 = registerSoundEvent("m60_p1");
+    public static SoundEvent RELOAD_M60_P2 = registerSoundEvent("m60_p2");
+    public static SoundEvent RELOAD_M60_P3 = registerSoundEvent("m60_p3");
+    public static SoundEvent LMG_M60 = registerSoundEvent("lmg_m60");
     private static SoundEvent registerSoundEvent(String name)
     {
         Identifier id = new Identifier(AnimatedGuns.MOD_ID, name);

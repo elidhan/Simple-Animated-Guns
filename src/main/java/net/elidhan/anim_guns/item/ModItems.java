@@ -392,6 +392,31 @@ public class ModItems {
 	{
 	});
 
+	public static final Item M60 = registerItem("lmg_m60", new GunItem(new FabricItemSettings().group(AnimatedGuns.GUNS).maxCount(1),
+			"lmg_m60",
+			"lmg_m60",
+			7,
+			3,
+			100,
+			STANDARD_RIFLE_BULLET,
+			117,
+			new float[] {0.5f, 0.5f},
+			new float[] {1f, 2f},
+			1,
+			GunItem.LoadingType.MAGAZINE,
+			ModSounds.RELOAD_M60_P0,
+			ModSounds.RELOAD_M60_P1,
+			ModSounds.RELOAD_M60_P2,
+			ModSounds.RELOAD_M60_P3,
+			ModSounds.LMG_M60,
+			1,
+			false,
+			49,
+			70,
+			90)
+	{
+	});
+
 	private static Item registerItem(String name, Item item)
 	{
 		return Registry.register(Registry.ITEM, new Identifier(AnimatedGuns.MOD_ID, name), item);

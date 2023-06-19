@@ -8,6 +8,7 @@ import net.elidhan.anim_guns.screen.BlueprintScreenHandler;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.bernie.geckolib3.network.GeckoLibNetwork;
@@ -30,7 +32,8 @@ public class AnimatedGuns implements ModInitializer
 	public static final Identifier RECOIL_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "recoil");
 	public static final Identifier RELOAD_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "reload");
 	public static final Identifier SELECT_BLUEPRINT_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "select_blueprint");
-	public static final Identifier GUN_MELEE_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "gun_melee");
+	public static final Identifier GUN_MELEE_PACKET_CLIENT_ID = new Identifier(AnimatedGuns.MOD_ID, "gun_melee_client");
+	public static final Identifier GUN_MELEE_PACKET_SERVER_ID = new Identifier(AnimatedGuns.MOD_ID, "gun_melee_server");
 	public static final Identifier GUN_AIM_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "aim");
 	public static final Identifier GUN_SPRINT_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "sprint");
 
@@ -84,11 +87,12 @@ public class AnimatedGuns implements ModInitializer
 			}
 
 		});
-		ServerPlayNetworking.registerGlobalReceiver(GUN_MELEE_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
+
+		ServerPlayNetworking.registerGlobalReceiver(GUN_MELEE_PACKET_SERVER_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
 		{
 			ItemStack stack = buf.readItemStack();
 
-			((GunItem)stack.getItem()).toggleAim(player.getMainHandStack(),false, player.getWorld(), player);
+			((GunItem)stack.getItem()).aimAnimation(player.getMainHandStack(),false, player.getWorld(), player);
 
 			float i = player.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0)*((GunItem) stack.getItem()).getRateOfFire();
 			if ((int)i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
@@ -99,12 +103,14 @@ public class AnimatedGuns implements ModInitializer
 			{
 				GeckoLibNetwork.syncAnimation(otherPlayer, (GunItem)stack.getItem(), id, 9);
 			}
+
+			ServerPlayNetworking.send(player, GUN_MELEE_PACKET_CLIENT_ID, PacketByteBufs.empty());
 		});
 		ServerPlayNetworking.registerGlobalReceiver(GUN_AIM_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
 		{
 			if (player.getMainHandStack().getItem() instanceof GunItem)
 			{
-				((GunItem) player.getMainHandStack().getItem()).toggleAim(player.getMainHandStack(),buf.readBoolean(), player.getWorld(), player);
+				((GunItem) player.getMainHandStack().getItem()).aimAnimation(player.getMainHandStack(),buf.readBoolean(), player.getWorld(), player);
 			}
 		});
 		ServerPlayNetworking.registerGlobalReceiver(GUN_SPRINT_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
