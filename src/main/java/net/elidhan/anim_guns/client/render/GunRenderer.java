@@ -1,5 +1,6 @@
 package net.elidhan.anim_guns.client.render;
 
+import net.elidhan.anim_guns.client.MuzzleFlashRenderType;
 import net.elidhan.anim_guns.client.model.GunModel;
 import net.elidhan.anim_guns.item.GunItem;
 import net.minecraft.client.MinecraftClient;
@@ -18,6 +19,8 @@ import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 import software.bernie.geckolib3.util.RenderUtils;
+
+import java.util.Objects;
 
 public class GunRenderer extends GeoItemRenderer<GunItem>
 {
@@ -64,15 +67,10 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
                 bone.setHidden(true, false);
                 renderArms = true;
             }
-
-            //I have no idea what a packedLight is but it makes the muzzleflash fullbright when I set it to a high number
-            //so I'm keeping it like this
-            case "muzzleflash" -> packedLight = 255;
-
         }
 
         //I just want the arms to show, why do we have to suffer just to get opposable thumbs
-        //  && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND
+        //  && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND ***don't mind this, just some backup code in case my dumbass forgets
         if(renderArms && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND)
         {
             PlayerEntityRenderer playerEntityRenderer = (PlayerEntityRenderer)client.getEntityRenderDispatcher().getRenderer(client.player);
@@ -120,6 +118,6 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
             poseStack.pop();
         }
 
-        super.renderRecursively(bone, poseStack, this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
+        super.renderRecursively(bone, poseStack, Objects.equals(bone.getName(), "muzzleflash") ? this.bufferSource.getBuffer(MuzzleFlashRenderType.getMuzzleFlash()) : this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

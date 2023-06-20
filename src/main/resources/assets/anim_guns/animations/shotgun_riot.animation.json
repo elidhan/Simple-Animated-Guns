@@ -5,6 +5,11 @@
 			"loop": true,
 			"animation_length": 0.41667,
 			"bones": {
+				"gunbody": {
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				},
 				"leftArm": {
 					"rotation": {
 						"vector": [65.21571, -18.23931, -106.93137]

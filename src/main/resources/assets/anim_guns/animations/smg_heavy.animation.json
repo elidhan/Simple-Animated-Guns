@@ -4,6 +4,11 @@
 		"idle": {
 			"loop": true,
 			"bones": {
+				"gunbody": {
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				},
 				"leftArm": {
 					"rotation": {
 						"vector": [65.21571, -18.23931, -106.93137]
