@@ -1,6 +1,6 @@
 package net.elidhan.anim_guns.entity.projectile;
 
-import net.elidhan.anim_guns.entity.ModEntities;
+import net.elidhan.anim_guns.AnimatedGuns;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -25,7 +25,7 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
 
     public BulletProjectileEntity(LivingEntity owner, World world, float bulletDamage)
     {
-        super(ModEntities.BULLET, owner, world);
+        super(AnimatedGuns.BulletEntityType, owner, world);
         this.maxLife = 10;
         this.lifeTicks = 0;
         this.bulletDamage = bulletDamage;

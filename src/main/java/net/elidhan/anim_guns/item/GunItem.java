@@ -32,7 +32,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -158,7 +157,7 @@ implements FabricItem, IAnimatable, ISyncable
                 BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
                 bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
 
-                Vec3d vertiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[0]*5, bulletSpread[0]*5)));
+                Vec3d vertiSpread = BulletUtil.vertiSpread(user, (random.nextFloat(-bulletSpread[0]*5, bulletSpread[0]*5)));
                 Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1]*5, bulletSpread[1]*5)));
 
                 Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
@@ -218,7 +217,6 @@ implements FabricItem, IAnimatable, ISyncable
         AnimationController<GunItem> controller = new AnimationController(this, controllerName, 1, this::predicate);
         controller.registerSoundListener(this::soundListener);
         animationData.addAnimationController(controller);
-        animationData.setResetSpeedInTicks(0);
     }
     @SuppressWarnings("rawtypes")
     @Override

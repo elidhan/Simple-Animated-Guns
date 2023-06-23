@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "minecraft:iron_ingot"
+    "item": "anim_guns:enriched_iron"
   },
   "result": "anim_guns:hardened_iron_ingot",
   "experience": 1.0,

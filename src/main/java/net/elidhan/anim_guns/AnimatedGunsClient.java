@@ -2,8 +2,6 @@ package net.elidhan.anim_guns;
 
 import net.elidhan.anim_guns.client.render.BulletRenderer;
 import net.elidhan.anim_guns.client.render.GunRenderer;
-import net.elidhan.anim_guns.entity.ModEntities;
-import net.elidhan.anim_guns.item.GunItem;
 import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.screen.BlueprintScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -12,11 +10,9 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.glfw.GLFW;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
@@ -60,7 +56,7 @@ public class AnimatedGunsClient implements ClientModInitializer
         });
 
         //Entity Render
-        EntityRendererRegistry.register(ModEntities.BULLET, BulletRenderer::new);
+        EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletRenderer::new);
 
         //Geckolib
         GeoItemRenderer.registerItemRenderer(ModItems.PISTOL, new GunRenderer());
@@ -77,7 +73,7 @@ public class AnimatedGunsClient implements ClientModInitializer
         GeoItemRenderer.registerItemRenderer(ModItems.RIOT_SHOTGUN, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.CLASSIC_SNIPER_RIFLE, new GunRenderer());
         GeoItemRenderer.registerItemRenderer(ModItems.BRUSH_GUN, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.M60, new GunRenderer());
+        GeoItemRenderer.registerItemRenderer(ModItems.LMG, new GunRenderer());
 
         HandledScreens.register(AnimatedGuns.BLUEPRINT_SCREEN_HANDLER_TYPE, BlueprintScreen::new);
     }

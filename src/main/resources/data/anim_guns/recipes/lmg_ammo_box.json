@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nnn",
+    "ici",
+    "   "
+  ],
+  "key": {
+    "n": {
+      "item": "anim_guns:hardened_iron_nugget"
+    },
+    "c": {
+      "item": "minecraft:chest"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "anim_guns:lmg_ammo_box"
+  }
+}
