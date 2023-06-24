@@ -31,12 +31,13 @@
   "mixins": [
     "anim_guns.mixins.json"
   ],
+  "accessWidener": "anim_guns.accesswidener",
 
   "depends": {
-    "geckolib3": ">=3.0.79",
-    "fabricloader": ">=0.14.11",
+    "geckolib3": ">=3.1.40",
+    "fabricloader": ">=0.14.19",
     "fabric": "*",
-    "minecraft": "1.18.2",
+    "minecraft": "1.19.2",
     "java": ">=17"
   },
   "suggests": {

@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "  p",
-    "bi ",
+    "bis",
     "fmg"
   ],
   "key": {
@@ -20,6 +20,9 @@
     },
     "g": {
       "item": "anim_guns:pistol_grip"
+    },
+    "s": {
+      "item": "anim_guns:modern_stock"
     },
     "m": {
       "item": "anim_guns:tube_magazine"

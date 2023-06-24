@@ -12,7 +12,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -47,10 +46,10 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     protected void init()
     {
         super.init();
-        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+24, 10, 20, new LiteralText("\u276E"), (button) -> setBlueprint(currentBlueprintIndex - 1)));
-        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24, 10, 20, new LiteralText("\u276F"), (button) -> setBlueprint(currentBlueprintIndex + 1)));
+        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+24, 10, 20, Text.literal("\u276E"), (button) -> setBlueprint(currentBlueprintIndex - 1)));
+        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24, 10, 20, Text.literal("\u276F"), (button) -> setBlueprint(currentBlueprintIndex + 1)));
 
-        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+35, ((this.height-this.backgroundHeight)/2)+48, 32, 20 , new LiteralText("Set"), (button) ->
+        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+35, ((this.height-this.backgroundHeight)/2)+48, 32, 20 , Text.literal("Set"), (button) ->
         {
             if (client != null)
             {

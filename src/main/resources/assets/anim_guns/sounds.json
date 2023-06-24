@@ -123,5 +123,15 @@
 		"category": "master", "sounds": [
 			"anim_guns:gun/fire/sniper_cowboy_1"
 		]
+	},
+
+	"m60_p0": { "category": "master", "sounds": [ "anim_guns:gun/reload/m60_p0" ] },
+	"m60_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/m60_p1" ] },
+	"m60_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/m60_p2" ] },
+	"m60_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/m60_p3" ] },
+	"lmg_m60": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/lmg_m60_1"
+		]
 	}
 }

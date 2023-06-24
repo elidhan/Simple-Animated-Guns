@@ -1,5 +1,6 @@
 package net.elidhan.anim_guns.client.render;
 
+import net.elidhan.anim_guns.client.MuzzleFlashRenderType;
 import net.elidhan.anim_guns.client.model.GunModel;
 import net.elidhan.anim_guns.item.GunItem;
 import net.minecraft.client.MinecraftClient;
@@ -13,11 +14,15 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 import software.bernie.geckolib3.util.RenderUtils;
+
+import java.util.Objects;
 
 public class GunRenderer extends GeoItemRenderer<GunItem>
 {
@@ -64,14 +69,10 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
                 bone.setHidden(true, false);
                 renderArms = true;
             }
-
-            //I have no idea what a packedLight is but it makes the muzzleflash fullbright when I set it to a high number
-            //so I'm keeping it like this
-            case "muzzleflash" -> packedLight = 255;
         }
 
         //I just want the arms to show, why do we have to suffer just to get opposable thumbs
-        //  && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND
+        //  && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND ***don't mind this, just some backup code in case my dumbass forgets
         if(renderArms && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND)
         {
             PlayerEntityRenderer playerEntityRenderer = (PlayerEntityRenderer)client.getEntityRenderDispatcher().getRenderer(client.player);
@@ -119,6 +120,21 @@ public class GunRenderer extends GeoItemRenderer<GunItem>
             poseStack.pop();
         }
 
-        super.renderRecursively(bone, poseStack, this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
+        if (bone.isTrackingXform()) {
+            Matrix4f poseState = poseStack.peek().getPositionMatrix().copy();
+            Matrix4f localMatrix = RenderUtils.invertAndMultiplyMatrices(poseState, this.dispatchedMat);
+
+            bone.setModelSpaceXform(RenderUtils.invertAndMultiplyMatrices(poseState, this.renderEarlyMat));
+            localMatrix.addToLastColumn(new Vec3f(getRenderOffset(this.animatable, 1)));
+            bone.setLocalSpaceXform(localMatrix);
+        }
+
+        poseStack.push();
+        RenderUtils.prepMatrixForBone(poseStack, bone);
+        renderCubesOfBone(bone, poseStack, Objects.equals(bone.getName(), "muzzleflash") ? this.bufferSource.getBuffer(MuzzleFlashRenderType.getMuzzleFlash()) : this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
+        renderChildBones(bone, poseStack, Objects.equals(bone.getName(), "muzzleflash") ? this.bufferSource.getBuffer(MuzzleFlashRenderType.getMuzzleFlash()) : this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
+        poseStack.pop();
+
+        //super.renderRecursively(bone, poseStack, Objects.equals(bone.getName(), "muzzleflash") ? this.bufferSource.getBuffer(MuzzleFlashRenderType.getMuzzleFlash()) : this.bufferSource.getBuffer(this.renderType), packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

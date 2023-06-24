@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
+import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.util.InventoryUtil;
+import net.elidhan.anim_guns.util.BulletUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -17,36 +19,26 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.AnimationState;
@@ -80,7 +72,7 @@ implements FabricItem, IAnimatable, ISyncable
     private final int magSize;
     public final Item ammoType;
     private final int reloadCooldown;
-    private final float bulletSpread;
+    private final float[] bulletSpread;
     private final float[] gunRecoil;
     private final int pelletCount;
     private final LoadingType loadingType;
@@ -91,6 +83,7 @@ implements FabricItem, IAnimatable, ISyncable
     private final SoundEvent shootSound;
     private final int reloadCycles;
     private final boolean isScoped;
+    private final boolean unscopeAfterShot;
     private final int reloadStage1;
     private final int reloadStage2;
     private final int reloadStage3;
@@ -98,10 +91,10 @@ implements FabricItem, IAnimatable, ISyncable
 
     public GunItem(Settings settings, String gunID, String animationID,
                    float gunDamage, int rateOfFire, int magSize,
-                   Item ammoType, int reloadCooldown, float bulletSpread,
+                   Item ammoType, int reloadCooldown, float[] bulletSpread,
                    float[] gunRecoil, int pelletCount, LoadingType loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
-                   SoundEvent shootSound, int reloadCycles, boolean isScoped,
+                   SoundEvent shootSound, int reloadCycles, boolean isScoped, boolean unscopeAfterShot,
                    int reloadStage1, int reloadStage2, int reloadStage3)
     {
         super(settings.maxDamage((magSize*10)+1));
@@ -126,6 +119,7 @@ implements FabricItem, IAnimatable, ISyncable
         this.shootSound = shootSound;
         this.reloadCycles = reloadCycles;
         this.isScoped = isScoped;
+        this.unscopeAfterShot = unscopeAfterShot;
         this.reloadStage1 = reloadStage1;
         this.reloadStage2 = reloadStage2;
         this.reloadStage3 = reloadStage3;
@@ -140,23 +134,20 @@ implements FabricItem, IAnimatable, ISyncable
 
         if (hand == Hand.MAIN_HAND)
         {
-            user.setCurrentHand(hand);
+            if(!user.getItemCooldownManager().isCoolingDown(this) && !user.isSprinting() && isLoaded(stack))
+            {
+                this.shoot(world, user, stack);
+                user.getItemCooldownManager().set(this, this.rateOfFire);
+            }
         }
         return TypedActionResult.fail(stack);
     }
 
-    @Override
-    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks)
-    {
-        if(!((PlayerEntity)user).getItemCooldownManager().isCoolingDown(this) && !user.isSprinting() && isLoaded(stack))
-        {
-            this.shoot(world, (PlayerEntity) user, stack);
-            ((PlayerEntity)user).getItemCooldownManager().set(this, this.rateOfFire);
-        }
-    }
-
     public void shoot(World world, PlayerEntity user, ItemStack itemStack)
     {
+        itemStack.getOrCreateNbt().putInt("reloadTick",0);
+        itemStack.getOrCreateNbt().putBoolean("isReloading", false);
+
         double h_kick = getRecoilX(itemStack);
         float v_kick = getRecoilY(itemStack);
 
@@ -164,24 +155,18 @@ implements FabricItem, IAnimatable, ISyncable
         {
             for(int i = 0; i < this.pelletCount; i++)
             {
-                int maxDistance = 200;
+                BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
+                bullet.setPos(user.getX(),user.getEyeY(),user.getZ());
 
-                Vec3d bulletDirection = user.getRotationVector().add(new Vec3d(
-                        this.random.nextGaussian()/64,
-                        this.random.nextGaussian()/64,
-                        this.random.nextGaussian()/64
-                ).multiply(this.bulletSpread));
+                Vec3d vertiSpread = BulletUtil.vertiSpread(user, (random.nextFloat(-bulletSpread[0]*5, bulletSpread[0]*5)));
+                Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1]*5, bulletSpread[1]*5)));
 
-                HitResult result = getHitResult(world, user, user.getEyePos(), bulletDirection, maxDistance);
+                Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
 
-                if (result instanceof EntityHitResult entityHitResult) {
-                    entityHitResult.getEntity().damage(DamageSource.player(user), this.gunDamage);
-                    entityHitResult.getEntity().timeUntilRegen = 0;
-                } else {
-                    BlockHitResult blockHitResult = (BlockHitResult) result;
-                    ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, world.getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 1);
-                    //((ServerWorld) world).spawnParticles(ParticleTypes.FLAME, blockHitResult.getPos().x, blockHitResult.getPos().y, blockHitResult.getPos().z, 1, 0, 0, 0, 0);
-                }
+                bullet.setVelocity(result.getX(), result.getY(), result.getZ(), 20, 0);
+                bullet.setBaseVel(bullet.getVelocity());
+
+                world.spawnEntity(bullet);
             }
 
             //set animation
@@ -216,23 +201,12 @@ implements FabricItem, IAnimatable, ISyncable
             itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
         }
 
-        itemStack.getOrCreateNbt().putInt("reloadTick",0);
-        itemStack.getOrCreateNbt().putBoolean("isReloading",false);
+        if(shouldUnscopeAfterShot() && itemStack.getOrCreateNbt().getBoolean("isAiming"))
+        {
+            toggleAim(itemStack);
+        }
     }
 
-    public HitResult getHitResult(World world, PlayerEntity player, Vec3d origin, Vec3d direction, double maxDistance)
-    {
-        Vec3d destination = origin.add(direction.multiply(maxDistance));
-        HitResult hitResult = world.raycast(new RaycastContext(origin, destination, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
-        if (hitResult.getType() != HitResult.Type.MISS) {
-            destination = hitResult.getPos();
-        }
-        EntityHitResult entityHitResult = ProjectileUtil.getEntityCollision(world, player, origin, destination, player.getBoundingBox().stretch(direction.multiply(maxDistance)).expand(1.0), e -> !e.isSpectator() && e.isAttackable());
-        if (entityHitResult != null) {
-            hitResult = entityHitResult;
-        }
-        return hitResult;
-    }
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
     {
         if(event.getController().getCurrentAnimation() == null || event.getController().getAnimationState() == AnimationState.Stopped)
@@ -380,22 +354,21 @@ implements FabricItem, IAnimatable, ISyncable
     {
         if(Screen.hasShiftDown())
         {
-            tooltip.add(new TranslatableText("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
-            tooltip.add(new TranslatableText("Damage: "+this.gunDamage).formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("Bullet Spread: ").formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("Recoil: "+this.gunRecoil[1]).formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("RPM: "+(int)(((float)20/this.rateOfFire)*60)).formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("Reload Time: "+(float)this.reloadCooldown/20+"s").formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText("Uses:").formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
+            tooltip.add(Text.translatable("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
+            tooltip.add(Text.translatable("Damage: "+this.gunDamage).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("Recoil: "+this.gunRecoil[1]).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("RPM: "+(int)(((float)20/this.rateOfFire)*60)).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("Reload Time: "+(float)this.reloadCooldown/20+"s").formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
         }
         else
         {
-            tooltip.add(new TranslatableText("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
-            tooltip.add(new TranslatableText("Uses:").formatted(Formatting.GRAY));
-            tooltip.add(new TranslatableText(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
+            tooltip.add(Text.translatable("Ammo: "+(stack.getOrCreateNbt().getInt("Clip"))+"/"+this.magSize).formatted(Formatting.WHITE));
+            tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
 
-            tooltip.add(new TranslatableText("Press Shift to see stats").formatted(Formatting.AQUA));
+            tooltip.add(Text.translatable("Press Shift to see stats").formatted(Formatting.AQUA));
         }
         super.appendTooltip(stack, world, tooltip, context);
     }
@@ -408,24 +381,25 @@ implements FabricItem, IAnimatable, ISyncable
 
         if (world.isClient())
         {
-            if (((PlayerEntity) entity).getMainHandStack() == stack
+            if (mainHandGun == stack
                     && AnimatedGunsClient.reloadToggle.isPressed()
                     && remainingAmmo(stack) < this.magSize
                     && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
-                    && !nbtCompound.getBoolean("isReloading"))
+                    && !nbtCompound.getBoolean("isReloading")
+                    && !isSprinting)
             {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBoolean(true);
                 ClientPlayNetworking.send(AnimatedGuns.RELOAD_PACKET_ID, buf);
             }
 
-            if (mainHandGun == stack && !nbtCompound.getBoolean("isReloading"))
+            if (mainHandGun == stack)
             {
-                while(AnimatedGunsClient.aimToggle.wasPressed())
+                while(AnimatedGunsClient.meleeKey.wasPressed())
                 {
                     PacketByteBuf buf = PacketByteBufs.create();
-                    buf.writeBoolean(!stack.getOrCreateNbt().getBoolean("isAiming"));
-                    ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
+                    buf.writeItemStack(stack);
+                    ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_SERVER_ID, buf);
                 }
             }
 
@@ -453,13 +427,13 @@ implements FabricItem, IAnimatable, ISyncable
         }
 
         //The actual reload process/tick
-        if (nbtCompound.getBoolean("isReloading"))
+        if (nbtCompound.getBoolean("isReloading") && !isSprinting)
         {
             if((mainHandGun != stack
                     || (reserveAmmoCount((PlayerEntity) entity, this.ammoType) <= 0 && this.reloadCycles <= 1)
                     || (nbtCompound.getInt("reloadTick") >= this.reloadCooldown)
                     || (remainingAmmo(stack) >= this.magSize && this.reloadCycles <= 1)))
-                nbtCompound.putBoolean("isReloading",false);
+                nbtCompound.putBoolean("isReloading", false);
 
             this.doReloadTick(world, nbtCompound, (PlayerEntity)entity, stack);
         }
@@ -467,6 +441,7 @@ implements FabricItem, IAnimatable, ISyncable
         {
             if (nbtCompound.getInt("reloadTick") > this.reloadStage3 && nbtCompound.getInt("reloadTick") <= this.reloadCooldown) finishReload((PlayerEntity) entity, stack);
 
+            nbtCompound.putBoolean("isReloading", false);
             nbtCompound.putInt("reloadTick", 0);
         }
     }
@@ -569,7 +544,7 @@ implements FabricItem, IAnimatable, ISyncable
 
         stack.setDamage(this.getMaxDamage()-((nbtCompound.getInt("Clip")*10)+1));
     }
-    public void toggleAim(ItemStack stack, boolean aim, ServerWorld world, PlayerEntity player)
+    public void aimAnimation(ItemStack stack, boolean aim, ServerWorld world, PlayerEntity player)
     {
         stack.getOrCreateNbt().putBoolean("isAiming", aim);
         stack.getOrCreateNbt().putBoolean("isScoped",this.isScoped);
@@ -592,11 +567,11 @@ implements FabricItem, IAnimatable, ISyncable
             GeckoLibNetwork.syncAnimation(otherPlayer, this, id, sprint?10:0);
         }
     }
-    public void doMeleeAttack(ItemStack itemStack)
+    public void toggleAim(ItemStack itemStack)
     {
         PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeItemStack(itemStack);
-        ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_ID, buf);
+        buf.writeBoolean(!itemStack.getOrCreateNbt().getBoolean("isAiming"));
+        ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
     }
     public static int remainingAmmo(ItemStack stack)
     {
@@ -637,6 +612,10 @@ implements FabricItem, IAnimatable, ISyncable
     public int getRateOfFire()
     {
         return this.rateOfFire;
+    }
+    public boolean shouldUnscopeAfterShot()
+    {
+        return this.unscopeAfterShot;
     }
     public String getID()
     {

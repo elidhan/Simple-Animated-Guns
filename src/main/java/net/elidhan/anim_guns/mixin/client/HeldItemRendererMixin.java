@@ -21,10 +21,16 @@ public class HeldItemRendererMixin
     @Inject(method = "renderFirstPersonItem", at = @At("HEAD"), cancellable = true)
     private void cancelFirstPersonRender(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
     {
-        //IF PLAYER AIMS WITH SCOPED GUN
-        if(player.getMainHandStack().getItem() instanceof GunItem
-                && player.getMainHandStack().getOrCreateNbt().getBoolean("isScoped")
-                && player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"))
+        //Cancel item offhand render in first person
+        if(hand == Hand.OFF_HAND && player.getMainHandStack().getItem() instanceof GunItem)
+        {
             ci.cancel();
+        }
+
+        //IF PLAYER AIMS WITH SCOPED GUN
+        if(player.getMainHandStack().getItem() instanceof GunItem && player.getMainHandStack().getOrCreateNbt().getBoolean("isScoped") && player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"))
+        {
+            ci.cancel();
+        }
     }
 }

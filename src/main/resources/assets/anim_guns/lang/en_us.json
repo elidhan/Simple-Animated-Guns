@@ -8,6 +8,7 @@
 	"item.anim_guns.hardened_iron_ingot" : "Hardened Iron Ingot",
 	"item.anim_guns.hardened_iron_nugget" : "Hardened Iron Nugget",
 	"item.anim_guns.plastic" : "Plastic",
+	"item.anim_guns.enriched_iron" : "Enriched Iron",
 
 	"item.anim_guns.gun_scope" : "Gun Scope",
 	"item.anim_guns.pistol_grip" : "Pistol Grip",
@@ -23,6 +24,7 @@
 	"item.anim_guns.smg_magazine" : "SMG Magazine",
 	"item.anim_guns.tube_magazine" : "Tube Magazine",
 	"item.anim_guns.revolver_chamber" : "Revolver Chamber",
+	"item.anim_guns.lmg_ammo_box" : "LMG Ammo Box",
 
 	"item.anim_guns.blueprint_bundle" : "Blueprint Bundle",
 	"item.anim_guns.blueprint_pistol_light" : "Pistol Blueprint",
@@ -59,5 +61,6 @@
 	"item.anim_guns.shotgun_combat" : "Combat Shotgun",
 	"item.anim_guns.shotgun_riot" : "Riot Shotgun",
 	"item.anim_guns.sniper_classic" : "Hunting Rifle",
-	"item.anim_guns.sniper_cowboy" : "Brush Gun"
+	"item.anim_guns.sniper_cowboy" : "Brush Gun",
+	"item.anim_guns.lmg_m60" : "LMG"
 }
