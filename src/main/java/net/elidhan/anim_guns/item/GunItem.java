@@ -84,6 +84,7 @@ implements FabricItem, IAnimatable, ISyncable
     private final SoundEvent shootSound;
     private final int reloadCycles;
     private final boolean isScoped;
+    private final boolean unscopeAfterShot;
     private final int reloadStage1;
     private final int reloadStage2;
     private final int reloadStage3;
@@ -94,7 +95,7 @@ implements FabricItem, IAnimatable, ISyncable
                    Item ammoType, int reloadCooldown, float[] bulletSpread,
                    float[] gunRecoil, int pelletCount, LoadingType loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
-                   SoundEvent shootSound, int reloadCycles, boolean isScoped,
+                   SoundEvent shootSound, int reloadCycles, boolean isScoped, boolean unscopeAfterShot,
                    int reloadStage1, int reloadStage2, int reloadStage3)
     {
         super(settings.maxDamage((magSize*10)+1));
@@ -119,6 +120,7 @@ implements FabricItem, IAnimatable, ISyncable
         this.shootSound = shootSound;
         this.reloadCycles = reloadCycles;
         this.isScoped = isScoped;
+        this.unscopeAfterShot = unscopeAfterShot;
         this.reloadStage1 = reloadStage1;
         this.reloadStage2 = reloadStage2;
         this.reloadStage3 = reloadStage3;
@@ -198,6 +200,11 @@ implements FabricItem, IAnimatable, ISyncable
         if(this.reloadCycles > 1)
         {
             itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
+        }
+
+        if(shouldUnscopeAfterShot() && itemStack.getOrCreateNbt().getBoolean("isAiming"))
+        {
+            toggleAim(itemStack);
         }
     }
 
@@ -375,7 +382,7 @@ implements FabricItem, IAnimatable, ISyncable
 
         if (world.isClient())
         {
-            if (((PlayerEntity) entity).getMainHandStack() == stack
+            if (mainHandGun == stack
                     && AnimatedGunsClient.reloadToggle.isPressed()
                     && remainingAmmo(stack) < this.magSize
                     && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
@@ -561,12 +568,6 @@ implements FabricItem, IAnimatable, ISyncable
             GeckoLibNetwork.syncAnimation(otherPlayer, this, id, sprint?10:0);
         }
     }
-    public void meleeAnimation(ItemStack itemStack)
-    {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeItemStack(itemStack);
-        ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_SERVER_ID, buf);
-    }
     public void toggleAim(ItemStack itemStack)
     {
         PacketByteBuf buf = PacketByteBufs.create();
@@ -612,6 +613,10 @@ implements FabricItem, IAnimatable, ISyncable
     public int getRateOfFire()
     {
         return this.rateOfFire;
+    }
+    public boolean shouldUnscopeAfterShot()
+    {
+        return this.unscopeAfterShot;
     }
     public String getID()
     {

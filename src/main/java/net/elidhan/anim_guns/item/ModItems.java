@@ -72,6 +72,7 @@ public class ModItems {
 			ModSounds.PISTOL_LIGHT,
 			1,
 			false,
+			false,
 			10,
 			11,
 			21)
@@ -95,6 +96,7 @@ public class ModItems {
 			ModSounds.RELOAD_GENERIC_PISTOL_P3,
 			ModSounds.PISTOL_HEAVY,
 			1,
+			false,
 			false,
 			10,
 			11,
@@ -120,6 +122,7 @@ public class ModItems {
             ModSounds.REVOLVER_MAGNUM,
             1,
             false,
+			false,
             10,
             20,
             30)
@@ -144,6 +147,7 @@ public class ModItems {
             ModSounds.REVOLVER_COLTARMY,
             6,
             false,
+			false,
             20,
             21,
             50)
@@ -167,6 +171,7 @@ public class ModItems {
 			ModSounds.RELOAD_GENERIC_SMG_P3,
 			ModSounds.SMG_MACHINEPISTOL,
 			1,
+			false,
 			false,
 			10,
 			11,
@@ -192,6 +197,7 @@ public class ModItems {
             ModSounds.SMG_HEAVY,
             1,
             false,
+			false,
             20,
             27,
             49)
@@ -215,6 +221,7 @@ public class ModItems {
 		ModSounds.RELOAD_GENERIC_AR_P3,
 		ModSounds.ASSAULTRIFLE_LIGHT,
 		1,
+		false,
 		false,
 		5,
 		21,
@@ -240,6 +247,7 @@ public class ModItems {
 		ModSounds.ASSAULTRIFLE_HEAVY,
 		1,
 		false,
+		false,
 		5,
 		21,
 		32)
@@ -264,6 +272,7 @@ public class ModItems {
             ModSounds.ASSAULTRIFLE_RUS,
             1,
             false,
+			false,
             10,
             24,
             39)
@@ -288,6 +297,7 @@ public class ModItems {
 			ModSounds.RELOAD_DOUBLE_BARREL_SHOTGUN_P3,
 			ModSounds.SHOTGUN_DOUBLEBARREL,
 			1,
+			false,
 			false,
 			11,
 			12,
@@ -314,6 +324,7 @@ public class ModItems {
         ModSounds.SHOTGUN_COMBAT,
         6,
         false,
+		false,
         4,
         5,
         15)
@@ -339,6 +350,7 @@ public class ModItems {
             ModSounds.SHOTGUN_RIOT,
             8,
             false,
+			false,
             4,
             5,
             17)
@@ -364,6 +376,7 @@ public class ModItems {
         ModSounds.SNIPER_CLASSIC,
         5,
         true,
+		true,
         12,
         13,
         24)
@@ -389,6 +402,7 @@ public class ModItems {
 			ModSounds.SNIPER_COWBOY,
 			10,
 			false,
+			false,
 			8,
 			9,
 			21)
@@ -413,6 +427,7 @@ public class ModItems {
 			ModSounds.RELOAD_M60_P3,
 			ModSounds.LMG_M60,
 			1,
+			false,
 			false,
 			49,
 			70,
