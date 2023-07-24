@@ -7,13 +7,13 @@
     "PlayerEntityMixin"
   ],
   "client": [
-    "client.MouseMixin",
     "client.AbstractClientPlayerEntityMixin",
-    "client.ClientPlayerEntityMixin",
+    "client.ClientLivingEntity",
     "client.GameRendererMixin",
     "client.HeldItemRendererMixin",
     "client.InGameHudMixin",
     "client.MinecraftClientMixin",
+    "client.MouseMixin",
     "client.PlayerEntityRenderMixin"
   ],
   "injectors": {

@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.item.BlueprintItem;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
@@ -46,10 +47,10 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     protected void init()
     {
         super.init();
-        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+24, 10, 20, Text.literal("\u276E"), (button) -> setBlueprint(currentBlueprintIndex - 1)));
-        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24, 10, 20, Text.literal("\u276F"), (button) -> setBlueprint(currentBlueprintIndex + 1)));
-
-        addDrawableChild(new ButtonWidget(((this.width-this.backgroundWidth)/2)+35, ((this.height-this.backgroundHeight)/2)+48, 32, 20 , Text.literal("Set"), (button) ->
+        addDrawableChild(ButtonWidget.builder(Text.literal("Close"), (button) -> this.close()).position(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+2).size(10, 20).build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("❮"), (button) -> setBlueprint(currentBlueprintIndex - 1)).position(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24).size(10, 20).build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("❯"), (button) -> setBlueprint(currentBlueprintIndex + 1)).position(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24).size(10, 20).build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("Set"), (button) ->
         {
             if (client != null)
             {
@@ -59,9 +60,20 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
 
                 this.close();
             }
-        }));
+        }).position(((this.width-this.backgroundWidth)/2)+35, ((this.height-this.backgroundHeight)/2)+48).size(32, 20).build());
 
         setBlueprint(0);
+    }
+
+    @Override
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        int i = this.x;
+        int j = (this.height - this.backgroundHeight) / 2;
+
+        context.drawTexture(TEXTURE, i, j, 0, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 512, 256);
     }
 
     private int getCurrentBlueprint()
@@ -70,27 +82,9 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     }
 
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY)
-    {
-
-    }
-
-    @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY)
-    {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        int i = this.x;
-        int j = (this.height - this.backgroundHeight) / 2;
-        this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
-    }
-
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
-    {
-        this.renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        this.itemRenderer.renderInGui(new ItemStack(BlueprintItem.BLUEPRINT_ITEM_LIST.get(getCurrentBlueprint())), 43+(this.width - this.backgroundWidth)/2, 26+(this.height - this.backgroundHeight)/2);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
+        context.drawItem(new ItemStack(BlueprintItem.BLUEPRINT_ITEM_LIST.get(getCurrentBlueprint())), 43+(this.width - this.backgroundWidth)/2, 26+(this.height - this.backgroundHeight)/2);
     }
 }
