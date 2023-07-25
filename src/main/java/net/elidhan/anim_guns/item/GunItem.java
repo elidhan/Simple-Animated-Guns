@@ -36,6 +36,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -56,6 +57,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.core.jmx.Server;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Random;
@@ -156,16 +158,18 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         if (!world.isClient()) {
             for (int i = 0; i < this.pelletCount; i++) {
                 BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
-                //bullet.setPos(user.getX(), user.getEyeY(), user.getZ());
 
-                //Vec3d vertiSpread = BulletUtil.vertiSpread(user, (random.nextFloat(-bulletSpread[0] * 5, bulletSpread[0] * 5)));
-                //Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1] * 5, bulletSpread[1] * 5)));
+                bullet.setPosition(user.getX(), user.getEyeY(), user.getZ());
 
-                //Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
+                Vec3d vertiSpread = BulletUtil.vertiSpread(user, (random.nextFloat(-bulletSpread[0]*5, bulletSpread[0]*5)));
+                Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1]*5, bulletSpread[1]*5)));
 
-                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0, 20, 0);
-                bullet.setPosition(user.getX(), user.getEyeY() - 0.1D, user.getZ());
+                Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
+
+                bullet.setVelocity(result.getX(), result.getY(), result.getZ(), 20, 0);
+                bullet.setBaseVel(bullet.getVelocity());
                 bullet.setOwner(user);
+
                 world.spawnEntity(bullet);
             }
 

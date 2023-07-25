@@ -15,6 +15,7 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     private float bulletDamage;
     private int maxLife;
     private int lifeTicks;
+    private Vec3d vel;
 
     public BulletProjectileEntity(EntityType<? extends BulletProjectileEntity> entityEntityType, World world)
     {
@@ -34,6 +35,8 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     public void tick()
     {
         super.tick();
+
+        this.setVelocity(vel);
 
         if(this.lifeTicks++ >= this.maxLife)
         {
@@ -68,5 +71,9 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     protected void onBlockHit(BlockHitResult blockHitResult)
     {
         this.discard();
+    }
+
+    public void setBaseVel(Vec3d velocity) {
+        this.vel = velocity;
     }
 }
