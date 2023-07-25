@@ -14,7 +14,7 @@ public class BulletUtil
     public static Vec3d horiSpread(PlayerEntity player, float x_spread)
     {
         Vec3d vec3d = player.getOppositeRotationVector(1.0F);
-        Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(x_spread, vec3d.x, vec3d.y, vec3d.z);
+        Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(x_spread * 0.017453292F, vec3d.x, vec3d.y, vec3d.z);
         Vec3d vec3d2 = player.getRotationVec(1.0F);
 
         Vector3f vector3f = vec3d2.toVector3f().rotate(quaternionf);
@@ -25,7 +25,7 @@ public class BulletUtil
     public static Vec3d vertiSpread(PlayerEntity player, float y_spread)
     {
         Vec3d vec3d = getOppositeRotationVector(0, player.getYaw(1.0f) - 90);
-        Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(y_spread, vec3d.x, vec3d.y, vec3d.z);
+        Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(y_spread * 0.017453292F, vec3d.x, vec3d.y, vec3d.z);
         Vec3d vec3d2 = player.getRotationVec(1.0F);
 
         Vector3f vector3f = vec3d2.toVector3f().rotate(quaternionf);
