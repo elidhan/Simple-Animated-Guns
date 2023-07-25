@@ -1185,7 +1185,6 @@
 			}
 		},
 		"aim_firing": {
-			"loop": true,
 			"animation_length": 0.5,
 			"bones": {
 				"gunbody": {
@@ -1306,5 +1305,5 @@
 			}
 		}
 	},
-	"geckolib_format_version": 2
+	"geckolib_format_version": 3
 }

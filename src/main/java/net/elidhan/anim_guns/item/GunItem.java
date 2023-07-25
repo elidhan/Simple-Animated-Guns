@@ -9,6 +9,8 @@ import mod.azure.azurelib.core.animatable.GeoAnimatable;
 import mod.azure.azurelib.core.animatable.instance.AnimatableInstanceCache;
 import mod.azure.azurelib.core.animation.AnimatableManager;
 import mod.azure.azurelib.core.animation.AnimationController;
+import mod.azure.azurelib.core.keyframe.event.SoundKeyframeEvent;
+import mod.azure.azurelib.core.object.PlayState;
 import mod.azure.azurelib.util.AzureLibUtil;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
@@ -16,14 +18,17 @@ import net.elidhan.anim_guns.animations.GunAnimations;
 import net.elidhan.anim_guns.client.render.GunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.util.BulletUtil;
+import net.elidhan.anim_guns.util.GunUtil;
 import net.elidhan.anim_guns.util.InventoryUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -39,6 +44,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -48,6 +54,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -149,42 +156,31 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         if (!world.isClient()) {
             for (int i = 0; i < this.pelletCount; i++) {
                 BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
-                bullet.setPos(user.getX(), user.getEyeY(), user.getZ());
+                //bullet.setPos(user.getX(), user.getEyeY(), user.getZ());
 
-                Vec3d vertiSpread = BulletUtil.vertiSpread(user, (random.nextFloat(-bulletSpread[0] * 5, bulletSpread[0] * 5)));
-                Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1] * 5, bulletSpread[1] * 5)));
+                //Vec3d vertiSpread = BulletUtil.vertiSpread(user, (random.nextFloat(-bulletSpread[0] * 5, bulletSpread[0] * 5)));
+                //Vec3d horiSpread = BulletUtil.horiSpread(user, (random.nextFloat(-bulletSpread[1] * 5, bulletSpread[1] * 5)));
 
-                Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
+                //Vec3d result = user.getRotationVector().add(vertiSpread).add(horiSpread);
 
-                bullet.setVelocity(result.getX(), result.getY(), result.getZ(), 20, 0);
-                bullet.setBaseVel(bullet.getVelocity());
-
+                bullet.setVelocity(user, user.getPitch(), user.getYaw(), 0, 20, 0);
+                bullet.setPosition(user.getX(), user.getEyeY() - 0.1D, user.getZ());
+                bullet.setOwner(user);
                 world.spawnEntity(bullet);
             }
 
             ItemStack stack = user.getStackInHand(Hand.MAIN_HAND);
             final long id = GeoItem.getOrAssignId(stack, (ServerWorld) world);
 
-            triggerAnim(user, id, "controller", !stack.getOrCreateNbt().getBoolean("isScoped") && stack.getOrCreateNbt().getBoolean("isAiming") ? "firing" : "aim_firing");
-            //triggerAnim(user, id, "controller", !stack.getOrCreateNbt().getBoolean("isScoped") && stack.getOrCreateNbt().getBoolean("isAiming") ? "idle" : "aim");
-
-/*
-            TODO: Set Animation>
-            //set animation
-            final int id = GeckoLibUtil.guaranteeIDForStack(itemStack, (ServerWorld) world);
-            GeckoLibNetwork.syncAnimation(user, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(user))
-            {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, !itemStack.getOrCreateNbt().getBoolean("isScoped") && itemStack.getOrCreateNbt().getBoolean("isAiming")?7:1);
-            }
-
-*/
+            triggerAnim(user, id, "controller", !stack.getOrCreateNbt().getBoolean("isScoped") && stack.getOrCreateNbt().getBoolean("isAiming") ? "aim_firing" : "firing");
 
             //recoil
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeFloat(v_kick);
             buf.writeDouble(h_kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
+
+            GunUtil.spawnLightSource(user, false);
         }
 
         if (!user.getAbilities().creativeMode) {
@@ -206,123 +202,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
             toggleAim(itemStack);
         }
     }
-/*
-    private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event)
-    {
-        if(event.getController().getCurrentAnimation() == null || event.getController().getAnimationState() == AnimationState.Stopped)
-        {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle",ILoopType.EDefaultLoopTypes.LOOP));
-        }
 
-        return PlayState.CONTINUE;
-    }*//*
-    @SuppressWarnings({"rawtypes","unchecked"})
-    @Override
-    public void registerControllers(AnimationData animationData)
-    {
-        AnimationController<GunItem> controller = new AnimationController(this, controllerName, 1, this::predicate);
-        controller.registerSoundListener(this::soundListener);
-        animationData.addAnimationController(controller);
-    }*/
-
-    /*
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void onAnimationSync(int id, int state)
-    {
-        final AnimationController controller = GeckoLibUtil.getControllerForID(this.factory, id, controllerName);
-        switch (state)
-        {
-            case 0 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
-            }
-            case 1 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder()
-                        .addAnimation("firing", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
-                        .addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
-            }
-            case 2 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_start", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-            }
-            case 3 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_magout", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-            }
-            case 4 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("reload_magin", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-            }
-            case 5 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder()
-                        .addAnimation("reload_end", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
-                        .addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
-            }
-            case 6 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder().addAnimation("aim", ILoopType.EDefaultLoopTypes.LOOP));
-            }
-            case 7 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder()
-                        .addAnimation("aim_firing", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
-                        .addAnimation("aim", ILoopType.EDefaultLoopTypes.LOOP));
-            }
-            case 8 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder()
-                        .addAnimation("aim_reload_start", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
-            }
-            case 9 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder()
-                        .addAnimation("melee", ILoopType.EDefaultLoopTypes.PLAY_ONCE)
-                        .addAnimation("idle"));
-            }
-            case 10 ->
-            {
-                controller.markNeedsReload();
-                controller.setAnimation(new AnimationBuilder()
-                        .addAnimation("sprinting", ILoopType.EDefaultLoopTypes.LOOP));
-            }
-        }
-    }*
-    //*
-    TODO: Need to look into the sounds with AzureLib
-
-    protected <ENTITY extends GeoAnimatable> void soundListener(SoundKeyframeEvent<ENTITY> event)
-    {
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (player != null) {
-            switch (event.sound)
-            {
-                case "reload_start" ->
-                        player.playSound(this.reloadSoundStart, SoundCategory.MASTER, 1, 1);
-                case "reload_magout" ->
-                        player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
-                case "reload_magin" ->
-                        player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
-                case "reload_end" ->
-                        player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
-                case "melee" ->
-                        player.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
-            }
-        }
-    }
-    */
     private void setDefaultNBT(ItemStack stack) {
         NbtCompound nbtCompound = stack.getOrCreateNbt();
 
@@ -342,14 +222,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         if (world instanceof ServerWorld) {
             final long id = GeoItem.getOrAssignId(stack, (ServerWorld) world);
             triggerAnim(player, id, "controller", "idle");
-
-            /*
-            final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld)world);
-            GeckoLibNetwork.syncAnimation(player, this, id, 0);
-            for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
-            {
-                GeckoLibNetwork.syncAnimation(otherPlayer, this, id, 0);
-            }*/
         }
         super.onCraft(stack, world, player);
     }
@@ -400,28 +272,20 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 }
             }
 
-            /*
-            if(isSprinting
+            if (isSprinting
                     && !mainHandGun.getOrCreateNbt().getBoolean("isAiming")
                     && mainHandGun == stack
-                    && GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation() != null
-                    && !GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation().animationName.equals("sprinting")
-                    && !GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation().animationName.equals("melee"))
-            {
+                    && !mainHandGun.getOrCreateNbt().getBoolean("isReloading")) {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeItemStack(stack);
                 buf.writeBoolean(true);
                 ClientPlayNetworking.send(AnimatedGuns.GUN_SPRINT_PACKET_ID, buf);
-            }
-            else if((!isSprinting || mainHandGun != stack)
-                    && GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation() != null
-                    && GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName).getCurrentAnimation().animationName.equals("sprinting"))
-            {
+            } else if ((!isSprinting || mainHandGun != stack)) {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeItemStack(stack);
                 buf.writeBoolean(false);
                 ClientPlayNetworking.send(AnimatedGuns.GUN_SPRINT_PACKET_ID, buf);
-            }*/
+            }
         }
 
         //The actual reload process/tick
@@ -460,15 +324,15 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         nbtCompound.putInt("reloadTick", nbtCompound.getInt("reloadTick") + 1);
 
         switch (this.loadingType) {
-            case MAGAZINE:
+            case MAGAZINE -> {
                 if (rTick >= this.reloadCooldown
                         && reserveAmmoCount(player, this.ammoType) > 0) {
                     nbtCompound.putInt("currentCycle", 1);
                     finishReload(player, stack);
                     nbtCompound.putInt("reloadTick", 0);
                 }
-                break;
-            case PER_CARTRIDGE:
+            }
+            case PER_CARTRIDGE -> {
                 if (rTick >= this.reloadStage3
                         && nbtCompound.getInt("currentCycle") < this.reloadCycles
                         && reserveAmmoCount(player, this.ammoType) > 0) {
@@ -480,7 +344,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                     nbtCompound.putInt("currentCycle", nbtCompound.getInt("Clip"));
                     stack.setDamage(this.getMaxDamage() - ((nbtCompound.getInt("Clip") * 10) + 1));
                 }
-                break;
+            }
         }
     }
 
@@ -532,15 +396,19 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         triggerAnim(player, id, "controller", stack.getOrCreateNbt().getBoolean("isAiming") ? "aim" : "idle");
     }
 
-    public void toggleSprint(ItemStack stack, boolean sprint, ServerWorld world, PlayerEntity player) {/*
-        final int id = GeckoLibUtil.guaranteeIDForStack(stack, world);
-        GeckoLibNetwork.syncAnimation(player, this, id, sprint?10:0);
-        for (PlayerEntity otherPlayer : PlayerLookup.tracking(player))
-        {
-            GeckoLibNetwork.syncAnimation(otherPlayer, this, id, sprint?10:0);
-        }*/
+    public void toggleSprint(ItemStack stack, boolean sprint, ServerWorld world, PlayerEntity player) {
         final long id = GeoItem.getOrAssignId(stack, world);
-        triggerAnim(player, id, "controller", sprint ? "sprinting" : "idle");
+
+        if (stack.getOrCreateNbt().getBoolean("isReloading"))
+            return;
+
+        if (sprint) {
+            triggerAnim(player, id, "controller", "sprinting");
+        } else if (stack.getOrCreateNbt().getBoolean("isAiming")) {
+            triggerAnim(player, id, "controller", "aim");
+        } else {
+            triggerAnim(player, id, "controller", "idle");
+        }
     }
 
     public void toggleAim(ItemStack itemStack) {
@@ -622,22 +490,41 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(GunAnimations.genericGunController(this)
+        AnimationController<GunItem> controller = new AnimationController<>(this, "controller", event -> PlayState.CONTINUE)
                 .triggerableAnim("idle", GunAnimations.IDLE)
-                        .triggerableAnim("firing", GunAnimations.FIRING)
-                        .triggerableAnim("reload_start", GunAnimations.RELOAD_START)
-                        .triggerableAnim("reload_magout", GunAnimations.RELOAD_MAGOUT)
-                        .triggerableAnim("reload_magin", GunAnimations.RELOAD_MAGIN)
-                        .triggerableAnim("reload_end", GunAnimations.RELOAD_END)
-                        .triggerableAnim("aim", GunAnimations.AIM)
-                        .triggerableAnim("aim_firing", GunAnimations.AIM_FIRING)
-                        .triggerableAnim("aim_reload_start", GunAnimations.AIM_RELOAD_START)
-                        .triggerableAnim("melee", GunAnimations.MELEE)
-                        .triggerableAnim("sprinting", GunAnimations.SPRINTING)
-        );
-        //controllers.add(new AnimationController<>(this, "charge_controller", state -> PlayState.CONTINUE).triggerableAnim("charge", DefaultAnimations.ATTACK_CHARGE));
+                .triggerableAnim("firing", GunAnimations.FIRING)
+                .triggerableAnim("reload_start", GunAnimations.RELOAD_START)
+                .triggerableAnim("reload_magout", GunAnimations.RELOAD_MAGOUT)
+                .triggerableAnim("reload_magin", GunAnimations.RELOAD_MAGIN)
+                .triggerableAnim("reload_end", GunAnimations.RELOAD_END)
+                .triggerableAnim("aim", GunAnimations.AIM)
+                .triggerableAnim("aim_firing", GunAnimations.AIM_FIRING)
+                .triggerableAnim("aim_reload_start", GunAnimations.AIM_RELOAD_START)
+                .triggerableAnim("melee", GunAnimations.MELEE)
+                .triggerableAnim("sprinting", GunAnimations.SPRINTING);
+        controller.setTransitionLength(1);
+        controller.setSoundKeyframeHandler(this::soundListener);
+        controllers.add(controller);
     }
 
+    /**
+     * Handles the sound events for the gun
+     *
+     * @param gunItemSoundKeyframeEvent the event provided by AzureLib
+     */
+    private void soundListener(SoundKeyframeEvent<GunItem> gunItemSoundKeyframeEvent) {
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if (player != null) {
+
+            switch (gunItemSoundKeyframeEvent.getKeyframeData().getSound()) {
+                case "reload_start" -> player.playSound(this.reloadSoundStart, SoundCategory.MASTER, 1, 1);
+                case "reload_magout" -> player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
+                case "reload_magin" -> player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
+                case "reload_end" -> player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
+                case "melee" -> player.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
+            }
+        }
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

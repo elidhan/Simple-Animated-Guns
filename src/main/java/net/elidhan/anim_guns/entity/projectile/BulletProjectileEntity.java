@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 public class BulletProjectileEntity extends PersistentProjectileEntity
 {
     private float bulletDamage;
-    private Vec3d vel;
     private int maxLife;
     private int lifeTicks;
 
@@ -35,8 +34,6 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     public void tick()
     {
         super.tick();
-
-        this.setVelocity(vel);
 
         if(this.lifeTicks++ >= this.maxLife)
         {
@@ -71,10 +68,5 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     protected void onBlockHit(BlockHitResult blockHitResult)
     {
         this.discard();
-    }
-
-    public void setBaseVel(Vec3d vel)
-    {
-        this.vel = vel;
     }
 }
