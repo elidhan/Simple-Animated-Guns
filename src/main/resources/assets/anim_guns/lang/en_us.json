@@ -2,8 +2,8 @@
 	"category.anim_guns.binds" : "Simple Animated Guns",
 	"key.anim_guns.reloadtoggle" : "Reload Gun",
 	"key.anim_guns.aimtoggle" : "Aim Sights",
-	"itemGroup.anim_guns.misc" : "S.A.G. Misc",
-	"itemGroup.anim_guns.guns" : "S.A.G. Guns",
+	"misc" : "S.A.G. Misc",
+	"guns" : "S.A.G. Guns",
 
 	"item.anim_guns.hardened_iron_ingot" : "Hardened Iron Ingot",
 	"item.anim_guns.hardened_iron_nugget" : "Hardened Iron Nugget",
