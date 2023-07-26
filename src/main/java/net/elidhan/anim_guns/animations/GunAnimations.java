@@ -1,17 +1,18 @@
 package net.elidhan.anim_guns.animations;
 
+import mod.azure.azurelib.core.animation.Animation;
 import mod.azure.azurelib.core.animation.RawAnimation;
 
 public final class GunAnimations {
-    public static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
-    public static final RawAnimation FIRING = RawAnimation.begin().thenPlay("firing");
-    public static final RawAnimation RELOAD_START = RawAnimation.begin().thenPlay("reload_start");
-    public static final RawAnimation RELOAD_MAGOUT = RawAnimation.begin().thenPlay("reload_magout");
-    public static final RawAnimation RELOAD_MAGIN = RawAnimation.begin().thenPlay("reload_magin");
-    public static final RawAnimation RELOAD_END = RawAnimation.begin().thenPlay("reload_end");
-    public static final RawAnimation AIM = RawAnimation.begin().thenPlay("aim");
-    public static final RawAnimation AIM_FIRING = RawAnimation.begin().thenPlay("aim_firing");
-    public static final RawAnimation AIM_RELOAD_START = RawAnimation.begin().thenPlay("aim_reload_start");
-    public static final RawAnimation MELEE = RawAnimation.begin().thenPlay("melee");
-    public static final RawAnimation SPRINTING = RawAnimation.begin().thenPlay("sprinting");
+    public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    public static final RawAnimation FIRING = RawAnimation.begin().then("firing", Animation.LoopType.PLAY_ONCE);//.thenLoop("idle");
+    public static final RawAnimation RELOAD_START = RawAnimation.begin().then("reload_start", Animation.LoopType.PLAY_ONCE).thenLoop("idle");
+    public static final RawAnimation RELOAD_MAGOUT = RawAnimation.begin().then("reload_magout", Animation.LoopType.PLAY_ONCE).thenLoop("idle");
+    public static final RawAnimation RELOAD_MAGIN = RawAnimation.begin().then("reload_magin", Animation.LoopType.PLAY_ONCE).thenLoop("idle");
+    public static final RawAnimation RELOAD_END = RawAnimation.begin().then("reload_end", Animation.LoopType.HOLD_ON_LAST_FRAME);
+    public static final RawAnimation AIM = RawAnimation.begin().thenLoop("aim");
+    public static final RawAnimation AIM_FIRING = RawAnimation.begin().then("aim_firing", Animation.LoopType.PLAY_ONCE);//.thenLoop("aim");
+    public static final RawAnimation AIM_RELOAD_START = RawAnimation.begin().then("aim_reload_start", Animation.LoopType.PLAY_ONCE).thenLoop("idle");
+    public static final RawAnimation MELEE = RawAnimation.begin().then("melee", Animation.LoopType.PLAY_ONCE);
+    public static final RawAnimation SPRINTING = RawAnimation.begin().thenLoop("sprinting");
 }

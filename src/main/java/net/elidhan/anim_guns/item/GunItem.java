@@ -9,6 +9,7 @@ import mod.azure.azurelib.core.animatable.GeoAnimatable;
 import mod.azure.azurelib.core.animatable.instance.AnimatableInstanceCache;
 import mod.azure.azurelib.core.animation.AnimatableManager;
 import mod.azure.azurelib.core.animation.AnimationController;
+import mod.azure.azurelib.core.animation.AnimationState;
 import mod.azure.azurelib.core.keyframe.event.SoundKeyframeEvent;
 import mod.azure.azurelib.core.object.PlayState;
 import mod.azure.azurelib.util.AzureLibUtil;
@@ -184,7 +185,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
             buf.writeDouble(h_kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
 
-            GunUtil.spawnLightSource(user, false);
+            //GunUtil.spawnLightSource(user, false);
         }
 
         if (!user.getAbilities().creativeMode) {
@@ -279,12 +280,14 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
             if (isSprinting
                     && !mainHandGun.getOrCreateNbt().getBoolean("isAiming")
                     && mainHandGun == stack
-                    && !mainHandGun.getOrCreateNbt().getBoolean("isReloading")) {
+                    && !mainHandGun.getOrCreateNbt().getBoolean("isReloading")
+            ) {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeItemStack(stack);
                 buf.writeBoolean(true);
                 ClientPlayNetworking.send(AnimatedGuns.GUN_SPRINT_PACKET_ID, buf);
-            } else if ((!isSprinting || mainHandGun != stack)) {
+            }
+            else if ((!isSprinting || mainHandGun != stack)) {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeItemStack(stack);
                 buf.writeBoolean(false);
@@ -408,10 +411,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 
         if (sprint) {
             triggerAnim(player, id, "controller", "sprinting");
-        } else if (stack.getOrCreateNbt().getBoolean("isAiming")) {
-            triggerAnim(player, id, "controller", "aim");
-        } else {
-            triggerAnim(player, id, "controller", "idle");
         }
     }
 
@@ -476,7 +475,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 
     @Override
     public void createRenderer(Consumer<Object> consumer) {
-
         consumer.accept(new RenderProvider() {
             private final GunRenderer renderer = new GunRenderer(new Identifier(AnimatedGuns.MOD_ID, gunID));
 
@@ -492,9 +490,19 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         return renderProvider;
     }
 
+    private PlayState predicate(AnimationState<GunItem> event)
+    {
+        if(event.getController().getCurrentAnimation() == null || event.getController().getAnimationState() == AnimationController.State.STOPPED)
+        {
+            event.getController().setAnimation(GunAnimations.IDLE);
+        }
+
+        return PlayState.CONTINUE;
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        AnimationController<GunItem> controller = new AnimationController<>(this, "controller", event -> PlayState.CONTINUE)
+        AnimationController<GunItem> controller = new AnimationController<>(this, "controller", 1, this::predicate)
                 .triggerableAnim("idle", GunAnimations.IDLE)
                 .triggerableAnim("firing", GunAnimations.FIRING)
                 .triggerableAnim("reload_start", GunAnimations.RELOAD_START)
@@ -506,7 +514,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 .triggerableAnim("aim_reload_start", GunAnimations.AIM_RELOAD_START)
                 .triggerableAnim("melee", GunAnimations.MELEE)
                 .triggerableAnim("sprinting", GunAnimations.SPRINTING);
-        controller.setTransitionLength(1);
+
         controller.setSoundKeyframeHandler(this::soundListener);
         controllers.add(controller);
     }
