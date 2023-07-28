@@ -155,8 +155,6 @@ public class AnimatedGuns implements ModInitializer {
         {
             ItemStack stack = buf.readItemStack();
 
-            //((GunItem) stack.getItem()).aimAnimation(player.getMainHandStack(), false, (ServerWorld) player.getWorld(), player);
-
             float i = player.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0) * ((GunItem) stack.getItem()).getRateOfFire();
             if ((int) i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
 
@@ -168,7 +166,9 @@ public class AnimatedGuns implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(GUN_AIM_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
         {
             if (player.getMainHandStack().getItem() instanceof GunItem) {
-                ((GunItem) player.getMainHandStack().getItem()).aimAnimation(player.getMainHandStack(), buf.readBoolean(), (ServerWorld) player.getWorld(), player);
+                boolean bl = buf.readBoolean();
+                if (bl) player.setSprinting(false);
+                ((GunItem) player.getMainHandStack().getItem()).aimAnimation(player.getMainHandStack(), bl, (ServerWorld) player.getWorld(), player);
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(GUN_SPRINT_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->

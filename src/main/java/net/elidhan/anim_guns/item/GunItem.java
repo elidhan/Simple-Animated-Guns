@@ -19,7 +19,6 @@ import net.elidhan.anim_guns.animations.GunAnimations;
 import net.elidhan.anim_guns.client.render.GunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.util.BulletUtil;
-import net.elidhan.anim_guns.util.GunUtil;
 import net.elidhan.anim_guns.util.InventoryUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
@@ -37,7 +36,6 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -56,9 +54,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.jmx.Server;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Random;
@@ -156,6 +152,11 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         double h_kick = getRecoilX(itemStack);
         float v_kick = getRecoilY(itemStack);
 
+        if (shouldUnscopeAfterShot() && itemStack.getOrCreateNbt().getBoolean("isAiming"))
+        {
+            toggleAim(itemStack);
+        }
+
         if (!world.isClient()) {
             for (int i = 0; i < this.pelletCount; i++) {
                 BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
@@ -174,10 +175,17 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 world.spawnEntity(bullet);
             }
 
-            ItemStack stack = user.getStackInHand(Hand.MAIN_HAND);
-            final long id = GeoItem.getOrAssignId(stack, (ServerWorld) world);
+            final long id = GeoItem.getOrAssignId(itemStack, (ServerWorld) world);
+            AnimationController<GeoAnimatable> animationController = this.animationCache.getManagerForId(id).getAnimationControllers().get("controller");
 
-            triggerAnim(user, id, "controller", !stack.getOrCreateNbt().getBoolean("isScoped") && stack.getOrCreateNbt().getBoolean("isAiming") ? "aim_firing" : "firing");
+            if(animationController.isPlayingTriggeredAnimation() && (animationController.getCurrentRawAnimation().equals(GunAnimations.FIRING) || animationController.getCurrentRawAnimation().equals(GunAnimations.AIM_FIRING)))
+            {
+                animationController.forceAnimationReset();
+            }
+            else
+            {
+                animationController.tryTriggerAnimation(itemStack.getOrCreateNbt().getBoolean("isAiming")?"aim_firing":"firing");
+            }
 
             //recoil
             PacketByteBuf buf = PacketByteBufs.create();
@@ -201,10 +209,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 
         if (this.reloadCycles > 1) {
             itemStack.getOrCreateNbt().putInt("currentCycle", itemStack.getOrCreateNbt().getInt("Clip"));
-        }
-
-        if (shouldUnscopeAfterShot() && itemStack.getOrCreateNbt().getBoolean("isAiming")) {
-            toggleAim(itemStack);
         }
     }
 
@@ -257,7 +261,8 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         boolean isSprinting = entity.isSprinting();
         ItemStack mainHandGun = ((PlayerEntity) entity).getMainHandStack();
 
-        if (world.isClient()) {
+        if (world.isClient())
+        {
             if (mainHandGun == stack
                     && AnimatedGunsClient.reloadToggle.isPressed()
                     && remainingAmmo(stack) < this.magSize
@@ -269,34 +274,40 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 ClientPlayNetworking.send(AnimatedGuns.RELOAD_PACKET_ID, buf);
             }
 
-            if (mainHandGun == stack) {
-                while (AnimatedGunsClient.meleeKey.wasPressed()) {
+            if (mainHandGun == stack)
+            {
+                while (AnimatedGunsClient.meleeKey.wasPressed())
+                {
                     PacketByteBuf buf = PacketByteBufs.create();
                     buf.writeItemStack(stack);
                     ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_SERVER_ID, buf);
                 }
             }
+        }
+        else
+        {
+            final long id = GeoItem.getOrAssignId(stack, (ServerWorld) world);
+            AnimationController<GeoAnimatable> animationController = this.animationCache.getManagerForId(id).getAnimationControllers().get("controller");
+
+            boolean bl = animationController.isPlayingTriggeredAnimation() && animationController.getCurrentRawAnimation().equals(GunAnimations.SPRINTING);
 
             if (isSprinting
                     && !mainHandGun.getOrCreateNbt().getBoolean("isAiming")
                     && mainHandGun == stack
                     && !mainHandGun.getOrCreateNbt().getBoolean("isReloading")
-            ) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeItemStack(stack);
-                buf.writeBoolean(true);
-                ClientPlayNetworking.send(AnimatedGuns.GUN_SPRINT_PACKET_ID, buf);
+                    && !bl)
+            {
+                animationController.tryTriggerAnimation("sprinting");
             }
-            else if ((!isSprinting || mainHandGun != stack)) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeItemStack(stack);
-                buf.writeBoolean(false);
-                ClientPlayNetworking.send(AnimatedGuns.GUN_SPRINT_PACKET_ID, buf);
+            else if ((!isSprinting || mainHandGun != stack) && bl)
+            {
+                animationController.tryTriggerAnimation("idle");
             }
         }
 
         //The actual reload process/tick
-        if (nbtCompound.getBoolean("isReloading") && !isSprinting) {
+        if (nbtCompound.getBoolean("isReloading") && !isSprinting)
+        {
             if ((mainHandGun != stack
                     || (reserveAmmoCount((PlayerEntity) entity, this.ammoType) <= 0 && this.reloadCycles <= 1)
                     || (nbtCompound.getInt("reloadTick") >= this.reloadCooldown)
@@ -304,7 +315,9 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 nbtCompound.putBoolean("isReloading", false);
 
             this.doReloadTick(world, nbtCompound, (PlayerEntity) entity, stack);
-        } else {
+        }
+        else
+        {
             if (nbtCompound.getInt("reloadTick") > this.reloadStage3 && nbtCompound.getInt("reloadTick") <= this.reloadCooldown)
                 finishReload((PlayerEntity) entity, stack);
 
@@ -389,8 +402,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
     public void aimAnimation(ItemStack stack, boolean aim, ServerWorld world, PlayerEntity player) {
         stack.getOrCreateNbt().putBoolean("isAiming", aim);
         stack.getOrCreateNbt().putBoolean("isScoped", this.isScoped);
-
-        if (aim) player.setSprinting(false);
 /*
         final int id = AzureLibUtil.guaranteeIDForStack(stack, world);
         GeckoLibNetwork.syncAnimation(player, this, id, stack.getOrCreateNbt().getBoolean("isAiming")?6:0);
@@ -492,7 +503,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 
     private PlayState predicate(AnimationState<GunItem> event)
     {
-        if(event.getController().getCurrentAnimation() == null || event.getController().getAnimationState() == AnimationController.State.STOPPED)
+        if(event.getController().getCurrentAnimation() == null)
         {
             event.getController().setAnimation(GunAnimations.IDLE);
         }
