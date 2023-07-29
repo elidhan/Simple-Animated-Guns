@@ -3,6 +3,7 @@ package net.elidhan.anim_guns.entity.projectile;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
@@ -13,9 +14,9 @@ import net.minecraft.world.World;
 public class BulletProjectileEntity extends PersistentProjectileEntity
 {
     private float bulletDamage;
+    private Vec3d vel;
     private int maxLife;
     private int lifeTicks;
-    private Vec3d vel;
 
     public BulletProjectileEntity(EntityType<? extends BulletProjectileEntity> entityEntityType, World world)
     {
@@ -61,7 +62,7 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     {
         if(entityHitResult.getEntity() instanceof LivingEntity entity)
         {
-            entity.damage(entity.getDamageSources().arrow(this, this.getOwner() != null ? this.getOwner() : this), this.bulletDamage);
+            entity.damage(DamageSource.arrow(this, this.getOwner() != null?this.getOwner():this), this.bulletDamage);
             entity.timeUntilRegen = 0;
         }
         this.discard();
@@ -73,7 +74,8 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
         this.discard();
     }
 
-    public void setBaseVel(Vec3d velocity) {
-        this.vel = velocity;
+    public void setBaseVel(Vec3d vel)
+    {
+        this.vel = vel;
     }
 }
