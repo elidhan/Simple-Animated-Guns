@@ -10,14 +10,12 @@ import net.minecraft.screen.ScreenHandler;
 
 public class BlueprintScreenHandler extends ScreenHandler
 {
-    public BlueprintScreenHandler(int syncId, PlayerInventory playerInventory)
-    {
+    public BlueprintScreenHandler(int syncId, PlayerInventory playerInventory) {
         super(AnimatedGuns.BLUEPRINT_SCREEN_HANDLER_TYPE, syncId);
     }
 
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int index)
-    {
+    public ItemStack quickMove(PlayerEntity player, int slot) {
         return null;
     }
 

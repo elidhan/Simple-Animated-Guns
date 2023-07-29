@@ -15,7 +15,6 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.glfw.GLFW;
-import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
 @Environment(EnvType.CLIENT)
 public class AnimatedGunsClient implements ClientModInitializer
@@ -57,24 +56,6 @@ public class AnimatedGunsClient implements ClientModInitializer
 
         //Entity Render
         EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletRenderer::new);
-
-        //Geckolib
-        GeoItemRenderer.registerItemRenderer(ModItems.PISTOL, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_PISTOL, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.MAGNUM_REVOLVER, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.OLD_ARMY_REVOLVER, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.MACHINE_PISTOL, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_SMG, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.LIGHT_ASSAULT_RIFLE, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.HEAVY_ASSAULT_RIFLE, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.WAR_TORN_ASSAULT_RIFLE, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.DOUBLE_BARRELED_SHOTGUN, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.COMBAT_SHOTGUN, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.RIOT_SHOTGUN, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.CLASSIC_SNIPER_RIFLE, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.BRUSH_GUN, new GunRenderer());
-        GeoItemRenderer.registerItemRenderer(ModItems.LMG, new GunRenderer());
-
         HandledScreens.register(AnimatedGuns.BLUEPRINT_SCREEN_HANDLER_TYPE, BlueprintScreen::new);
     }
 }

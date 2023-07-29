@@ -7,9 +7,9 @@ import net.elidhan.anim_guns.mixininterface.InGameHudMixinInterface;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -38,12 +38,12 @@ public abstract class InGameHudMixin implements InGameHudMixinInterface
         this.client = client;
     }
     @Override
-    public void renderGunScopeOverlay(float scale) {
+    public void simple_Animated_Guns$renderGunScopeOverlay(float scale) {
         float f;
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, GUN_SCOPE);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -61,8 +61,7 @@ public abstract class InGameHudMixin implements InGameHudMixinInterface
         bufferBuilder.vertex(m, l, -90.0).texture(1.0f, 0.0f).next();
         bufferBuilder.vertex(k, l, -90.0).texture(0.0f, 0.0f).next();
         tessellator.draw();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderSystem.disableTexture();
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(0.0, this.scaledHeight, -90.0).color(0, 0, 0, 255).next();
         bufferBuilder.vertex(this.scaledWidth, this.scaledHeight, -90.0).color(0, 0, 0, 255).next();
@@ -81,14 +80,13 @@ public abstract class InGameHudMixin implements InGameHudMixinInterface
         bufferBuilder.vertex(this.scaledWidth, l, -90.0).color(0, 0, 0, 255).next();
         bufferBuilder.vertex(m, l, -90.0).color(0, 0, 0, 255).next();
         tessellator.draw();
-        RenderSystem.enableTexture();
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void render(MatrixStack matrices, float tickDelta, CallbackInfo ci)
+    private void render(DrawContext context, float tickDelta, CallbackInfo ci)
     {
         this.scaledWidth = this.client.getWindow().getScaledWidth();
         this.scaledHeight = this.client.getWindow().getScaledHeight();
@@ -104,7 +102,7 @@ public abstract class InGameHudMixin implements InGameHudMixinInterface
         {
             if (aimingScopedGun)
             {
-                this.renderGunScopeOverlay(this.gunScopeScale);
+                this.simple_Animated_Guns$renderGunScopeOverlay(this.gunScopeScale);
             }
             else
             {
@@ -114,7 +112,7 @@ public abstract class InGameHudMixin implements InGameHudMixinInterface
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private void cancelCrosshair(MatrixStack matrices, CallbackInfo ci)
+    private void cancelCrosshair(DrawContext context, CallbackInfo ci)
     {
         if(client.player != null
                 && client.player.getMainHandStack().getItem() instanceof GunItem

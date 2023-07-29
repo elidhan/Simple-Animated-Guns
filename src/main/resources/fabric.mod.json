@@ -34,10 +34,10 @@
   "accessWidener": "anim_guns.accesswidener",
 
   "depends": {
-    "geckolib3": ">=3.1.40",
+    "azurelib": ">=1.0.19",
     "fabricloader": ">=0.14.19",
     "fabric": "*",
-    "minecraft": "1.19.2",
+    "minecraft": "1.20.1",
     "java": ">=17"
   },
   "suggests": {

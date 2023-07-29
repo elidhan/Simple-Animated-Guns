@@ -17,7 +17,9 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+	maven { url 'https://dl.cloudsmith.io/public/azuredoom-mods/azurelib/maven/' }
+	maven { url "https://maven.terraformersmc.com/" }
+	maven { url "https://maven.terraformersmc.com/releases" }
 	maven { url 'https://jitpack.io' }
 }
 
@@ -29,7 +31,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "software.bernie.geckolib:geckolib-fabric-1.19:3.1.40"
+	modImplementation include("mod.azure.azurelib:azurelib-fabric-${project.azurelib_version}")
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 	include implementation("com.github.LlamaLad7:MixinExtras:0.1.1")
 	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.1")
