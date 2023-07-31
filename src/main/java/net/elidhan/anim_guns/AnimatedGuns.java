@@ -1,6 +1,9 @@
 package net.elidhan.anim_guns;
 
 import mod.azure.azurelib.animatable.GeoItem;
+import mod.azure.azurelib.core.animatable.GeoAnimatable;
+import mod.azure.azurelib.core.animation.AnimationController;
+import net.elidhan.anim_guns.animations.GunAnimations;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.item.BlueprintBundleItem;
 import net.elidhan.anim_guns.item.BlueprintItem;
@@ -28,11 +31,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayDeque;
-
-import static net.elidhan.anim_guns.item.ModItems.HARDENED_IRON_INGOT;
-import static net.elidhan.anim_guns.item.ModItems.HARDENED_IRON_NUGGET;
 
 public class AnimatedGuns implements ModInitializer {
     public static final String MOD_ID = "anim_guns";
@@ -159,7 +157,16 @@ public class AnimatedGuns implements ModInitializer {
             if ((int) i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
 
             final long id = GeoItem.getOrAssignId(stack, (ServerWorld) player.getWorld());
-            ((GunItem) stack.getItem()).triggerAnim(player, id, "controller", "melee");
+            AnimationController<GeoAnimatable> animationController = ((GunItem)stack.getItem()).getAnimatableInstanceCache().getManagerForId(id).getAnimationControllers().get("controller");
+
+            if(animationController.isPlayingTriggeredAnimation() && animationController.getCurrentRawAnimation().equals(GunAnimations.MELEE))
+            {
+                animationController.forceAnimationReset();
+            }
+            else
+            {
+                animationController.tryTriggerAnimation("melee");
+            }
 
             ServerPlayNetworking.send(player, GUN_MELEE_PACKET_CLIENT_ID, PacketByteBufs.empty());
         });
