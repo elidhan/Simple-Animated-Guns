@@ -600,7 +600,7 @@
 			},
 			"sound_effects": {
 				"0.25": {
-					"effect": "reload_magout"
+					"effect": "reload_start"
 				}
 			}
 		},
@@ -751,7 +751,7 @@
 			},
 			"sound_effects": {
 				"0.25": {
-					"effect": "reload_magout"
+					"effect": "reload_start"
 				}
 			}
 		},

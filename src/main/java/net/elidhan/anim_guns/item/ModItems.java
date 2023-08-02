@@ -338,7 +338,7 @@ public class ModItems {
             8,
             SHOTGUN_SHELL,
             28,
-			new float[] {1.25f, 12.5f},
+			new float[] {1.75f, 6.25f},
             new float[] {2f, 6.25f},
             10,
             GunItem.LoadingType.PER_CARTRIDGE,
@@ -368,8 +368,8 @@ public class ModItems {
 		new float[]{2.5f, 8.25f},
         1,
 		GunItem.LoadingType.PER_CARTRIDGE,
-		null,
-		ModSounds.RELOAD_GENERIC_SNIPER_P1,
+        ModSounds.RELOAD_GENERIC_SNIPER_P0,
+        null,
 		ModSounds.RELOAD_CLASSIC_SNIPER_P2,
 		ModSounds.RELOAD_GENERIC_SNIPER_P3,
         ModSounds.SNIPER_CLASSIC,
@@ -431,6 +431,32 @@ public class ModItems {
 			49,
 			70,
 			90)
+	{
+	});
+
+	public static final Item ANTI_MATERIEL_RIFLE = registerItem("amr_classic", new GunItem(new FabricItemSettings().maxCount(1),
+			"amr_classic",
+			"amr_classic",
+			35,
+			30,
+			5,
+			HEAVY_RIFLE_BULLET,
+			85,
+			new float[] {0.0625f, 0.0625f},
+			new float[]{3.75f, 10f},
+			1,
+			GunItem.LoadingType.MAGAZINE,
+			null,
+			null,
+			null,
+			null,
+			null,
+			1,
+			true,
+			true,
+			28,
+			48,
+			68)
 	{
 	});
 

@@ -55,6 +55,7 @@ public class ModSounds
     public static SoundEvent RELOAD_RIOT_SHOTGUN_P2 = registerSoundEvent("riot_shotgun_p2");
     public static SoundEvent RELOAD_RIOT_SHOTGUN_P3 = registerSoundEvent("riot_shotgun_p3");
     public static SoundEvent SHOTGUN_RIOT = registerSoundEvent("shotgun_riot");
+    public static SoundEvent RELOAD_GENERIC_SNIPER_P0 = registerSoundEvent("generic_sniper_p0");
     public static SoundEvent RELOAD_GENERIC_SNIPER_P1 = registerSoundEvent("generic_sniper_p1");
     public static SoundEvent RELOAD_GENERIC_SNIPER_P2 = registerSoundEvent("generic_sniper_p2");
     public static SoundEvent RELOAD_GENERIC_SNIPER_P3 = registerSoundEvent("generic_sniper_p3");

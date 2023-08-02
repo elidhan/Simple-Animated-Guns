@@ -105,6 +105,7 @@
 		]
 	},
 
+	"generic_sniper_p0": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p0" ] },
 	"generic_sniper_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p1" ] },
 	"generic_sniper_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p2" ] },
 	"generic_sniper_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_sniper_p3" ] },

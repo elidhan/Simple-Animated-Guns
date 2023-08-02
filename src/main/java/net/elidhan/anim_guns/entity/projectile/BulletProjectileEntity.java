@@ -1,10 +1,14 @@
 package net.elidhan.anim_guns.entity.projectile;
 
 import net.elidhan.anim_guns.AnimatedGuns;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -70,6 +74,13 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult)
     {
+        if (!this.getEntityWorld().isClient)
+        {
+            ((ServerWorld)this.getEntityWorld()).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, this.getEntityWorld().getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().getX(), blockHitResult.getPos().getY(), blockHitResult.getPos().getZ(), 5, 0.0, 0.0, 0.0, 0.5f);
+        }
+        BlockState blockState = this.getWorld().getBlockState(blockHitResult.getBlockPos());
+        blockState.onProjectileHit(this.getWorld(), blockState, blockHitResult, this);
+
         this.discard();
     }
 

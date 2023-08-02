@@ -101,6 +101,7 @@ public class AnimatedGuns implements ModInitializer {
         entries.add(new ItemStack(ModItems.CLASSIC_SNIPER_RIFLE));
         entries.add(new ItemStack(ModItems.BRUSH_GUN));
         entries.add(new ItemStack(ModItems.LMG));
+        entries.add(new ItemStack(ModItems.ANTI_MATERIEL_RIFLE));
     }).displayName(Text.translatable("guns")).build();
 
     public static final ScreenHandlerType<BlueprintScreenHandler> BLUEPRINT_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "blueprint_screenhandler"), BlueprintScreenHandler::new);

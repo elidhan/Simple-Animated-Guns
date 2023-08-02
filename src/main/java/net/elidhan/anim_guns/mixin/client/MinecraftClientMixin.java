@@ -10,6 +10,7 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,6 +33,9 @@ public abstract class MinecraftClientMixin
     private int itemUseCooldown;
     @Shadow @Final
     public GameOptions options;
+    @Shadow
+    @Nullable
+    public HitResult crosshairTarget;
 
     @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ActionResult;isAccepted()Z", ordinal = 3),locals = LocalCapture.CAPTURE_FAILHARD)
     public void doItemUse(CallbackInfo ci, Hand[] var1, int var2, int var3, Hand hand, ItemStack itemStack, ActionResult actionResult3)
@@ -39,6 +43,15 @@ public abstract class MinecraftClientMixin
         if (hand == Hand.MAIN_HAND && itemStack.getItem() instanceof GunItem)
         {
             itemUseCooldown = 0;
+        }
+    }
+
+    @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getEnabledFeatures()Lnet/minecraft/resource/featuretoggle/FeatureSet;", shift = At.Shift.BEFORE),locals = LocalCapture.CAPTURE_FAILHARD)
+    public void cancelIfGun(CallbackInfo ci, Hand[] var1, int var2, int var3, Hand hand, ItemStack itemStack)
+    {
+        if (hand == Hand.MAIN_HAND && itemStack.getItem() instanceof GunItem)
+        {
+            this.crosshairTarget = null;
         }
     }
 
