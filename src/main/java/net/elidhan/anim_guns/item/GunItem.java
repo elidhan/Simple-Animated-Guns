@@ -18,7 +18,6 @@ import net.elidhan.anim_guns.AnimatedGunsClient;
 import net.elidhan.anim_guns.animations.GunAnimations;
 import net.elidhan.anim_guns.client.render.GunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
-import net.elidhan.anim_guns.sound.ModSounds;
 import net.elidhan.anim_guns.util.BulletUtil;
 import net.elidhan.anim_guns.util.InventoryUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -67,7 +66,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 {
     protected static final UUID ATTACK_SPEED_MODIFIER_ID = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
     public final Random random;
-    public static final String controllerName = "controller";
     private final String gunID;
     private final String animationID;
     private final float gunDamage;
@@ -200,8 +198,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
             buf.writeFloat(v_kick);
             buf.writeDouble(h_kick);
             ServerPlayNetworking.send(((ServerPlayerEntity) user), AnimatedGuns.RECOIL_PACKET_ID, buf);
-
-            //GunUtil.spawnLightSource(user, false);
         }
 
         if (!user.getAbilities().creativeMode)

@@ -70,6 +70,7 @@ public class ModSounds
     public static SoundEvent RELOAD_M60_P2 = registerSoundEvent("m60_p2");
     public static SoundEvent RELOAD_M60_P3 = registerSoundEvent("m60_p3");
     public static SoundEvent LMG_M60 = registerSoundEvent("lmg_m60");
+    public static SoundEvent AMR_CLASSIC = registerSoundEvent("amr_classic");
 
     private static SoundEvent registerSoundEvent(String name)
     {

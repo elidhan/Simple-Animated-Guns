@@ -117,6 +117,12 @@
 		]
 	},
 
+	"amr_classic": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/amr_classic_1"
+		]
+	},
+
 	"brush_gun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p1" ] },
 	"brush_gun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p2" ] },
 	"brush_gun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p3" ] },

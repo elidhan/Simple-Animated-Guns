@@ -1,9 +1,11 @@
 package net.elidhan.anim_guns.entity.projectile;
 
 import net.elidhan.anim_guns.AnimatedGuns;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -63,10 +65,11 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult)
     {
-        if(entityHitResult.getEntity() instanceof LivingEntity entity)
+        Entity entity = entityHitResult.getEntity();
+        if(entity.damage(entity.getDamageSources().arrow(this, this.getOwner() != null ? this.getOwner() : this), this.bulletDamage))
         {
-            entity.damage(entity.getDamageSources().arrow(this, this.getOwner() != null ? this.getOwner() : this), this.bulletDamage);
             entity.timeUntilRegen = 0;
+            if(entity instanceof EnderDragonPart) ((EnderDragonPart) entity).owner.timeUntilRegen = 0;
         }
         this.discard();
     }
@@ -74,8 +77,10 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult)
     {
-        if (!this.getEntityWorld().isClient)
+        if (!this.getEntityWorld().isClient())
         {
+            Block block = this.getWorld().getBlockState(blockHitResult.getBlockPos()).getBlock();
+            if(block instanceof AbstractGlassBlock || block instanceof PaneBlock) this.getWorld().breakBlock(blockHitResult.getBlockPos(), true, null, 512);
             ((ServerWorld)this.getEntityWorld()).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, this.getEntityWorld().getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().getX(), blockHitResult.getPos().getY(), blockHitResult.getPos().getZ(), 5, 0.0, 0.0, 0.0, 0.5f);
         }
         BlockState blockState = this.getWorld().getBlockState(blockHitResult.getBlockPos());
