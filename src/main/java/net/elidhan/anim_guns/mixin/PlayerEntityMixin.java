@@ -1,5 +1,6 @@
 package net.elidhan.anim_guns.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.elidhan.anim_guns.item.GunItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -11,7 +12,6 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
@@ -32,9 +32,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
         }
     }
 
-    @Redirect(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isClient:Z", opcode = Opcodes.GETFIELD))
-    private boolean ifHoldingGun(World instance)
+    @SuppressWarnings("unused")
+    @ModifyExpressionValue(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isClient:Z", opcode = Opcodes.GETFIELD))
+    private boolean ifHoldingGun(boolean original)
     {
-        return instance.isClient && !(this.getMainHandStack().getItem() instanceof GunItem);
+        return original && !(this.getMainHandStack().getItem() instanceof GunItem);
     }
 }
