@@ -297,12 +297,19 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                     ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_SERVER_ID, buf);
                 }
             }
-        } else
+        }
+        else
         {
             final long id = GeoItem.getOrAssignId(stack, (ServerWorld) world);
             AnimationController<GeoAnimatable> animationController = this.animationCache.getManagerForId(id).getAnimationControllers().get("controller");
 
             boolean bl = animationController.isPlayingTriggeredAnimation() && (animationController.getCurrentRawAnimation().equals(GunAnimations.SPRINTING));
+
+            if(mainHandGun != stack && nbtCompound.getBoolean("isAiming"))
+            {
+                animationController.tryTriggerAnimation("idle");
+                nbtCompound.putBoolean("isAiming", false);
+            }
 
             if (isSprinting
                     && !mainHandGun.getOrCreateNbt().getBoolean("isAiming")
@@ -311,7 +318,8 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                     && !bl)
             {
                 animationController.tryTriggerAnimation("sprinting");
-            } else if ((!isSprinting || mainHandGun != stack) && bl)
+            }
+            else if ((!isSprinting || mainHandGun != stack) && bl)
             {
                 animationController.tryTriggerAnimation("idle");
             }

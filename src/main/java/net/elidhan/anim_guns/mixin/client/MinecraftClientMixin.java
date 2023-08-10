@@ -6,10 +6,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -37,6 +41,14 @@ public abstract class MinecraftClientMixin
     @Nullable
     public HitResult crosshairTarget;
 
+    @Shadow
+    @Nullable
+    public ClientWorld world;
+
+    @Shadow
+    @Nullable
+    public ClientPlayerInteractionManager interactionManager;
+
     @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ActionResult;isAccepted()Z", ordinal = 3),locals = LocalCapture.CAPTURE_FAILHARD)
     public void doItemUse(CallbackInfo ci, Hand[] var1, int var2, int var3, Hand hand, ItemStack itemStack, ActionResult actionResult3)
     {
@@ -60,6 +72,20 @@ public abstract class MinecraftClientMixin
     {
         if (player != null && player.getMainHandStack().getItem() instanceof GunItem && !player.getMainHandStack().getOrCreateNbt().getBoolean("isReloading"))
         {
+            //I hope I don't break anything
+            if(this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.ENTITY && ((EntityHitResult)this.crosshairTarget).getEntity() instanceof ItemFrameEntity entity)
+            {
+                assert this.world != null;
+                if (!this.world.getWorldBorder().contains(entity.getBlockPos())) {
+                    return;
+                }
+                assert this.interactionManager != null;
+                ActionResult actionResult = this.interactionManager.interactEntityAtLocation(this.player, entity, (EntityHitResult)this.crosshairTarget, Hand.MAIN_HAND);
+                if(!actionResult.isAccepted()) this.interactionManager.interactEntity(this.player, entity, Hand.MAIN_HAND);
+                cir.setReturnValue(false);
+                return;
+            }
+
             ((GunItem) player.getMainHandStack().getItem()).toggleAim(player.getMainHandStack());
             cir.setReturnValue(false);
         }
