@@ -56,7 +56,7 @@ public class ModItems {
 			"pistol_light",
 			"pistol_generic",
 			5f,
-			4,
+			3,
 			17,
 			STANDARD_HANDGUN_BULLET,
 			35,
@@ -74,14 +74,15 @@ public class ModItems {
 			false,
 			10,
 			11,
-			21)
+			21,
+			GunItem.FiringType.SEMI_AUTO)
 	{
 	});
 	public static final Item HEAVY_PISTOL = registerItem("pistol_heavy", new GunItem(new FabricItemSettings().maxCount(1),
 			"pistol_heavy",
 			"pistol_heavy",
 			11f,
-			5,
+			4,
 			7,
 			HEAVY_HANDGUN_BULLET,
 			35,
@@ -99,14 +100,15 @@ public class ModItems {
 			false,
 			10,
 			11,
-			21)
+			21,
+			GunItem.FiringType.SEMI_AUTO)
 	{
 	});
     public static final Item MAGNUM_REVOLVER = registerItem("revolver_magnum", new GunItem(new FabricItemSettings().maxCount(1),
 			"revolver_magnum",
 			"revolver_generic",
 			11f,
-            10,
+            8,
             6,
             HEAVY_HANDGUN_BULLET,
             44,
@@ -124,14 +126,15 @@ public class ModItems {
 			false,
             10,
             20,
-            30)
+            30,
+			GunItem.FiringType.SEMI_AUTO)
     {
     });
     public static final Item OLD_ARMY_REVOLVER = registerItem("revolver_coltarmy", new GunItem(new FabricItemSettings().maxCount(1),
             "revolver_coltarmy",
             "revolver_coltarmy",
             11,
-            6,
+            4,
             6,
             HEAVY_HANDGUN_BULLET,
             70,
@@ -149,7 +152,8 @@ public class ModItems {
 			false,
             20,
             21,
-            50)
+            50,
+			GunItem.FiringType.SEMI_AUTO)
     {
     });
 	public static final Item MACHINE_PISTOL = registerItem("smg_machinepistol", new GunItem(new FabricItemSettings().maxCount(1),
@@ -174,7 +178,8 @@ public class ModItems {
 			false,
 			10,
 			11,
-			21)
+			21,
+			GunItem.FiringType.AUTO)
 	{
 	});
     public static final Item HEAVY_SMG = registerItem("smg_heavy", new GunItem(new FabricItemSettings().maxCount(1),
@@ -199,7 +204,8 @@ public class ModItems {
 			false,
             20,
             27,
-            49)
+            49,
+			GunItem.FiringType.AUTO)
     {
     });
 	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().maxCount(1),
@@ -224,7 +230,8 @@ public class ModItems {
 		false,
 		5,
 		21,
-		32)
+		32,
+		GunItem.FiringType.AUTO)
 	{
 	});
 	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().maxCount(1),
@@ -249,7 +256,8 @@ public class ModItems {
 		false,
 		5,
 		21,
-		32)
+		32,
+		GunItem.FiringType.AUTO)
 	{
 	});
     public static final Item WAR_TORN_ASSAULT_RIFLE = registerItem("assaultrifle_rus", new GunItem(new FabricItemSettings().maxCount(1),
@@ -274,7 +282,8 @@ public class ModItems {
 			false,
             10,
             24,
-            39)
+            39,
+			GunItem.FiringType.AUTO)
     {
     });
 
@@ -282,7 +291,7 @@ public class ModItems {
 			"shotgun_doublebarrel",
 			"shotgun_doublebarrel",
 			7f,
-			4,
+			2,
 			2,
 			SHOTGUN_SHELL,
 			44,
@@ -300,7 +309,8 @@ public class ModItems {
 			false,
 			11,
 			12,
-			30)
+			30,
+			GunItem.FiringType.SEMI_AUTO)
 	{
 	});
 
@@ -308,7 +318,7 @@ public class ModItems {
 		"shotgun_combat",
 		"shotgun_combat",
         5.5f,
-        15,
+        14,
         6,
         SHOTGUN_SHELL,
         26,
@@ -326,7 +336,8 @@ public class ModItems {
 		false,
         4,
         5,
-        15)
+        15,
+		GunItem.FiringType.SEMI_AUTO)
 	{
 	});
 
@@ -352,7 +363,8 @@ public class ModItems {
 			false,
             4,
             5,
-            17)
+            17,
+			GunItem.FiringType.AUTO)
     {
     });
 
@@ -360,7 +372,7 @@ public class ModItems {
 		"sniper_classic",
 		"sniper_classic",
         22,
-        20,
+        18,
         5,
         HEAVY_RIFLE_BULLET,
         36,
@@ -378,7 +390,8 @@ public class ModItems {
 		true,
         12,
         13,
-        24)
+        24,
+		GunItem.FiringType.SEMI_AUTO)
 	{
 	});
 
@@ -386,7 +399,7 @@ public class ModItems {
 			"sniper_cowboy",
 			"sniper_cowboy",
 			12,
-			12,
+			11,
 			10,
 			HEAVY_HANDGUN_BULLET,
 			36,
@@ -404,7 +417,8 @@ public class ModItems {
 			false,
 			8,
 			9,
-			21)
+			21,
+			GunItem.FiringType.SEMI_AUTO)
 	{
 	});
 
@@ -430,7 +444,8 @@ public class ModItems {
 			false,
 			49,
 			70,
-			90)
+			90,
+			GunItem.FiringType.AUTO)
 	{
 	});
 
@@ -438,7 +453,7 @@ public class ModItems {
 			"amr_classic",
 			"amr_classic",
 			35,
-			30,
+			28,
 			5,
 			HEAVY_RIFLE_BULLET,
 			85,
@@ -456,7 +471,8 @@ public class ModItems {
 			true,
 			28,
 			48,
-			68)
+			68,
+			GunItem.FiringType.SEMI_AUTO)
 	{
 	});
 

@@ -32,6 +32,8 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class AnimatedGuns implements ModInitializer {
     public static final String MOD_ID = "anim_guns";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -152,22 +154,12 @@ public class AnimatedGuns implements ModInitializer {
 
         ServerPlayNetworking.registerGlobalReceiver(GUN_MELEE_PACKET_SERVER_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
         {
-            ItemStack stack = buf.readItemStack();
+            ItemStack stack = player.getMainHandStack();
 
             float i = player.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0) * ((GunItem) stack.getItem()).getRateOfFire();
             if ((int) i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
 
-            final long id = GeoItem.getOrAssignId(stack, (ServerWorld) player.getWorld());
-            AnimationController<GeoAnimatable> animationController = ((GunItem)stack.getItem()).getAnimatableInstanceCache().getManagerForId(id).getAnimationControllers().get("controller");
-
-            if(animationController.isPlayingTriggeredAnimation() && animationController.getCurrentRawAnimation().equals(GunAnimations.MELEE))
-            {
-                animationController.forceAnimationReset();
-            }
-            else
-            {
-                animationController.tryTriggerAnimation("melee");
-            }
+            ((GunItem) stack.getItem()).meleeAnimation(stack, player.getServerWorld());
 
             ServerPlayNetworking.send(player, GUN_MELEE_PACKET_CLIENT_ID, PacketByteBufs.empty());
         });
@@ -175,7 +167,7 @@ public class AnimatedGuns implements ModInitializer {
         {
             if (player.getMainHandStack().getItem() instanceof GunItem) {
                 boolean bl = buf.readBoolean();
-                if (bl) player.setSprinting(false);
+                player.setSprinting(false);
                 ((GunItem) player.getMainHandStack().getItem()).aimAnimation(player.getMainHandStack(), bl, (ServerWorld) player.getWorld(), player);
             }
         });

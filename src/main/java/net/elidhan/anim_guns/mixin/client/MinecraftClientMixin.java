@@ -1,9 +1,12 @@
 package net.elidhan.anim_guns.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.item.GunItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
@@ -11,6 +14,8 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
@@ -49,6 +54,13 @@ public abstract class MinecraftClientMixin
     @Nullable
     public ClientPlayerInteractionManager interactionManager;
 
+    @Inject(method = "doItemUse", at = @At(value = "TAIL"))
+    private void firingType(CallbackInfo ci)
+    {
+        if(this.player != null && ((this.player.getMainHandStack().getItem() instanceof GunItem) && ((GunItem)this.player.getMainHandStack().getItem()).getFiringType() == GunItem.FiringType.SEMI_AUTO))
+            this.options.attackKey.setPressed(false);
+    }
+
     @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ActionResult;isAccepted()Z", ordinal = 3),locals = LocalCapture.CAPTURE_FAILHARD)
     public void doItemUse(CallbackInfo ci, Hand[] var1, int var2, int var3, Hand hand, ItemStack itemStack, ActionResult actionResult3)
     {
@@ -86,7 +98,12 @@ public abstract class MinecraftClientMixin
                 return;
             }
 
-            ((GunItem) player.getMainHandStack().getItem()).toggleAim(player.getMainHandStack());
+            if(!player.isSprinting())
+            {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBoolean(!player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"));
+                ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
+            }
             cir.setReturnValue(false);
         }
     }
