@@ -1,9 +1,6 @@
 package net.elidhan.anim_guns;
 
 import mod.azure.azurelib.animatable.GeoItem;
-import mod.azure.azurelib.core.animatable.GeoAnimatable;
-import mod.azure.azurelib.core.animation.AnimationController;
-import net.elidhan.anim_guns.animations.GunAnimations;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.item.BlueprintBundleItem;
 import net.elidhan.anim_guns.item.BlueprintItem;
@@ -32,8 +29,6 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-
 public class AnimatedGuns implements ModInitializer {
     public static final String MOD_ID = "anim_guns";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -45,6 +40,7 @@ public class AnimatedGuns implements ModInitializer {
     public static final Identifier GUN_MELEE_PACKET_SERVER_ID = new Identifier(AnimatedGuns.MOD_ID, "gun_melee_server");
     public static final Identifier GUN_AIM_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "aim");
     public static final Identifier GUN_SPRINT_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "sprint");
+    public static final Identifier PLAY_ANIMATION_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "play_animation");
 
     public static final ItemGroup MISC = FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.MAGNUM_REVOLVER_BLUEPRINT)).entries((displayContext, entries) -> {
         entries.add(new ItemStack(ModItems.HARDENED_IRON_INGOT));
@@ -158,8 +154,7 @@ public class AnimatedGuns implements ModInitializer {
 
             float i = player.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0) * ((GunItem) stack.getItem()).getRateOfFire();
             if ((int) i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
-
-            ((GunItem) stack.getItem()).meleeAnimation(stack, player.getServerWorld());
+            stack.getOrCreateNbt().putBoolean("isAiming", false);
 
             ServerPlayNetworking.send(player, GUN_MELEE_PACKET_CLIENT_ID, PacketByteBufs.empty());
         });

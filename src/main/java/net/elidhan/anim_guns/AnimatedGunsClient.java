@@ -1,8 +1,7 @@
 package net.elidhan.anim_guns;
 
 import net.elidhan.anim_guns.client.render.BulletRenderer;
-import net.elidhan.anim_guns.client.render.GunRenderer;
-import net.elidhan.anim_guns.item.ModItems;
+import net.elidhan.anim_guns.item.GunItem;
 import net.elidhan.anim_guns.screen.BlueprintScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -15,6 +14,8 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.glfw.GLFW;
+
+import static net.elidhan.anim_guns.AnimatedGuns.PLAY_ANIMATION_PACKET_ID;
 
 @Environment(EnvType.CLIENT)
 public class AnimatedGunsClient implements ClientModInitializer
@@ -47,9 +48,31 @@ public class AnimatedGunsClient implements ClientModInitializer
         {
             client.execute(() ->
             {
-                if(client.interactionManager != null && client.player != null && client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.ENTITY)
+                if(client.player != null)
                 {
-                    client.interactionManager.attackEntity(client.player, client.targetedEntity);
+                    if (client.interactionManager != null && client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.ENTITY)
+                    {
+                        client.interactionManager.attackEntity(client.player, client.targetedEntity);
+                    }
+                }
+            });
+        });
+        ClientPlayNetworking.registerGlobalReceiver(PLAY_ANIMATION_PACKET_ID, (client, handler, buf, sender) ->
+        {
+            String string = buf.readString();
+            long id = buf.readLong();
+            client.execute(() ->
+            {
+                if (client.player.getMainHandStack().getItem() instanceof GunItem item)
+                {
+                    if(item.getAnimatableInstanceCache().getManagerForId(id).getAnimationControllers().get("controller").getCurrentAnimation().animation().name().equals(string))
+                    {
+                        item.getAnimatableInstanceCache().getManagerForId(id).getAnimationControllers().get("controller").forceAnimationReset();
+                    }
+                    else
+                    {
+                        item.getAnimatableInstanceCache().getManagerForId(id).getAnimationControllers().get("controller").tryTriggerAnimation(string);
+                    }
                 }
             });
         });
