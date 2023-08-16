@@ -8,7 +8,7 @@
   ],
   "client": [
     "client.AbstractClientPlayerEntityMixin",
-    "client.ClientLivingEntity",
+    "client.LivingEntityMixin",
     "client.GameRendererMixin",
     "client.HeldItemRendererMixin",
     "client.InGameHudMixin",

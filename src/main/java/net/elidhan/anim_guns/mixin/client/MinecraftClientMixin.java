@@ -82,7 +82,7 @@ public abstract class MinecraftClientMixin
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void gunAim(CallbackInfoReturnable<Boolean> cir)
     {
-        if (player != null && player.getMainHandStack().getItem() instanceof GunItem && !player.getMainHandStack().getOrCreateNbt().getBoolean("isReloading"))
+        if (this.player != null && this.player.getMainHandStack().getItem() instanceof GunItem && !this.player.getMainHandStack().getOrCreateNbt().getBoolean("isReloading"))
         {
             //I hope I don't break anything
             if(this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.ENTITY && ((EntityHitResult)this.crosshairTarget).getEntity() instanceof ItemFrameEntity entity)
@@ -98,12 +98,12 @@ public abstract class MinecraftClientMixin
                 return;
             }
 
-            if(!player.isSprinting())
-            {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeBoolean(!player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"));
-                ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
-            }
+            this.player.setSprinting(false);
+
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBoolean(!this.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"));
+            ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
+
             cir.setReturnValue(false);
         }
     }

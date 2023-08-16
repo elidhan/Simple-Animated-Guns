@@ -1,37 +1,39 @@
 package net.elidhan.anim_guns.mixin.client;
 
-import com.mojang.authlib.GameProfile;
 import net.elidhan.anim_guns.item.GunItem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Environment(EnvType.CLIENT)
 @Mixin(LivingEntity.class)
-public abstract class ClientLivingEntity extends Entity implements Attackable
+public abstract class LivingEntityMixin extends Entity implements Attackable
 {
-    public ClientLivingEntity(EntityType<?> type, World world) {
+    public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
 
-    @Inject(method = "setSprinting", at = @At("HEAD"), cancellable = true)
-    public void setSprinting(CallbackInfo ci)
+    @Final
+    @Shadow
+    private static EntityAttributeModifier SPRINTING_SPEED_BOOST;
+
+    @Shadow
+    public abstract ItemStack getMainHandStack();
+
+    @Inject(method = "setSprinting", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
+    public void setSprinting(boolean sprinting, CallbackInfo ci, EntityAttributeInstance entityAttributeInstance)
     {
         if(this.getMainHandStack().getItem() instanceof GunItem)
         {
@@ -40,11 +42,8 @@ public abstract class ClientLivingEntity extends Entity implements Attackable
             if(nbtCompound.getBoolean("isAiming"))
             {
                 super.setSprinting(false);
-                ci.cancel();
+                entityAttributeInstance.removeModifier(SPRINTING_SPEED_BOOST);
             }
         }
     }
-
-    @Shadow
-    public abstract ItemStack getMainHandStack();
 }
