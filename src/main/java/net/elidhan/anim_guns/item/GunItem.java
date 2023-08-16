@@ -283,11 +283,10 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
 
         final long id = GeoItem.getId(stack);
         AnimationController<GeoAnimatable> animationController = getAnimatableInstanceCache().getManagerForId(id).getAnimationControllers().get("controller");
+        boolean bl = animationController.isPlayingTriggeredAnimation() && animationController.getCurrentAnimation() != null && animationController.getCurrentAnimation().animation().name().equals("sprinting");
 
         if (world.isClient())
         {
-            boolean bl = animationController.isPlayingTriggeredAnimation() && animationController.getCurrentAnimation().animation().name().equals("sprinting");
-
             if (isSprinting
                     && !mainHandGun.getOrCreateNbt().getBoolean("isAiming")
                     && mainHandGun == stack
