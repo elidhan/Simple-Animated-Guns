@@ -140,5 +140,16 @@
 		"category": "master", "sounds": [
 			"anim_guns:gun/fire/lmg_m60_1"
 		]
+	},
+
+	"lmg_minigun": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/lmg_minigun_1"
+		]
+	},
+	"lmg_minigun_post": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/lmg_minigun_2"
+		]
 	}
 }

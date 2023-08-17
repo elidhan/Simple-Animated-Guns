@@ -84,6 +84,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
     private final SoundEvent reloadSoundMagIn;
     private final SoundEvent reloadSoundEnd;
     private final SoundEvent shootSound;
+    private final SoundEvent postShootSound;
     private final int reloadCycles;
     private final boolean isScoped;
     private final boolean unscopeAfterShot;
@@ -102,7 +103,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                    Item ammoType, int reloadCooldown, float[] bulletSpread,
                    float[] gunRecoil, int pelletCount, LoadingType loadingType,
                    SoundEvent reloadSoundStart, SoundEvent reloadSoundMagOut, SoundEvent reloadSoundMagIn, SoundEvent reloadSoundEnd,
-                   SoundEvent shootSound, int reloadCycles, boolean isScoped, boolean unscopeAfterShot,
+                   SoundEvent shootSound, SoundEvent postShootSound, int reloadCycles, boolean isScoped, boolean unscopeAfterShot,
                    int reloadStage1, int reloadStage2, int reloadStage3, FiringType firingType)
     {
         super(settings.maxDamage((magSize * 10) + 1));
@@ -125,6 +126,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         this.reloadSoundMagIn = reloadSoundMagIn;
         this.reloadSoundEnd = reloadSoundEnd;
         this.shootSound = shootSound;
+        this.postShootSound = postShootSound;
         this.reloadCycles = reloadCycles;
         this.isScoped = isScoped;
         this.unscopeAfterShot = unscopeAfterShot;
@@ -595,13 +597,13 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null)
         {
-
             switch (gunItemSoundKeyframeEvent.getKeyframeData().getSound())
             {
                 case "reload_start" -> player.playSound(this.reloadSoundStart, SoundCategory.MASTER, 1, 1);
                 case "reload_magout" -> player.playSound(this.reloadSoundMagOut, SoundCategory.MASTER, 1, 1);
                 case "reload_magin" -> player.playSound(this.reloadSoundMagIn, SoundCategory.MASTER, 1, 1);
                 case "reload_end" -> player.playSound(this.reloadSoundEnd, SoundCategory.MASTER, 1, 1);
+                case "post_shoot" -> player.playSound(this.postShootSound, SoundCategory.MASTER, 1, 1);
                 case "melee" -> player.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
             }
         }
