@@ -254,7 +254,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         {
             tooltip.add(Text.translatable("Ammo: " + (stack.getOrCreateNbt().getInt("Clip")) + "/" + this.magSize).formatted(Formatting.WHITE));
             tooltip.add(Text.translatable("Damage: " + this.gunDamage).formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("Recoil: " + this.gunRecoil[1]).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("Recoil: " + Math.sqrt((this.gunRecoil[0]*this.gunRecoil[0])+(this.gunRecoil[1]*this.gunRecoil[1]))).formatted(Formatting.GRAY));
             tooltip.add(Text.translatable("RPM: " + (int) (((float) 20 / this.rateOfFire) * 60)).formatted(Formatting.GRAY));
             tooltip.add(Text.translatable("Reload Time: " + (float) this.reloadCooldown / 20 + "s").formatted(Formatting.GRAY));
             tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
@@ -294,11 +294,11 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                     && mainHandGun == stack
                     && !mainHandGun.getOrCreateNbt().getBoolean("isReloading")
                     && !bl
-                    && !animationController.getCurrentAnimation().animation().name().equals("melee"))
+                    && (!animationController.getCurrentAnimation().animation().name().equals("melee") || animationController.getAnimationState().equals(AnimationController.State.PAUSED)))
             {
                 animationController.tryTriggerAnimation("sprinting");
             }
-            else if ((!isSprinting || mainHandGun != stack) && bl && !animationController.getCurrentAnimation().animation().name().equals("melee"))
+            else if ((!isSprinting || mainHandGun != stack) && bl && (!animationController.getCurrentAnimation().animation().name().equals("melee") || animationController.getAnimationState().equals(AnimationController.State.PAUSED)))
             {
                 animationController.tryTriggerAnimation(!mainHandGun.getOrCreateNbt().getBoolean("isAiming") ? "idle" : "aim");
             }
@@ -314,22 +314,8 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 buf.writeBoolean(true);
                 ClientPlayNetworking.send(AnimatedGuns.RELOAD_PACKET_ID, buf);
             }
-            if (mainHandGun == stack)
-            {
-                while (AnimatedGunsClient.meleeKey.wasPressed())
-                {
-                    ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_SERVER_ID, PacketByteBufs.empty());
-                    if (animationController.getCurrentRawAnimation().equals(GunAnimations.MELEE))
-                    {
-                        animationController.forceAnimationReset();
-                    }
-                    else
-                    {
-                        animationController.tryTriggerAnimation("melee");
-                    }
-                }
-            }
         }
+
         if(mainHandGun != stack && nbtCompound.getBoolean("isAiming"))
         {
             animationController.tryTriggerAnimation("idle");

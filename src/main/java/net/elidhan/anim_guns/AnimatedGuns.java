@@ -20,6 +20,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
@@ -90,6 +91,7 @@ public class AnimatedGuns implements ModInitializer {
         entries.add(new ItemStack(ModItems.OLD_ARMY_REVOLVER));
         entries.add(new ItemStack(ModItems.MACHINE_PISTOL));
         entries.add(new ItemStack(ModItems.HEAVY_SMG));
+        entries.add(new ItemStack(ModItems.RAPID_SMG));
         entries.add(new ItemStack(ModItems.LIGHT_ASSAULT_RIFLE));
         entries.add(new ItemStack(ModItems.HEAVY_ASSAULT_RIFLE));
         entries.add(new ItemStack(ModItems.WAR_TORN_ASSAULT_RIFLE));
@@ -98,6 +100,7 @@ public class AnimatedGuns implements ModInitializer {
         entries.add(new ItemStack(ModItems.RIOT_SHOTGUN));
         entries.add(new ItemStack(ModItems.CLASSIC_SNIPER_RIFLE));
         entries.add(new ItemStack(ModItems.BRUSH_GUN));
+        entries.add(new ItemStack(ModItems.MARKSMAN_RIFLE));
         entries.add(new ItemStack(ModItems.LMG));
         entries.add(new ItemStack(ModItems.ANTI_MATERIEL_RIFLE));
         entries.add(new ItemStack(ModItems.MINIGUN));
@@ -157,7 +160,12 @@ public class AnimatedGuns implements ModInitializer {
             if ((int) i < 4) player.getItemCooldownManager().set(stack.getItem(), 10);
             stack.getOrCreateNbt().putBoolean("isAiming", false);
 
-            ServerPlayNetworking.send(player, GUN_MELEE_PACKET_CLIENT_ID, PacketByteBufs.empty());
+            final long id = GeoItem.getId(player.getMainHandStack());
+            PacketByteBuf buf1 = PacketByteBufs.create();
+            buf1.writeString("melee");
+            buf1.writeLong(id);
+
+            ServerPlayNetworking.send(player, PLAY_ANIMATION_PACKET_ID, buf1);
         });
         ServerPlayNetworking.registerGlobalReceiver(GUN_AIM_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
         {

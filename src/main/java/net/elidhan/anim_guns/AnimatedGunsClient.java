@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.glfw.GLFW;
 
@@ -48,12 +49,9 @@ public class AnimatedGunsClient implements ClientModInitializer
         {
             client.execute(() ->
             {
-                if(client.player != null)
+                if (client.player != null && client.interactionManager != null && client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.ENTITY)
                 {
-                    if (client.interactionManager != null && client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.ENTITY)
-                    {
-                        client.interactionManager.attackEntity(client.player, client.targetedEntity);
-                    }
+                    client.interactionManager.attackEntity(client.player, ((EntityHitResult)client.crosshairTarget).getEntity());
                 }
             });
         });
@@ -79,6 +77,7 @@ public class AnimatedGunsClient implements ClientModInitializer
 
         //Entity Render
         EntityRendererRegistry.register(AnimatedGuns.BulletEntityType, BulletRenderer::new);
+
         HandledScreens.register(AnimatedGuns.BLUEPRINT_SCREEN_HANDLER_TYPE, BlueprintScreen::new);
     }
 }

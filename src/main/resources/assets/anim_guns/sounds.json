@@ -51,6 +51,12 @@
 		]
 	},
 
+	"smg_rapid": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/smg_rapid_1"
+		]
+	},
+
 	"generic_ar_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p1" ] },
 	"generic_ar_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p2" ] },
 	"generic_ar_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/generic_ar_p3" ] },
@@ -117,18 +123,24 @@
 		]
 	},
 
-	"amr_classic": {
-		"category": "master", "sounds": [
-			"anim_guns:gun/fire/amr_classic_1"
-		]
-	},
-
 	"brush_gun_p1": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p1" ] },
 	"brush_gun_p2": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p2" ] },
 	"brush_gun_p3": { "category": "master", "sounds": [ "anim_guns:gun/reload/brush_gun_p3" ] },
 	"sniper_cowboy": {
 		"category": "master", "sounds": [
 			"anim_guns:gun/fire/sniper_cowboy_1"
+		]
+	},
+
+	"sniper_marksman": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/sniper_marksman_1"
+		]
+	},
+
+	"amr_classic": {
+		"category": "master", "sounds": [
+			"anim_guns:gun/fire/amr_classic_1"
 		]
 	},
 

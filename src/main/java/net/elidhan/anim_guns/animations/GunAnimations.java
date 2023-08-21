@@ -13,6 +13,6 @@ public final class GunAnimations {
     public static final RawAnimation AIM = RawAnimation.begin().thenLoop("aim");
     public static final RawAnimation AIM_FIRING = RawAnimation.begin().then("aim_firing", Animation.LoopType.HOLD_ON_LAST_FRAME);//.thenLoop("aim");
     public static final RawAnimation AIM_RELOAD_START = RawAnimation.begin().then("aim_reload_start", Animation.LoopType.PLAY_ONCE);
-    public static final RawAnimation MELEE = RawAnimation.begin().then("melee", Animation.LoopType.PLAY_ONCE).thenLoop("idle");
+    public static final RawAnimation MELEE = RawAnimation.begin().then("melee", Animation.LoopType.HOLD_ON_LAST_FRAME);
     public static final RawAnimation SPRINTING = RawAnimation.begin().thenLoop("sprinting");
 }

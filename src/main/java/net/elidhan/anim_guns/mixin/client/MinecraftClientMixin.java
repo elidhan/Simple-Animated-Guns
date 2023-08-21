@@ -1,7 +1,9 @@
 package net.elidhan.anim_guns.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.elidhan.anim_guns.AnimatedGuns;
+import net.elidhan.anim_guns.AnimatedGunsClient;
 import net.elidhan.anim_guns.item.GunItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,7 +17,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
@@ -29,7 +30,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
@@ -38,13 +38,19 @@ public abstract class MinecraftClientMixin
     @Shadow
     @Nullable
     public ClientPlayerEntity player;
+
     @Shadow
     private int itemUseCooldown;
+
     @Shadow @Final
     public GameOptions options;
+
     @Shadow
     @Nullable
     public HitResult crosshairTarget;
+
+    @Shadow
+    public int attackCooldown;
 
     @Shadow
     @Nullable
@@ -54,29 +60,24 @@ public abstract class MinecraftClientMixin
     @Nullable
     public ClientPlayerInteractionManager interactionManager;
 
-    @Inject(method = "doItemUse", at = @At(value = "TAIL"))
-    private void firingType(CallbackInfo ci)
-    {
-        if(this.player != null && ((this.player.getMainHandStack().getItem() instanceof GunItem) && ((GunItem)this.player.getMainHandStack().getItem()).getFiringType() == GunItem.FiringType.SEMI_AUTO))
-            this.options.attackKey.setPressed(false);
-    }
-
-    @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ActionResult;isAccepted()Z", ordinal = 3),locals = LocalCapture.CAPTURE_FAILHARD)
-    public void doItemUse(CallbackInfo ci, Hand[] var1, int var2, int var3, Hand hand, ItemStack itemStack, ActionResult actionResult3)
+    @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 1, shift = At.Shift.BEFORE), cancellable = true)
+    public void doItemUse(CallbackInfo ci, @Local Hand hand, @Local ItemStack itemStack)
     {
         if (hand == Hand.MAIN_HAND && itemStack.getItem() instanceof GunItem)
         {
             itemUseCooldown = 0;
+            if((((GunItem) itemStack.getItem()).getFiringType() == GunItem.FiringType.SEMI_AUTO)) this.options.attackKey.setPressed(false);
+        }
+        else if (hand == Hand.OFF_HAND && !(itemStack.getItem() instanceof GunItem) && this.player.getMainHandStack().getItem() instanceof GunItem)
+        {
+            ci.cancel();
         }
     }
 
-    @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getEnabledFeatures()Lnet/minecraft/resource/featuretoggle/FeatureSet;", shift = At.Shift.BEFORE),locals = LocalCapture.CAPTURE_FAILHARD)
-    public void cancelIfGun(CallbackInfo ci, Hand[] var1, int var2, int var3, Hand hand, ItemStack itemStack)
+    @ModifyExpressionValue(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/hit/HitResult;getType()Lnet/minecraft/util/hit/HitResult$Type;"))
+    public HitResult.Type cancelIfGun(HitResult.Type original)
     {
-        if (hand == Hand.MAIN_HAND && itemStack.getItem() instanceof GunItem)
-        {
-            this.crosshairTarget = null;
-        }
+        return (this.player.getMainHandStack().getItem() instanceof GunItem) ? HitResult.Type.MISS : original;
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
@@ -84,16 +85,15 @@ public abstract class MinecraftClientMixin
     {
         if (this.player != null && this.player.getMainHandStack().getItem() instanceof GunItem && !this.player.getMainHandStack().getOrCreateNbt().getBoolean("isReloading"))
         {
-            //I hope I don't break anything
+            //I want to find a more elegant solution to this
             if(this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.ENTITY && ((EntityHitResult)this.crosshairTarget).getEntity() instanceof ItemFrameEntity entity)
             {
-                assert this.world != null;
                 if (!this.world.getWorldBorder().contains(entity.getBlockPos())) {
                     return;
                 }
-                assert this.interactionManager != null;
                 ActionResult actionResult = this.interactionManager.interactEntityAtLocation(this.player, entity, (EntityHitResult)this.crosshairTarget, Hand.MAIN_HAND);
                 if(!actionResult.isAccepted()) this.interactionManager.interactEntity(this.player, entity, Hand.MAIN_HAND);
+                itemUseCooldown = 4;
                 cir.setReturnValue(false);
                 return;
             }
@@ -108,10 +108,26 @@ public abstract class MinecraftClientMixin
         }
     }
 
+    @Inject(
+            method = "handleInputEvents",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;handleBlockBreaking(Z)V", shift = At.Shift.BEFORE)
+    )
+    private void meleeKey(CallbackInfo ci)
+    {
+        while (AnimatedGunsClient.meleeKey.wasPressed())
+        {
+            if(this.player != null && this.player.getMainHandStack().getItem() instanceof GunItem)
+            {
+                ClientPlayNetworking.send(AnimatedGuns.GUN_MELEE_PACKET_SERVER_ID, PacketByteBufs.empty());
+                if(this.interactionManager != null && this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.ENTITY) this.interactionManager.attackEntity(this.player, ((EntityHitResult)this.crosshairTarget).getEntity());
+            }
+        }
+    }
+
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
     private void handleBlockBreaking(boolean b, CallbackInfo ci)
     {
-        if (player != null && player.getMainHandStack().getItem() instanceof GunItem)
+        if (player.getMainHandStack().getItem() instanceof GunItem)
         {
             ci.cancel();
         }
@@ -119,9 +135,9 @@ public abstract class MinecraftClientMixin
 
     @SuppressWarnings("unused")
     @ModifyExpressionValue(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ActionResult;shouldSwingHand()Z"))
-    private boolean noSwingGun(boolean original)
+    private boolean dontSwingGun(boolean original)
     {
-        return original && this.player != null && !(this.player.getMainHandStack().getItem() instanceof GunItem);
+        return original && !(this.player.getMainHandStack().getItem() instanceof GunItem);
     }
 
     @SuppressWarnings("unused")
@@ -132,7 +148,7 @@ public abstract class MinecraftClientMixin
     )
     private boolean swapAttackKey(boolean original)
     {
-        return (original && !(this.player.getMainHandStack().getItem() instanceof GunItem)) || (this.player.getMainHandStack().getItem() instanceof GunItem && this.options.useKey.wasPressed());
+        return (original && !(this.player.getMainHandStack().getItem() instanceof GunItem)) || (this.player.getMainHandStack().getItem() instanceof GunItem && (this.options.useKey.wasPressed()));
     }
 
     @SuppressWarnings("unused")

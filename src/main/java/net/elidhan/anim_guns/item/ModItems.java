@@ -214,6 +214,35 @@ public class ModItems {
 			GunItem.FiringType.AUTO)
     {
     });
+
+	public static final Item RAPID_SMG = registerItem("smg_rapid", new GunItem(new FabricItemSettings().maxCount(1),
+			"smg_rapid",
+			"smg_rapid",
+			3.5f,
+			1,
+			30,
+			STANDARD_HANDGUN_BULLET,
+			36,
+			new float[] {1f, 1f},
+			new float[] {0.375f, 0.5f},
+			1,
+			GunItem.LoadingType.MAGAZINE,
+			null,
+			ModSounds.RELOAD_BRUSH_GUN_P1,
+			ModSounds.RELOAD_BRUSH_GUN_P2,
+			ModSounds.RELOAD_BRUSH_GUN_P3,
+			ModSounds.SMG_RAPID,
+			null,
+			1,
+			false,
+			false,
+			8,
+			9,
+			21,
+			GunItem.FiringType.AUTO)
+	{
+	});
+
 	public static final Item LIGHT_ASSAULT_RIFLE = registerItem("assaultrifle_light", new GunItem(new FabricItemSettings().maxCount(1),
 		"assaultrifle_light",
 		"assaultrifle_generic",
@@ -244,7 +273,7 @@ public class ModItems {
 	public static final Item HEAVY_ASSAULT_RIFLE = registerItem("assaultrifle_heavy", new GunItem(new FabricItemSettings().maxCount(1),
 		"assaultrifle_heavy",
 		"assaultrifle_heavy",
-		8.5f,
+		8,
 		3,
 		20,
 		STANDARD_RIFLE_BULLET,
@@ -271,7 +300,7 @@ public class ModItems {
     public static final Item WAR_TORN_ASSAULT_RIFLE = registerItem("assaultrifle_rus", new GunItem(new FabricItemSettings().maxCount(1),
 			"assaultrifle_rus",
 			"assaultrifle_rus",
-            7.5f,
+            7,
             2,
             30,
             STANDARD_RIFLE_BULLET,
@@ -356,11 +385,11 @@ public class ModItems {
             "shotgun_riot",
             "shotgun_riot",
             2,
-            4,
+            5,
             8,
             SHOTGUN_SHELL,
             28,
-			new float[] {2f, 12.5f},
+			new float[] {2f, 15f},
             new float[] {2f, 6.25f},
             20,
             GunItem.LoadingType.PER_CARTRIDGE,
@@ -376,7 +405,7 @@ public class ModItems {
             4,
             5,
             17,
-			GunItem.FiringType.SEMI_AUTO)
+			GunItem.FiringType.AUTO)
     {
     });
 
@@ -412,7 +441,7 @@ public class ModItems {
 			"sniper_cowboy",
 			"sniper_cowboy",
 			12,
-			11,
+			10,
 			10,
 			HEAVY_HANDGUN_BULLET,
 			36,
@@ -427,6 +456,34 @@ public class ModItems {
 			ModSounds.SNIPER_COWBOY,
 			null,
 			10,
+			false,
+			false,
+			8,
+			9,
+			21,
+			GunItem.FiringType.SEMI_AUTO)
+	{
+	});
+
+	public static final Item MARKSMAN_RIFLE = registerItem("sniper_marksman", new GunItem(new FabricItemSettings().maxCount(1),
+			"sniper_marksman",
+			"sniper_marksman",
+			9,
+			4,
+			20,
+			STANDARD_RIFLE_BULLET,
+			36,
+			new float[] {1f, 1f},
+			new float[] {2.25f, 6.25f},
+			1,
+			GunItem.LoadingType.MAGAZINE,
+			null,
+			ModSounds.RELOAD_BRUSH_GUN_P1,
+			ModSounds.RELOAD_BRUSH_GUN_P2,
+			ModSounds.RELOAD_BRUSH_GUN_P3,
+			ModSounds.SNIPER_MARKSMAN,
+			null,
+			1,
 			false,
 			false,
 			8,

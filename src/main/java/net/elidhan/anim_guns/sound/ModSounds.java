@@ -31,6 +31,7 @@ public class ModSounds
     public static SoundEvent RELOAD_HEAVY_SMG_P2 = registerSoundEvent("heavy_smg_p2");
     public static SoundEvent RELOAD_HEAVY_SMG_P3 = registerSoundEvent("heavy_smg_p3");
     public static SoundEvent SMG_HEAVY = registerSoundEvent("smg_heavy");
+    public static SoundEvent SMG_RAPID = registerSoundEvent("smg_rapid");
     public static SoundEvent RELOAD_GENERIC_AR_P1 = registerSoundEvent("generic_ar_p1");
     public static SoundEvent RELOAD_GENERIC_AR_P2 = registerSoundEvent("generic_ar_p2");
     public static SoundEvent RELOAD_GENERIC_AR_P3 = registerSoundEvent("generic_ar_p3");
@@ -65,6 +66,7 @@ public class ModSounds
     public static SoundEvent RELOAD_BRUSH_GUN_P3 = registerSoundEvent("brush_gun_p3");
     public static SoundEvent SNIPER_CLASSIC = registerSoundEvent("sniper_classic");
     public static SoundEvent SNIPER_COWBOY = registerSoundEvent("sniper_cowboy");
+    public static SoundEvent SNIPER_MARKSMAN = registerSoundEvent("sniper_marksman");
     public static SoundEvent RELOAD_M60_P0 = registerSoundEvent("m60_p0");
     public static SoundEvent RELOAD_M60_P1 = registerSoundEvent("m60_p1");
     public static SoundEvent RELOAD_M60_P2 = registerSoundEvent("m60_p2");

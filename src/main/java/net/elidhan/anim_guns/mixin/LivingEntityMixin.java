@@ -1,22 +1,24 @@
-package net.elidhan.anim_guns.mixin.client;
+package net.elidhan.anim_guns.mixin;
 
 import net.elidhan.anim_guns.item.GunItem;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable
@@ -32,17 +34,22 @@ public abstract class LivingEntityMixin extends Entity implements Attackable
     @Shadow
     public abstract ItemStack getMainHandStack();
 
-    @Inject(method = "setSprinting", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void setSprinting(boolean sprinting, CallbackInfo ci, EntityAttributeInstance entityAttributeInstance)
+    @Shadow
+    @Nullable
+    public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
+
+    @Inject(method = "setSprinting", at = @At("TAIL"))
+    public void setSprinting(CallbackInfo ci)
     {
         if(this.getMainHandStack().getItem() instanceof GunItem)
         {
             NbtCompound nbtCompound = this.getMainHandStack().getOrCreateNbt();
+            EntityAttributeInstance entityAttributeInstance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
 
             if(nbtCompound.getBoolean("isAiming"))
             {
                 super.setSprinting(false);
-                entityAttributeInstance.removeModifier(SPRINTING_SPEED_BOOST);
+                if(entityAttributeInstance != null) entityAttributeInstance.removeModifier(SPRINTING_SPEED_BOOST);
             }
         }
     }
