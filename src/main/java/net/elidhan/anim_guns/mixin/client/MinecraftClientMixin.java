@@ -50,9 +50,6 @@ public abstract class MinecraftClientMixin
     public HitResult crosshairTarget;
 
     @Shadow
-    public int attackCooldown;
-
-    @Shadow
     @Nullable
     public ClientWorld world;
 

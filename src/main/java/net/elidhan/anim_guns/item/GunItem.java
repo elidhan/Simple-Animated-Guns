@@ -95,7 +95,6 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
     protected final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
-
     protected final AnimatableInstanceCache animationCache = AzureLibUtil.createInstanceCache(this);
 
     public GunItem(Settings settings, String gunID, String animationID,
@@ -604,6 +603,11 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
     public FiringType getFiringType()
     {
         return this.firingType;
+    }
+
+    public boolean isScoped()
+    {
+        return this.isScoped;
     }
 
     public enum LoadingType

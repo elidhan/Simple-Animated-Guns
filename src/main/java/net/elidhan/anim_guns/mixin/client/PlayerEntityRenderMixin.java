@@ -19,20 +19,15 @@ public class PlayerEntityRenderMixin
     @Inject(method = "getArmPose", at = @At("TAIL"), cancellable = true)
     private static void gunPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci)
     {
-        if(player.getStackInHand(hand).getItem() instanceof GunItem
-                && GunItem.isLoaded(player.getStackInHand(hand))
-                && player.getStackInHand(hand).getOrCreateNbt().getInt("reloadTick") <= 0
-                && !player.isSprinting()
-        )
+        if(hand == Hand.MAIN_HAND && player.getStackInHand(hand).getItem() instanceof GunItem)
         {
-            ci.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
-            return;
-        }
-        if(player.getStackInHand(hand).getItem() instanceof GunItem
-                && player.getStackInHand(hand).getOrCreateNbt().getInt("reloadTick") > 0)
-        {
-            ci.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
-            return;
+            if(player.getStackInHand(hand).getOrCreateNbt().getInt("reloadTick") > 0)
+            {
+                ci.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
+                return;
+            }
+
+            if (GunItem.isLoaded(player.getStackInHand(hand)) && !player.isSprinting()) ci.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
         }
     }
 }
