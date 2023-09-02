@@ -4,11 +4,12 @@
   "package": "net.elidhan.anim_guns.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "PersistentProjectileEntityMixin",
     "PlayerEntityMixin"
   ],
   "client": [
-    "client.AbstractClientPlayerEntityMixin",
     "LivingEntityMixin",
+    "client.AbstractClientPlayerEntityMixin",
     "client.GameRendererMixin",
     "client.HeldItemRendererMixin",
     "client.InGameHudMixin",

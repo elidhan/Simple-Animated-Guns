@@ -39,6 +39,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.PacketByteBuf;
@@ -62,9 +63,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public abstract class GunItem extends Item implements FabricItem, GeoAnimatable, GeoItem
+public abstract class GunItem extends RangedWeaponItem implements FabricItem, GeoAnimatable, GeoItem
 {
     protected static final UUID ATTACK_SPEED_MODIFIER_ID = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
     public final Random random;
@@ -92,7 +94,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
     private final int reloadStage2;
     private final int reloadStage3;
     public final FiringType firingType;
-    private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+    //private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
     protected final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     protected final AnimatableInstanceCache animationCache = AzureLibUtil.createInstanceCache(this);
@@ -135,7 +137,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
         this.firingType = firingType;
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", 16, EntityAttributeModifier.Operation.ADDITION));
-        this.attributeModifiers = builder.build();
+        //this.attributeModifiers = builder.build();
     }
 
     @Override
@@ -490,7 +492,7 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
     {
         if (slot == EquipmentSlot.MAINHAND)
         {
-            return this.attributeModifiers;
+            //return this.attributeModifiers;
         }
         return super.getAttributeModifiers(slot);
     }
@@ -592,6 +594,23 @@ public abstract class GunItem extends Item implements FabricItem, GeoAnimatable,
                 case "melee" -> player.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
             }
         }
+    }
+
+    @Override
+    public Predicate<ItemStack> getProjectiles()
+    {
+        return null;
+    }
+
+    public float getGunDamage()
+    {
+        return this.gunDamage;
+    }
+
+    @Override
+    public int getRange()
+    {
+        return 0;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package net.elidhan.anim_guns.item;
 
 import net.elidhan.anim_guns.AnimatedGuns;
+import net.elidhan.anim_guns.compat.ProjectileDamageCompat;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -579,6 +581,10 @@ public class ModItems {
 
 	private static Item registerItem(String name, Item item)
 	{
+		if(FabricLoader.getInstance().isModLoaded("projectile_damage") && item instanceof GunItem gun)
+		{
+			ProjectileDamageCompat.register(gun);
+		}
 		return Registry.register(Registries.ITEM, new Identifier(AnimatedGuns.MOD_ID, name), item);
 	}
 	

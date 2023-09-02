@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Debug(export = true)
@@ -51,5 +52,11 @@ public abstract class PlayerEntityMixin extends LivingEntity
     private boolean sweepMeleeIfGun(Object obj, Operation<Boolean> original)
     {
         return original.call(obj) || obj instanceof GunItem;
+    }
+
+    @Inject(method = "resetLastAttackedTicks", at = @At("HEAD"), cancellable = true)
+    private void dontResetIfGun(CallbackInfo ci)
+    {
+        if(this.getMainHandStack().getItem() instanceof GunItem) ci.cancel();
     }
 }

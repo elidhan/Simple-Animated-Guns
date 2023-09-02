@@ -41,6 +41,6 @@
     "java": ">=17"
   },
   "suggests": {
-    "another-mod": "*"
+    "projectile_damage": ">=3.2.2"
   }
 }

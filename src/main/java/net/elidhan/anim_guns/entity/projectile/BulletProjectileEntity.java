@@ -2,7 +2,6 @@ package net.elidhan.anim_guns.entity.projectile;
 
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
@@ -11,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -51,6 +52,24 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     }
 
     @Override
+    public double getDamage()
+    {
+        return (this.bulletDamage/20)/this.bulletDamage;
+    }
+
+    @Override
+    public boolean isCritical()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isShotFromCrossbow()
+    {
+        return false;
+    }
+
+    @Override
     public boolean hasNoGravity()
     {
         return !this.isTouchingWater();
@@ -65,12 +84,9 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult)
     {
-        Entity entity = entityHitResult.getEntity();
-        if(entity.damage(entity.getDamageSources().arrow(this, this.getOwner() != null ? this.getOwner() : this), this.bulletDamage))
-        {
-            entity.timeUntilRegen = 0;
-            if(entity instanceof EnderDragonPart) ((EnderDragonPart) entity).owner.timeUntilRegen = 0;
-        }
+        super.onEntityHit(entityHitResult);
+        entityHitResult.getEntity().timeUntilRegen = 0;
+        if(entityHitResult.getEntity() instanceof EnderDragonPart part) part.owner.timeUntilRegen = 0;
         this.discard();
     }
 
@@ -87,6 +103,12 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
         blockState.onProjectileHit(this.getWorld(), blockState, blockHitResult, this);
 
         this.discard();
+    }
+
+    @Override
+    protected SoundEvent getHitSound()
+    {
+        return SoundEvents.INTENTIONALLY_EMPTY;
     }
 
     public void setBaseVel(Vec3d velocity) {
