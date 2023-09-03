@@ -1,7 +1,6 @@
 package net.elidhan.anim_guns.item;
 
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import mod.azure.azurelib.animatable.GeoItem;
 import mod.azure.azurelib.animatable.SingletonGeoAnimatable;
 import mod.azure.azurelib.animatable.client.RenderProvider;
@@ -485,16 +484,6 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
     public boolean isEnchantable(ItemStack stack)
     {
         return false;
-    }
-
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
-    {
-        if (slot == EquipmentSlot.MAINHAND)
-        {
-            //return this.attributeModifiers;
-        }
-        return super.getAttributeModifiers(slot);
     }
 
     @Override

@@ -1,10 +1,9 @@
 package net.elidhan.anim_guns.sound;
 
 import net.elidhan.anim_guns.AnimatedGuns;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class ModSounds
 {
@@ -76,10 +75,12 @@ public class ModSounds
     public static SoundEvent LMG_MINIGUN = registerSoundEvent("lmg_minigun");
     public static SoundEvent LMG_MINIGUN_POST = registerSoundEvent("lmg_minigun_post");
 
+    public static SoundEvent EMPTY = registerSoundEvent("empty");
+
     private static SoundEvent registerSoundEvent(String name)
     {
         Identifier id = new Identifier(AnimatedGuns.MOD_ID, name);
-        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+        return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(id));
     }
 
     public static void registerSounds()

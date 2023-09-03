@@ -13,7 +13,7 @@ public class MuzzleFlashRenderType extends RenderLayer
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
     }
 
-    private static final RenderLayer MUZZLE_FLASH = of(AnimatedGuns.MOD_ID+":muzzle_flash", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, MultiPhaseParameters.builder().program(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_PROGRAM).texture(new RenderPhase.Texture(new Identifier(AnimatedGuns.MOD_ID, "textures/misc/muzzleflash_01.png"), false, false)).transparency(TRANSLUCENT_TRANSPARENCY).lightmap(DISABLE_LIGHTMAP).build(false));
+    private static final RenderLayer MUZZLE_FLASH = of(AnimatedGuns.MOD_ID+":muzzle_flash", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(new Identifier(AnimatedGuns.MOD_ID, "textures/misc/muzzleflash_01.png"), false, false)).transparency(TRANSLUCENT_TRANSPARENCY).lightmap(DISABLE_LIGHTMAP).build(false));
 
     public static RenderLayer getMuzzleFlash()
     {

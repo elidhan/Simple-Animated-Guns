@@ -1,6 +1,7 @@
 package net.elidhan.anim_guns.entity.projectile;
 
 import net.elidhan.anim_guns.AnimatedGuns;
+import net.elidhan.anim_guns.sound.ModSounds;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -108,7 +109,7 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     @Override
     protected SoundEvent getHitSound()
     {
-        return SoundEvents.INTENTIONALLY_EMPTY;
+        return ModSounds.EMPTY;
     }
 
     public void setBaseVel(Vec3d velocity) {

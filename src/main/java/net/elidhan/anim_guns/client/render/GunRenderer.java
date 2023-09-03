@@ -1,7 +1,6 @@
 package net.elidhan.anim_guns.client.render;
 
 import mod.azure.azurelib.cache.object.GeoBone;
-import mod.azure.azurelib.model.DefaultedItemGeoModel;
 import mod.azure.azurelib.renderer.GeoItemRenderer;
 import mod.azure.azurelib.renderer.GeoRenderer;
 import mod.azure.azurelib.util.RenderUtils;
@@ -15,11 +14,10 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import org.joml.Matrix4f;
 
 import java.util.Objects;
 
@@ -31,10 +29,10 @@ public class GunRenderer extends GeoItemRenderer<GunItem> implements GeoRenderer
     }
 
     private VertexConsumerProvider bufferSource;
-    private ModelTransformationMode transformType;
+    private ModelTransformation.Mode transformType;
 
     @Override
-    public void render(ItemStack stack, ModelTransformationMode transformType, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay) {
+    public void render(ItemStack stack, ModelTransformation.Mode transformType, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
         //this.renderType = type;
         this.transformType = transformType;
@@ -58,7 +56,7 @@ public class GunRenderer extends GeoItemRenderer<GunItem> implements GeoRenderer
 
         //I just want the arms to show, why do we have to suffer just to get opposable thumbs
         //  && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND ***don't mind this, just some backup code in case my dumbass forgets
-        if (renderArms && this.transformType == ModelTransformationMode.FIRST_PERSON_RIGHT_HAND) {
+        if (renderArms && this.transformType == ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND) {
             PlayerEntityRenderer playerEntityRenderer = (PlayerEntityRenderer) client.getEntityRenderDispatcher().getRenderer(client.player);
             PlayerEntityModel<AbstractClientPlayerEntity> playerEntityModel = playerEntityRenderer.getModel();
 

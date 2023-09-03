@@ -9,11 +9,10 @@ import net.elidhan.anim_guns.item.ModItems;
 import net.elidhan.anim_guns.screen.BlueprintScreenHandler;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -21,12 +20,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,73 +39,13 @@ public class AnimatedGuns implements ModInitializer {
     public static final Identifier GUN_SPRINT_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "sprint");
     public static final Identifier PLAY_ANIMATION_PACKET_ID = new Identifier(AnimatedGuns.MOD_ID, "play_animation");
 
-    public static final ItemGroup MISC = FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.MAGNUM_REVOLVER_BLUEPRINT)).entries((displayContext, entries) -> {
-        entries.add(new ItemStack(ModItems.HARDENED_IRON_INGOT));
-        entries.add(new ItemStack(ModItems.HARDENED_IRON_NUGGET));
-        entries.add(new ItemStack(ModItems.PLASTIC));
-        entries.add(new ItemStack(ModItems.ENRICHED_IRON));
-        entries.add(new ItemStack(ModItems.PISTOL_GRIP));
-        entries.add(new ItemStack(ModItems.GUN_SCOPE));
-        entries.add(new ItemStack(ModItems.LONG_BARREL));
-        entries.add(new ItemStack(ModItems.SHORT_BARREL));
-        entries.add(new ItemStack(ModItems.WOODEN_STOCK));
-        entries.add(new ItemStack(ModItems.MODERN_STOCK));
-        entries.add(new ItemStack(ModItems.WOODEN_HANDGUARD));
-        entries.add(new ItemStack(ModItems.MODERN_HANDGUARD));
-        entries.add(new ItemStack(ModItems.PISTOL_MAGAZINE));
-        entries.add(new ItemStack(ModItems.REVOLVER_CHAMBER));
-        entries.add(new ItemStack(ModItems.SMG_MAGAZINE));
-        entries.add(new ItemStack(ModItems.RIFLE_MAGAZINE));
-        entries.add(new ItemStack(ModItems.TUBE_MAGAZINE));
-        entries.add(new ItemStack(ModItems.LMG_AMMO_BOX));
-        entries.add(new ItemStack(ModItems.BLUEPRINT_BUNDLE));
-        entries.add(new ItemStack(ModItems.PISTOL_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.HEAVY_PISTOL_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.MAGNUM_REVOLVER_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.OLD_ARMY_REVOLVER_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.MACHINE_PISTOL_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.HEAVY_SMG_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.LIGHT_ASSAULT_RIFLE_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.HEAVY_ASSAULT_RIFLE_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.WAR_TORN_ASSAULT_RIFLE_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.COMBAT_SHOTGUN_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.RIOT_SHOTGUN_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.DOUBLE_BARRELED_SHOTGUN_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.CLASSIC_SNIPER_RIFLE_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.BRUSH_GUN_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.LMG_BLUEPRINT));
-        entries.add(new ItemStack(ModItems.STANDARD_HANDGUN_BULLET));
-        entries.add(new ItemStack(ModItems.HEAVY_HANDGUN_BULLET));
-        entries.add(new ItemStack(ModItems.STANDARD_RIFLE_BULLET));
-        entries.add(new ItemStack(ModItems.HEAVY_RIFLE_BULLET));
-        entries.add(new ItemStack(ModItems.SHOTGUN_SHELL));
-    }).displayName(Text.translatable("misc")).build();
-    public static final ItemGroup GUNS = FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.MAGNUM_REVOLVER)).entries((displayContext, entries) -> {
-        entries.add(new ItemStack(ModItems.PISTOL));
-        entries.add(new ItemStack(ModItems.HEAVY_PISTOL));
-        entries.add(new ItemStack(ModItems.MAGNUM_REVOLVER));
-        entries.add(new ItemStack(ModItems.OLD_ARMY_REVOLVER));
-        entries.add(new ItemStack(ModItems.MACHINE_PISTOL));
-        entries.add(new ItemStack(ModItems.HEAVY_SMG));
-        entries.add(new ItemStack(ModItems.RAPID_SMG));
-        entries.add(new ItemStack(ModItems.LIGHT_ASSAULT_RIFLE));
-        entries.add(new ItemStack(ModItems.HEAVY_ASSAULT_RIFLE));
-        entries.add(new ItemStack(ModItems.WAR_TORN_ASSAULT_RIFLE));
-        entries.add(new ItemStack(ModItems.DOUBLE_BARRELED_SHOTGUN));
-        entries.add(new ItemStack(ModItems.COMBAT_SHOTGUN));
-        entries.add(new ItemStack(ModItems.RIOT_SHOTGUN));
-        entries.add(new ItemStack(ModItems.CLASSIC_SNIPER_RIFLE));
-        entries.add(new ItemStack(ModItems.BRUSH_GUN));
-        entries.add(new ItemStack(ModItems.MARKSMAN_RIFLE));
-        entries.add(new ItemStack(ModItems.LMG));
-        entries.add(new ItemStack(ModItems.ANTI_MATERIEL_RIFLE));
-        entries.add(new ItemStack(ModItems.MINIGUN));
-    }).displayName(Text.translatable("guns")).build();
+    public static final ItemGroup MISC = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "misc"), () -> new ItemStack(ModItems.MAGNUM_REVOLVER_BLUEPRINT));
+    public static final ItemGroup GUNS = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "guns"), () -> new ItemStack(ModItems.MAGNUM_REVOLVER));
 
-    public static final ScreenHandlerType<BlueprintScreenHandler> BLUEPRINT_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "blueprint_screenhandler"), BlueprintScreenHandler::new);
+    public static final ScreenHandlerType<BlueprintScreenHandler> BLUEPRINT_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "blueprint_screenhandler"), new ScreenHandlerType<>(BlueprintScreenHandler::new));
 
     public static final EntityType<BulletProjectileEntity> BulletEntityType = Registry.register(
-            Registries.ENTITY_TYPE,
+            Registry.ENTITY_TYPE,
             new Identifier(AnimatedGuns.MOD_ID, "bullet"),
             FabricEntityTypeBuilder.<BulletProjectileEntity>create(SpawnGroup.MISC, BulletProjectileEntity::new).dimensions(EntityDimensions.fixed(0.0625f, 0.0625f)).trackRangeBlocks(4).trackedUpdateRate(10).build());
 
@@ -118,16 +54,13 @@ public class AnimatedGuns implements ModInitializer {
         ModItems.registerModItems();
         ModSounds.registerSounds();
 
-        Registry.register(Registries.ITEM_GROUP, new Identifier(MOD_ID, "anim_guns.misc"), MISC);
-        Registry.register(Registries.ITEM_GROUP, new Identifier(MOD_ID, "anim_guns.guns"), GUNS);
-
         ServerPlayNetworking.registerGlobalReceiver(RELOAD_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
         {
             if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
                 ItemStack stack = player.getMainHandStack();
                 stack.getOrCreateNbt().putBoolean("isReloading", buf.readBoolean());
 
-                final long id = GeoItem.getOrAssignId(stack, (ServerWorld) player.getWorld());
+                final long id = GeoItem.getOrAssignId(stack, player.getWorld());
                 gunItem.triggerAnim(player, id, "controller", stack.getOrCreateNbt().getBoolean("isAiming") ? "aim_reload_start" : "reload_start");
 
                 stack.getOrCreateNbt().putBoolean("isAiming", false);
@@ -172,7 +105,7 @@ public class AnimatedGuns implements ModInitializer {
             if (player.getMainHandStack().getItem() instanceof GunItem) {
                 boolean bl = buf.readBoolean();
                 player.setSprinting(false);
-                ((GunItem) player.getMainHandStack().getItem()).aimAnimation(player.getMainHandStack(), bl, (ServerWorld) player.getWorld(), player);
+                ((GunItem) player.getMainHandStack().getItem()).aimAnimation(player.getMainHandStack(), bl, player.getWorld(), player);
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(GUN_SPRINT_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
@@ -180,9 +113,7 @@ public class AnimatedGuns implements ModInitializer {
             ItemStack stack = buf.readItemStack();
 
             if (stack.getItem() instanceof GunItem) {
-                if (player.getWorld() instanceof ServerWorld serverWorld) {
-                    ((GunItem) stack.getItem()).toggleSprint(stack, buf.readBoolean(), serverWorld, player);
-                }
+                ((GunItem) stack.getItem()).toggleSprint(stack, buf.readBoolean(), player.getWorld(), player);
             }
         });
     }

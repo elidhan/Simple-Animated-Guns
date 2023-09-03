@@ -163,5 +163,7 @@
 		"category": "master", "sounds": [
 			"anim_guns:gun/fire/lmg_minigun_2"
 		]
-	}
+	},
+
+	"empty": { "category": "master", "sounds": [ "anim_guns:empty" ] }
 }
