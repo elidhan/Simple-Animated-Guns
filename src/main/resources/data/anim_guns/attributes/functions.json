@@ -1,0 +1,10 @@
+{
+  "values": {
+    "playerex:dexterity": {
+      "anim_guns:gun_damage": {
+        "behaviour": "MULTIPLY",
+        "value": 0.02
+      }
+    }
+  }
+}

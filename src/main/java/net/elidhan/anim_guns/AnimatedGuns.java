@@ -1,6 +1,7 @@
 package net.elidhan.anim_guns;
 
 import mod.azure.azurelib.animatable.GeoItem;
+import net.elidhan.anim_guns.attribute.GunAttributes;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.item.BlueprintBundleItem;
 import net.elidhan.anim_guns.item.BlueprintItem;
@@ -53,6 +54,7 @@ public class AnimatedGuns implements ModInitializer {
     public void onInitialize() {
         ModItems.registerModItems();
         ModSounds.registerSounds();
+        GunAttributes.registerAttributes();
 
         ServerPlayNetworking.registerGlobalReceiver(RELOAD_PACKET_ID, (server, player, serverPlayNetworkHandler, buf, packetSender) ->
         {

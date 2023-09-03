@@ -3,16 +3,17 @@ package net.elidhan.anim_guns.entity.projectile;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -20,7 +21,6 @@ import net.minecraft.world.World;
 
 public class BulletProjectileEntity extends PersistentProjectileEntity
 {
-    private float bulletDamage;
     private int maxLife;
     private int lifeTicks;
     private Vec3d vel;
@@ -35,7 +35,7 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
         super(AnimatedGuns.BulletEntityType, owner, world);
         this.maxLife = 10;
         this.lifeTicks = 0;
-        this.bulletDamage = bulletDamage;
+        this.setDamage(bulletDamage);
         this.setNoGravity(true);
     }
 
@@ -50,12 +50,6 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
         {
             this.discard();
         }
-    }
-
-    @Override
-    public double getDamage()
-    {
-        return (this.bulletDamage/20)/this.bulletDamage;
     }
 
     @Override
@@ -85,9 +79,12 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult)
     {
-        super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().timeUntilRegen = 0;
-        if(entityHitResult.getEntity() instanceof EnderDragonPart part) part.owner.timeUntilRegen = 0;
+        Entity entity = entityHitResult.getEntity();
+        if(entity.damage(DamageSource.arrow(this, this.getOwner() != null ? this.getOwner() : this), (float)this.getDamage()))
+        {
+            entity.timeUntilRegen = 0;
+            if(entity instanceof EnderDragonPart) ((EnderDragonPart) entity).owner.timeUntilRegen = 0;
+        }
         this.discard();
     }
 

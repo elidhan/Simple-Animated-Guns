@@ -1,6 +1,7 @@
 package net.elidhan.anim_guns.item;
 
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import mod.azure.azurelib.animatable.GeoItem;
 import mod.azure.azurelib.animatable.SingletonGeoAnimatable;
 import mod.azure.azurelib.animatable.client.RenderProvider;
@@ -16,6 +17,7 @@ import mod.azure.azurelib.util.AzureLibUtil;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.AnimatedGunsClient;
 import net.elidhan.anim_guns.animations.GunAnimations;
+import net.elidhan.anim_guns.attribute.GunAttributes;
 import net.elidhan.anim_guns.client.render.GunRenderer;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.util.BulletUtil;
@@ -34,7 +36,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -67,7 +68,7 @@ import java.util.function.Supplier;
 
 public abstract class GunItem extends RangedWeaponItem implements FabricItem, GeoAnimatable, GeoItem
 {
-    protected static final UUID ATTACK_SPEED_MODIFIER_ID = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
+    protected static final UUID BULLET_DAMAGE_MODIFIER_ID = UUID.fromString("49bfefca-1adb-4530-90de-c52dded51144");
     public final Random random;
     private final String gunID;
     private final String animationID;
@@ -93,7 +94,7 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
     private final int reloadStage2;
     private final int reloadStage3;
     public final FiringType firingType;
-    //private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+    private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
     protected final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     protected final AnimatableInstanceCache animationCache = AzureLibUtil.createInstanceCache(this);
@@ -135,8 +136,8 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
         this.reloadStage3 = reloadStage3;
         this.firingType = firingType;
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", 16, EntityAttributeModifier.Operation.ADDITION));
-        //this.attributeModifiers = builder.build();
+        builder.put(GunAttributes.GUN_DAMAGE, new EntityAttributeModifier(BULLET_DAMAGE_MODIFIER_ID, "Weapon modifier", this.gunDamage, EntityAttributeModifier.Operation.ADDITION));
+        this.attributeModifiers = builder.build();
     }
 
     @Override
@@ -172,7 +173,7 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
         {
             for (int i = 0; i < this.pelletCount; i++)
             {
-                BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, this.gunDamage);
+                BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, (float)user.getAttributeValue(GunAttributes.GUN_DAMAGE));
 
                 bullet.setPosition(user.getX(), user.getEyeY(), user.getZ());
 
@@ -591,9 +592,12 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
         return null;
     }
 
-    public float getGunDamage()
-    {
-        return this.gunDamage;
+    @Override
+    public com.google.common.collect.Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
+        if (slot == EquipmentSlot.MAINHAND) {
+            return this.attributeModifiers;
+        }
+        return super.getAttributeModifiers(slot);
     }
 
     @Override
