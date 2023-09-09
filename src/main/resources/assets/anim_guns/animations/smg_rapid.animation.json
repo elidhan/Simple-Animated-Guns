@@ -276,31 +276,16 @@
 					}
 				},
 				"gunbody": {
-					"rotation": {
-						"0.0": {
-							"vector": [-1, 0, 0],
-							"easing": "easeOutBack"
-						},
-						"0.0833": {
-							"vector": [-1.5, 0, 0],
-							"easing": "linear"
-						},
-						"0.3333": {
-							"vector": [0, 0, 0],
-							"easing": "easeOutBack",
-							"easingArgs": [1]
-						}
-					},
 					"position": {
 						"0.0": {
-							"vector": [2.4625, 0, 1.125]
+							"vector": [2.4625, 1.375, 1.125]
 						},
 						"0.0833": {
-							"vector": [2.4625, 0, 0.5],
+							"vector": [2.4625, 1.375, 0.5],
 							"easing": "linear"
 						},
 						"0.25": {
-							"vector": [2.4625, 0, 0],
+							"vector": [2.4625, 1.375, 0],
 							"easing": "easeOutBack",
 							"easingArgs": [0.25]
 						}
