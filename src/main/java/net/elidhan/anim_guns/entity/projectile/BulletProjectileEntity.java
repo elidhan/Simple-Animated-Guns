@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -94,7 +95,14 @@ public class BulletProjectileEntity extends PersistentProjectileEntity
         if (!this.getEntityWorld().isClient())
         {
             Block block = this.getWorld().getBlockState(blockHitResult.getBlockPos()).getBlock();
-            if(block instanceof AbstractGlassBlock || block instanceof PaneBlock) this.getWorld().breakBlock(blockHitResult.getBlockPos(), true, null, 512);
+            if(block instanceof AbstractGlassBlock || block instanceof PaneBlock)
+            {
+                this.getWorld().breakBlock(blockHitResult.getBlockPos(), true, null, 512);
+            }
+            else
+            {
+                this.getEntityWorld().playSound(null, blockHitResult.getBlockPos(), this.getEntityWorld().getBlockState(blockHitResult.getBlockPos()).getSoundGroup().getBreakSound(), SoundCategory.BLOCKS, 1.0f, 1.0f);
+            }
             ((ServerWorld)this.getEntityWorld()).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, this.getEntityWorld().getBlockState(blockHitResult.getBlockPos())), blockHitResult.getPos().getX(), blockHitResult.getPos().getY(), blockHitResult.getPos().getZ(), 5, 0.0, 0.0, 0.0, 0.5f);
         }
         BlockState blockState = this.getWorld().getBlockState(blockHitResult.getBlockPos());
