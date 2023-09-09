@@ -50,6 +50,7 @@ public class GunRenderer extends GeoItemRenderer<GunItem> implements GeoRenderer
         switch (bone.getName()) {
             case "leftArm", "rightArm" -> {
                 bone.setHidden(true);
+                bone.setChildrenHidden(false);
                 renderArms = true;
             }
         }

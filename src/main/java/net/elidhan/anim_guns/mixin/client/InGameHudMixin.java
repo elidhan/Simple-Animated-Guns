@@ -1,5 +1,6 @@
 package net.elidhan.anim_guns.mixin.client;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.elidhan.anim_guns.item.GunItem;
@@ -12,6 +13,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -109,6 +111,14 @@ public abstract class InGameHudMixin implements InGameHudMixinInterface
                 this.gunScopeScale = 0.5f;
             }
         }
+    }
+
+    @ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/option/GameOptions;hudHidden:Z", opcode = Opcodes.GETFIELD))
+    private boolean cancelRenderIfScopedIn(boolean original)
+    {
+        if ((this.client.player.getMainHandStack().getItem() instanceof GunItem) && this.client.player.getMainHandStack().getOrCreateNbt().getBoolean("isScoped") && this.client.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming")) return true;
+
+        return original;
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)

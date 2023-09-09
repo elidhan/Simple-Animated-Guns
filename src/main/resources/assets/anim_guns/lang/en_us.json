@@ -4,6 +4,7 @@
 	"key.anim_guns.melee" : "Melee",
 	"itemGroup.anim_guns.misc" : "S.A.G. Misc",
 	"itemGroup.anim_guns.guns" : "S.A.G. Guns",
+	"attribute.name.anim_guns.gun_damage" : "Bullet Damage",
 
 	"item.anim_guns.hardened_iron_ingot" : "Hardened Iron Ingot",
 	"item.anim_guns.hardened_iron_nugget" : "Hardened Iron Nugget",
