@@ -47,8 +47,8 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     protected void init()
     {
         super.init();
-        addDrawableChild(ButtonWidget.builder(Text.literal("Close"), (button) -> this.close()).position(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+2).size(10, 20).build());
-        addDrawableChild(ButtonWidget.builder(Text.literal("❮"), (button) -> setBlueprint(currentBlueprintIndex - 1)).position(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24).size(10, 20).build());
+        //addDrawableChild(ButtonWidget.builder(Text.literal("Close"), (button) -> this.close()).position(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+2).size(10, 20).build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("❮"), (button) -> setBlueprint(currentBlueprintIndex - 1)).position(((this.width-this.backgroundWidth)/2)+30, ((this.height-this.backgroundHeight)/2)+24).size(10, 20).build());
         addDrawableChild(ButtonWidget.builder(Text.literal("❯"), (button) -> setBlueprint(currentBlueprintIndex + 1)).position(((this.width-this.backgroundWidth)/2)+62, ((this.height-this.backgroundHeight)/2)+24).size(10, 20).build());
         addDrawableChild(ButtonWidget.builder(Text.literal("Set"), (button) ->
         {
@@ -66,6 +66,12 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
     }
 
     @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY)
+    {
+
+    }
+
+    @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -73,7 +79,7 @@ public class BlueprintScreen extends HandledScreen<BlueprintScreenHandler>
         int i = this.x;
         int j = (this.height - this.backgroundHeight) / 2;
 
-        context.drawTexture(TEXTURE, i, j, 0, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 512, 256);
+        context.drawTexture(TEXTURE, i, j, 0, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
     }
 
     private int getCurrentBlueprint()

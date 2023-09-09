@@ -7,8 +7,8 @@
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 4,
-				"visible_bounds_height": 1.5,
-				"visible_bounds_offset": [0, 0.25, 0]
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
 			},
 			"bones": [
 				{
@@ -411,7 +411,7 @@
 						},
 						{
 							"origin": [-0.1875, 1.60892, 0.89237],
-							"size": [0.375, 0.35937, 0.21875],
+							"size": [0.375, 0.32031, 0.21875],
 							"uv": {
 								"north": {"uv": [28, 32], "uv_size": [0.5, 0.5]},
 								"east": {"uv": [32, 28], "uv_size": [0.5, 0.5]},
@@ -422,7 +422,7 @@
 							}
 						},
 						{
-							"origin": [-0.14062, 1.9683, 0.98612],
+							"origin": [-0.14062, 1.92924, 0.98612],
 							"size": [0.28125, 0.28125, 0.03125],
 							"uv": {
 								"north": {"uv": [3.5, 32.5], "uv_size": [1.5, 1.5]},
@@ -549,7 +549,7 @@
 				{
 					"name": "charging_handle",
 					"parent": "gunbody",
-					"pivot": [0, 1.05836, -0.42456],
+					"pivot": [0.48438, 0.65211, -3.95581],
 					"cubes": [
 						{
 							"origin": [0.40625, 0.52711, -5.14331],

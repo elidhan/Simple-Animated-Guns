@@ -1,9 +1,10 @@
 {
 	"category.anim_guns.binds" : "Simple Animated Guns",
 	"key.anim_guns.reloadtoggle" : "Reload Gun",
-	"key.anim_guns.aimtoggle" : "Aim Sights",
+	"key.anim_guns.melee" : "Melee",
 	"misc" : "S.A.G. Misc",
 	"guns" : "S.A.G. Guns",
+	"attribute.name.anim_guns.gun_damage" : "Bullet Damage",
 
 	"item.anim_guns.hardened_iron_ingot" : "Hardened Iron Ingot",
 	"item.anim_guns.hardened_iron_nugget" : "Hardened Iron Nugget",
@@ -14,6 +15,7 @@
 	"item.anim_guns.pistol_grip" : "Pistol Grip",
 	"item.anim_guns.long_barrel" : "Long Barrel",
 	"item.anim_guns.short_barrel" : "Short Barrel",
+	"item.anim_guns.heavy_barrel" : "Heavy Barrel",
 	"item.anim_guns.wooden_stock" : "Wooden Stock",
 	"item.anim_guns.modern_stock" : "Modern Stock",
 	"item.anim_guns.wooden_handguard" : "Wooden Handguard",
@@ -33,6 +35,7 @@
 	"item.anim_guns.blueprint_revolver_coltarmy" : "Old Army Revolver Blueprint",
 	"item.anim_guns.blueprint_smg_machinepistol" : "Machine Pistol Blueprint",
 	"item.anim_guns.blueprint_smg_heavy" : "Heavy SMG Blueprint",
+	"item.anim_guns.blueprint_smg_rapid" : "Rapid SMG Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_light" : "Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_heavy" : "Heavy Assault Rifle Blueprint",
 	"item.anim_guns.blueprint_assaultrifle_rus" : "War-Torn Assault Rifle Blueprint",
@@ -41,6 +44,9 @@
 	"item.anim_guns.blueprint_shotgun_riot" : "Riot Shotgun Blueprint",
 	"item.anim_guns.blueprint_sniper_classic" : "Hunting Rifle Blueprint",
 	"item.anim_guns.blueprint_sniper_cowboy" : "Brush Gun Blueprint",
+	"item.anim_guns.blueprint_sniper_marksman" : "Marksman Rifle Blueprint",
+	"item.anim_guns.blueprint_lmg_m60" : "LMG Blueprint",
+	"item.anim_guns.blueprint_amr_classic" : "Anti-Materiel Rifle Blueprint",
 
 	"item.anim_guns.standard_handgun_cartridge" : "Standard Handgun Cartridge",
 	"item.anim_guns.standard_rifle_cartridge" : "Standard Rifle Cartridge",
@@ -54,6 +60,7 @@
 	"item.anim_guns.revolver_coltarmy" : "Old Army Revolver",
 	"item.anim_guns.smg_machinepistol" : "Machine Pistol",
 	"item.anim_guns.smg_heavy" : "Heavy SMG",
+	"item.anim_guns.smg_rapid" : "Rapid SMG",
 	"item.anim_guns.assaultrifle_light" : "Assault Rifle",
 	"item.anim_guns.assaultrifle_heavy" : "Heavy Assault Rifle",
 	"item.anim_guns.assaultrifle_rus" : "War-Torn Assault Rifle",
@@ -62,5 +69,7 @@
 	"item.anim_guns.shotgun_riot" : "Riot Shotgun",
 	"item.anim_guns.sniper_classic" : "Hunting Rifle",
 	"item.anim_guns.sniper_cowboy" : "Brush Gun",
-	"item.anim_guns.lmg_m60" : "LMG"
+	"item.anim_guns.sniper_marksman" : "Marksman Rifle",
+	"item.anim_guns.lmg_m60" : "LMG",
+	"item.anim_guns.amr_classic" : "Anti-Materiel Rifle"
 }

@@ -815,6 +815,20 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.2083": {
+					"effect": "marksman_sniper_p0"
+				},
+				"1.0833": {
+					"effect": "marksman_sniper_p1"
+				},
+				"1.75": {
+					"effect": "marksman_sniper_p2"
+				},
+				"2.0": {
+					"effect": "marksman_sniper_p3"
+				}
 			}
 		},
 		"reload_start": {
@@ -1016,6 +1030,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.2083": {
+					"effect": "reload_start"
+				}
 			}
 		},
 		"aim_reload_start": {
@@ -1216,6 +1235,11 @@
 							"easing": "easeInSine"
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.2083": {
+					"effect": "reload_start"
 				}
 			}
 		},
@@ -1420,6 +1444,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "reload_magout"
+				}
 			}
 		},
 		"reload_magin": {
@@ -1542,6 +1571,11 @@
 							"vector": [0.17, 0.27, 0.14]
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "reload_magin"
 				}
 			}
 		},
@@ -1709,6 +1743,11 @@
 							"vector": [0, 0, 0]
 						}
 					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "reload_end"
 				}
 			}
 		}

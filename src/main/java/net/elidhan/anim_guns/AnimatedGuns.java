@@ -1,6 +1,7 @@
 package net.elidhan.anim_guns;
 
 import mod.azure.azurelib.animatable.GeoItem;
+import net.elidhan.anim_guns.attribute.GunAttributes;
 import net.elidhan.anim_guns.entity.projectile.BulletProjectileEntity;
 import net.elidhan.anim_guns.item.BlueprintBundleItem;
 import net.elidhan.anim_guns.item.BlueprintItem;
@@ -52,6 +53,7 @@ public class AnimatedGuns implements ModInitializer {
         entries.add(new ItemStack(ModItems.GUN_SCOPE));
         entries.add(new ItemStack(ModItems.LONG_BARREL));
         entries.add(new ItemStack(ModItems.SHORT_BARREL));
+        entries.add(new ItemStack(ModItems.HEAVY_BARREL));
         entries.add(new ItemStack(ModItems.WOODEN_STOCK));
         entries.add(new ItemStack(ModItems.MODERN_STOCK));
         entries.add(new ItemStack(ModItems.WOODEN_HANDGUARD));
@@ -69,6 +71,7 @@ public class AnimatedGuns implements ModInitializer {
         entries.add(new ItemStack(ModItems.OLD_ARMY_REVOLVER_BLUEPRINT));
         entries.add(new ItemStack(ModItems.MACHINE_PISTOL_BLUEPRINT));
         entries.add(new ItemStack(ModItems.HEAVY_SMG_BLUEPRINT));
+        entries.add(new ItemStack(ModItems.RAPID_SMG_BLUEPRINT));
         entries.add(new ItemStack(ModItems.LIGHT_ASSAULT_RIFLE_BLUEPRINT));
         entries.add(new ItemStack(ModItems.HEAVY_ASSAULT_RIFLE_BLUEPRINT));
         entries.add(new ItemStack(ModItems.WAR_TORN_ASSAULT_RIFLE_BLUEPRINT));
@@ -77,7 +80,9 @@ public class AnimatedGuns implements ModInitializer {
         entries.add(new ItemStack(ModItems.DOUBLE_BARRELED_SHOTGUN_BLUEPRINT));
         entries.add(new ItemStack(ModItems.CLASSIC_SNIPER_RIFLE_BLUEPRINT));
         entries.add(new ItemStack(ModItems.BRUSH_GUN_BLUEPRINT));
+        entries.add(new ItemStack(ModItems.MARKSMAN_RIFLE_BLUEPRINT));
         entries.add(new ItemStack(ModItems.LMG_BLUEPRINT));
+        entries.add(new ItemStack(ModItems.ANTI_MATERIEL_RIFLE_BLUEPRINT));
         entries.add(new ItemStack(ModItems.STANDARD_HANDGUN_BULLET));
         entries.add(new ItemStack(ModItems.HEAVY_HANDGUN_BULLET));
         entries.add(new ItemStack(ModItems.STANDARD_RIFLE_BULLET));
@@ -117,6 +122,7 @@ public class AnimatedGuns implements ModInitializer {
     public void onInitialize() {
         ModItems.registerModItems();
         ModSounds.registerSounds();
+        GunAttributes.registerAttributes();
 
         Registry.register(Registries.ITEM_GROUP, new Identifier(MOD_ID, "anim_guns.misc"), MISC);
         Registry.register(Registries.ITEM_GROUP, new Identifier(MOD_ID, "anim_guns.guns"), GUNS);

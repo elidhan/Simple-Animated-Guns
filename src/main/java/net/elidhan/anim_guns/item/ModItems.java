@@ -1,10 +1,8 @@
 package net.elidhan.anim_guns.item;
 
 import net.elidhan.anim_guns.AnimatedGuns;
-import net.elidhan.anim_guns.compat.ProjectileDamageCompat;
 import net.elidhan.anim_guns.sound.ModSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -21,6 +19,7 @@ public class ModItems {
 
 	public static final Item LONG_BARREL = registerItem("long_barrel", new Item(new FabricItemSettings().maxCount(64)));
 	public static final Item SHORT_BARREL = registerItem("short_barrel", new Item(new FabricItemSettings().maxCount(64)));
+	public static final Item HEAVY_BARREL = registerItem("heavy_barrel", new Item(new FabricItemSettings().maxCount(64)));
 	public static final Item WOODEN_STOCK = registerItem("wooden_stock", new Item(new FabricItemSettings().maxCount(64)));
 	public static final Item MODERN_STOCK = registerItem("modern_stock", new Item(new FabricItemSettings().maxCount(64)));
 	public static final Item WOODEN_HANDGUARD = registerItem("wooden_handguard", new Item(new FabricItemSettings().maxCount(64)));
@@ -38,6 +37,7 @@ public class ModItems {
 	public static final Item OLD_ARMY_REVOLVER_BLUEPRINT = registerItem("blueprint_revolver_coltarmy", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item MACHINE_PISTOL_BLUEPRINT = registerItem("blueprint_smg_machinepistol", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item HEAVY_SMG_BLUEPRINT = registerItem("blueprint_smg_heavy", new BlueprintItem(new FabricItemSettings().maxCount(1)));
+	public static final Item RAPID_SMG_BLUEPRINT = registerItem("blueprint_smg_rapid", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item LIGHT_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_light", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item HEAVY_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_heavy", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item WAR_TORN_ASSAULT_RIFLE_BLUEPRINT = registerItem("blueprint_assaultrifle_rus", new BlueprintItem(new FabricItemSettings().maxCount(1)));
@@ -46,7 +46,9 @@ public class ModItems {
 	public static final Item DOUBLE_BARRELED_SHOTGUN_BLUEPRINT = registerItem("blueprint_shotgun_doublebarrel", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item CLASSIC_SNIPER_RIFLE_BLUEPRINT = registerItem("blueprint_sniper_classic", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item BRUSH_GUN_BLUEPRINT = registerItem("blueprint_sniper_cowboy", new BlueprintItem(new FabricItemSettings().maxCount(1)));
+	public static final Item MARKSMAN_RIFLE_BLUEPRINT = registerItem("blueprint_sniper_marksman", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 	public static final Item LMG_BLUEPRINT = registerItem("blueprint_lmg_m60", new BlueprintItem(new FabricItemSettings().maxCount(1)));
+	public static final Item ANTI_MATERIEL_RIFLE_BLUEPRINT = registerItem("blueprint_amr_classic", new BlueprintItem(new FabricItemSettings().maxCount(1)));
 
 	public static final Item STANDARD_HANDGUN_BULLET = registerItem("standard_handgun_cartridge", new Item(new FabricItemSettings().maxCount(64)));
 	public static final Item HEAVY_HANDGUN_BULLET = registerItem("heavy_handgun_cartridge", new Item(new FabricItemSettings().maxCount(64)));
@@ -230,9 +232,9 @@ public class ModItems {
 			1,
 			GunItem.LoadingType.MAGAZINE,
 			null,
-			ModSounds.RELOAD_BRUSH_GUN_P1,
-			ModSounds.RELOAD_BRUSH_GUN_P2,
-			ModSounds.RELOAD_BRUSH_GUN_P3,
+			ModSounds.RELOAD_RAPID_SMG_P1,
+			ModSounds.RELOAD_RAPID_SMG_P2,
+			ModSounds.RELOAD_RAPID_SMG_P3,
 			ModSounds.SMG_RAPID,
 			null,
 			1,
@@ -479,10 +481,10 @@ public class ModItems {
 			new float[] {2.25f, 6.25f},
 			1,
 			GunItem.LoadingType.MAGAZINE,
-			null,
-			ModSounds.RELOAD_BRUSH_GUN_P1,
-			ModSounds.RELOAD_BRUSH_GUN_P2,
-			ModSounds.RELOAD_BRUSH_GUN_P3,
+			ModSounds.RELOAD_MARKSMAN_RIFLE_P0,
+			ModSounds.RELOAD_MARKSMAN_RIFLE_P1,
+			ModSounds.RELOAD_MARKSMAN_RIFLE_P2,
+			ModSounds.RELOAD_MARKSMAN_RIFLE_P3,
 			ModSounds.SNIPER_MARKSMAN,
 			null,
 			1,
@@ -581,10 +583,6 @@ public class ModItems {
 
 	private static Item registerItem(String name, Item item)
 	{
-		if(FabricLoader.getInstance().isModLoaded("projectile_damage") && item instanceof GunItem gun)
-		{
-			ProjectileDamageCompat.register(gun);
-		}
 		return Registry.register(Registries.ITEM, new Identifier(AnimatedGuns.MOD_ID, name), item);
 	}
 	
