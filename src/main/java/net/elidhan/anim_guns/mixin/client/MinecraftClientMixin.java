@@ -80,26 +80,31 @@ public abstract class MinecraftClientMixin
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void gunAim(CallbackInfoReturnable<Boolean> cir)
     {
-        if (this.player != null && this.player.getMainHandStack().getItem() instanceof GunItem && !this.player.getMainHandStack().getOrCreateNbt().getBoolean("isReloading"))
+        if (this.player != null && this.player.getMainHandStack().getItem() instanceof GunItem)
         {
-            //I want to find a more elegant solution to this
-            if(this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.ENTITY && ((EntityHitResult)this.crosshairTarget).getEntity() instanceof ItemFrameEntity entity)
+            if (!this.player.getMainHandStack().getOrCreateNbt().getBoolean("isReloading"))
             {
-                if (!this.world.getWorldBorder().contains(entity.getBlockPos())) {
+                //I want to find a more elegant solution to this
+                if (this.crosshairTarget != null && this.crosshairTarget.getType() == HitResult.Type.ENTITY && ((EntityHitResult) this.crosshairTarget).getEntity() instanceof ItemFrameEntity entity)
+                {
+                    if (!this.world.getWorldBorder().contains(entity.getBlockPos()))
+                    {
+                        return;
+                    }
+                    ActionResult actionResult = this.interactionManager.interactEntityAtLocation(this.player, entity, (EntityHitResult) this.crosshairTarget, Hand.MAIN_HAND);
+                    if (!actionResult.isAccepted())
+                        this.interactionManager.interactEntity(this.player, entity, Hand.MAIN_HAND);
+                    itemUseCooldown = 4;
+                    cir.setReturnValue(false);
                     return;
                 }
-                ActionResult actionResult = this.interactionManager.interactEntityAtLocation(this.player, entity, (EntityHitResult)this.crosshairTarget, Hand.MAIN_HAND);
-                if(!actionResult.isAccepted()) this.interactionManager.interactEntity(this.player, entity, Hand.MAIN_HAND);
-                itemUseCooldown = 4;
-                cir.setReturnValue(false);
-                return;
+
+                this.player.setSprinting(false);
+
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBoolean(!this.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"));
+                ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
             }
-
-            this.player.setSprinting(false);
-
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBoolean(!this.player.getMainHandStack().getOrCreateNbt().getBoolean("isAiming"));
-            ClientPlayNetworking.send(AnimatedGuns.GUN_AIM_PACKET_ID, buf);
 
             cir.setReturnValue(false);
         }

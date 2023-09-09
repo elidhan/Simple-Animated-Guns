@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "i# ",
+    " i#"
+  ],
+  "key": {
+    "#": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "anim_guns:heavy_barrel"
+  }
+}

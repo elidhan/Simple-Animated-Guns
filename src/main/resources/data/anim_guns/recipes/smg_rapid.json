@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  p",
+    "bis",
+    "fmg"
+  ],
+  "key": {
+    "b": {
+      "item": "anim_guns:short_barrel"
+    },
+    "p": {
+      "item": "anim_guns:blueprint_smg_rapid"
+    },
+    "f": {
+      "item": "anim_guns:modern_handguard"
+    },
+    "i": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "g": {
+      "item": "anim_guns:pistol_grip"
+    },
+    "s": {
+      "item": "anim_guns:modern_stock"
+    },
+    "m": {
+      "item": "anim_guns:smg_magazine"
+    }
+  },
+  "result": {
+    "item": "anim_guns:smg_rapid"
+  }
+}
