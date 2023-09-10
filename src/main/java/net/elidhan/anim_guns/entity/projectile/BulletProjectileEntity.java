@@ -1,6 +1,6 @@
 package net.elidhan.anim_guns.entity.projectile;
 
-import mod.azure.shadowed.eliotlash.mclib.utils.MathUtils;
+import mod.azure.azurelib.core.utils.MathUtils;
 import net.elidhan.anim_guns.AnimatedGuns;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;

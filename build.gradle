@@ -17,7 +17,10 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	maven { url 'https://dl.cloudsmith.io/public/azuredoom-mods/azurelib/maven/' }
+	maven {
+		name "azuredoomModsMods"
+		url "https://libs.azuredoom.com:4443/mods"
+	}
 	maven { url "https://maven.terraformersmc.com/" }
 	maven { url "https://maven.terraformersmc.com/releases" }
 	maven { url 'https://jitpack.io' }

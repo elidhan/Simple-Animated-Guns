@@ -33,7 +33,7 @@
   "accessWidener": "anim_guns.accesswidener",
 
   "depends": {
-    "azurelib": ">=1.0.19",
+    "azurelib": ">=1.0.28",
     "fabricloader": ">=0.14.19",
     "fabric": "*",
     "minecraft": "1.20.1",
