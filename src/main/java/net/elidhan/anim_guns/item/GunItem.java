@@ -36,7 +36,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -174,7 +173,7 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
         {
             for (int i = 0; i < this.pelletCount; i++)
             {
-                BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, (float)user.getAttributeValue(GunAttributes.GUN_DAMAGE));
+                BulletProjectileEntity bullet = new BulletProjectileEntity(user, world, (float)user.getAttributeValue(GunAttributes.GUN_DAMAGE), this.pelletCount);
 
                 bullet.setPosition(user.getX(), user.getEyeY(), user.getZ());
 
