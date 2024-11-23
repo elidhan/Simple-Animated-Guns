@@ -18,8 +18,8 @@ repositories {
 	// for more information about repositories.
 
 	maven {
-		name "azuredoomModsMods"
-		url "https://libs.azuredoom.com:4443/mods"
+		name "Azuredoom Mods"
+		url "https://maven.azuredoom.com/mods"
 	}
 	maven { url "https://maven.terraformersmc.com/" }
 	maven { url "https://maven.terraformersmc.com/releases" }
