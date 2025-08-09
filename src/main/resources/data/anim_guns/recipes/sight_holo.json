@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "IHI",
+    "PPP"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "H": {
+      "item": "anim_guns:hardened_iron_ingot"
+    },
+    "P": {
+      "item": "anim_guns:plastic"
+    }
+  },
+  "result": {
+    "item": "anim_guns:sight_holo",
+    "count": 1
+  }
+}
