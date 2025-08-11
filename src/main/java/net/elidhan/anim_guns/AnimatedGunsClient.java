@@ -14,7 +14,6 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
@@ -35,7 +34,7 @@ import static net.elidhan.anim_guns.AnimatedGuns.PLAY_ANIMATION_PACKET_ID;
 public class AnimatedGunsClient implements ClientModInitializer
 {
     public static KeyBinding reloadToggle = new KeyBinding("key.anim_guns.reloadtoggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,"category.anim_guns.binds");
-    public static KeyBinding meleeKey = new KeyBinding("key.anim_guns.aimtoggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V,"category.anim_guns.binds");
+    public static KeyBinding meleeKey = new KeyBinding("key.anim_guns.melee", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V,"category.anim_guns.binds");
 
     public static final BipedEntityModel.ArmPose HANDGUN_ONEHAND = ClassTinkerers.getEnum(BipedEntityModel.ArmPose.class, "HANDGUN_ONEHAND");
     public static final BipedEntityModel.ArmPose HANDGUN_TWOHAND = ClassTinkerers.getEnum(BipedEntityModel.ArmPose.class, "HANDGUN_TWOHAND");

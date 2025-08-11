@@ -85,5 +85,13 @@
 	"item.anim_guns.sniper_dragunov" : "Motherland Marksman Rifle",
 	"item.anim_guns.lmg_m60" : "LMG",
 	"item.anim_guns.lmg_minigun" : "Minigun",
-	"item.anim_guns.amr_classic" : "Anti-Materiel Rifle"
+	"item.anim_guns.amr_classic" : "Anti-Materiel Rifle",
+
+    "tooltip.anim_guns.ammo" : "Ammo: %s/%s",
+    "tooltip.anim_guns.damage" : "Damage: %s",
+    "tooltip.anim_guns.recoil" : "Recoil: %s",
+    "tooltip.anim_guns.rpm" : "RPM: %s",
+    "tooltip.anim_guns.reload_time" : "Reload Time: %ss",
+    "tooltip.anim_guns.uses" : "Uses:",
+    "tooltip.anim_guns.press_shift" : "Press Shift to see stats"
 }

@@ -17,9 +17,17 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
+	// maven {
+	// 	name "azuredoomModsMods"
+	// 	url "https://libs.azuredoom.com:4443/mods"
+	// }
+
+	maven { url "https://maven.aliyun.com/repository/central" }
+
+	// See https://moddedmc.wiki/hu/project/azurelib/docs
 	maven {
-		name "azuredoomModsMods"
-		url "https://libs.azuredoom.com:4443/mods"
+		name = "AzureDoom Mods"
+		url = "https://maven.azuredoom.com/mods"
 	}
 	maven { url "https://maven.terraformersmc.com/" }
 	maven { url "https://maven.terraformersmc.com/releases" }

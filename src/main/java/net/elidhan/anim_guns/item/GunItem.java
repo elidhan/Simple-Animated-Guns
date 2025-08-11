@@ -249,30 +249,55 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
         super.onCraft(stack, world, player);
     }
 
+    // @Override
+    // public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    // {
+    //     if (Screen.hasShiftDown())
+    //     {
+    //         tooltip.add(Text.translatable("Ammo: " + (stack.getOrCreateNbt().getInt("Clip")) + "/" + this.magSize).formatted(Formatting.WHITE));
+    //         tooltip.add(Text.translatable("Damage: " + this.gunDamage).formatted(Formatting.GRAY));
+    //         tooltip.add(Text.translatable("Recoil: " + Math.sqrt((this.gunRecoil[0]*this.gunRecoil[0])+(this.gunRecoil[1]*this.gunRecoil[1]))).formatted(Formatting.GRAY));
+    //         tooltip.add(Text.translatable("RPM: " + (int) (((float) 20 / this.rateOfFire) * 60)).formatted(Formatting.GRAY));
+    //         tooltip.add(Text.translatable("Reload Time: " + (float) this.reloadCooldown / 20 + "s").formatted(Formatting.GRAY));
+    //         tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
+    //         tooltip.add(Text.translatable(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
+    //     }
+    //     else
+    //     {
+    //         tooltip.add(Text.translatable("Ammo: " + (stack.getOrCreateNbt().getInt("Clip")) + "/" + this.magSize).formatted(Formatting.WHITE));
+    //         tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
+    //         tooltip.add(Text.translatable(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
+    //
+    //         tooltip.add(Text.translatable("Press Shift to see stats").formatted(Formatting.AQUA));
+    //     }
+    //     super.appendTooltip(stack, world, tooltip, context);
+    // }
+
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
     {
         if (Screen.hasShiftDown())
         {
-            tooltip.add(Text.translatable("Ammo: " + (stack.getOrCreateNbt().getInt("Clip")) + "/" + this.magSize).formatted(Formatting.WHITE));
-            tooltip.add(Text.translatable("Damage: " + this.gunDamage).formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("Recoil: " + Math.sqrt((this.gunRecoil[0]*this.gunRecoil[0])+(this.gunRecoil[1]*this.gunRecoil[1]))).formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("RPM: " + (int) (((float) 20 / this.rateOfFire) * 60)).formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("Reload Time: " + (float) this.reloadCooldown / 20 + "s").formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
+            int ammo = stack.getOrCreateNbt().getInt("Clip");
+            tooltip.add(Text.translatable("tooltip.anim_guns.ammo", ammo, this.magSize).formatted(Formatting.WHITE));
+            tooltip.add(Text.translatable("tooltip.anim_guns.damage", this.gunDamage).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("tooltip.anim_guns.recoil", String.format("%.1f", Math.sqrt((this.gunRecoil[0]*this.gunRecoil[0])+(this.gunRecoil[1]*this.gunRecoil[1])))).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("tooltip.anim_guns.rpm", (int) (((float) 20 / this.rateOfFire) * 60)).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("tooltip.anim_guns.reload_time", (float) this.reloadCooldown / 20).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("tooltip.anim_guns.uses").formatted(Formatting.GRAY));
             tooltip.add(Text.translatable(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
         }
         else
         {
-            tooltip.add(Text.translatable("Ammo: " + (stack.getOrCreateNbt().getInt("Clip")) + "/" + this.magSize).formatted(Formatting.WHITE));
-            tooltip.add(Text.translatable("Uses:").formatted(Formatting.GRAY));
+            int ammo = stack.getOrCreateNbt().getInt("Clip");
+            tooltip.add(Text.translatable("tooltip.anim_guns.ammo", ammo, this.magSize).formatted(Formatting.WHITE));
+            tooltip.add(Text.translatable("tooltip.anim_guns.uses").formatted(Formatting.GRAY));
             tooltip.add(Text.translatable(this.ammoType.getTranslationKey()).formatted(Formatting.YELLOW));
 
-            tooltip.add(Text.translatable("Press Shift to see stats").formatted(Formatting.AQUA));
+            tooltip.add(Text.translatable("tooltip.anim_guns.press_shift").formatted(Formatting.AQUA));
         }
         super.appendTooltip(stack, world, tooltip, context);
     }
-
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
@@ -306,12 +331,22 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
                     animationController.tryTriggerAnimation(!mainHandGun.getOrCreateNbt().getBoolean("isAiming") ? "idle" : "aim");
                 }
             }
+            /*
+            removed '&& !isSprinting' to allow the player to reload while sprinting.
+            original code:
             if (mainHandGun == stack
                     && AnimatedGunsClient.reloadToggle.isPressed()
                     && remainingAmmo(stack) < this.magSize
                     && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
                     && !nbtCompound.getBoolean("isReloading")
                     && !isSprinting)
+             */
+            if (mainHandGun == stack
+                    && AnimatedGunsClient.reloadToggle.isPressed()
+                    && remainingAmmo(stack) < this.magSize
+                    && reserveAmmoCount(((PlayerEntity) entity), this.ammoType) > 0
+                    && !nbtCompound.getBoolean("isReloading")
+                    )
             {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBoolean(true);
@@ -325,8 +360,10 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
             nbtCompound.putBoolean("isAiming", false);
         }
 
-        //The actual reload process/tick
-        if (nbtCompound.getBoolean("isReloading") && !isSprinting)
+        // The actual reload process/tick
+        // removed '&& !isSprinting' to ensure that triggering sprint during a reload no longer interrupts the reload.
+        // original code: if (nbtCompound.getBoolean("isReloading") && !isSprinting)
+        if (nbtCompound.getBoolean("isReloading"))
         {
             if ((mainHandGun != stack
                     || (reserveAmmoCount((PlayerEntity) entity, this.ammoType) <= 0 && this.reloadCycles <= 1)
@@ -769,7 +806,10 @@ public abstract class GunItem extends RangedWeaponItem implements FabricItem, Ge
     @Override
     public Predicate<ItemStack> getProjectiles()
     {
-        return null;
+        if (this.ammoType == null) {
+            return (itemStack) -> false;
+        }
+        return (itemStack) -> itemStack.isOf(this.ammoType);
     }
 
     @Override
